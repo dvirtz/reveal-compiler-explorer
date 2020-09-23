@@ -1,7 +1,7 @@
-name: Publish to pages
+name: Test
 
 on:
-  push:
+  pull_request:
     branches: [master]
 
 jobs:
@@ -40,12 +40,3 @@ jobs:
 
       - name: Bootstrap
         run: yarn lerna bootstrap
-
-      - name: Generate static site
-        run: yarn lerna run generate
-
-      - name: GitHub Pages action
-        uses: peaceiris/actions-gh-pages@v3.6.1
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./packages/reveal-compiler-explorer-demo/_static
