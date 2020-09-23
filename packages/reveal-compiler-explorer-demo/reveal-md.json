@@ -1,0 +1,8 @@
+{
+    "verticalSeparator": "^---\n",
+    "separator": "^----\n",
+    "scripts": [
+        "node_modules/reveal-compiler-explorer/reveal-compiler-explorer.js",
+        "load-plugins.js"
+    ]
+}

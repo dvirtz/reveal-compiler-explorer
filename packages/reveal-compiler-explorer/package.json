@@ -1,0 +1,9 @@
+{
+  "name": "reveal-compiler-explorer",
+  "version": "0.0.0",
+  "description": "The plugin package",
+  "license": "MIT",
+  "devDependencies": {
+    "reveal-md": "^4.1.4"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "name": "reveal-compiler-explorer-root",
+  "version": "0.0.0",
+  "description": "A Compiler Explorer plugin for reveal.js",
+  "main": "index.js",
+  "repository": "https://github.com/dvirtz/reveal-compiler-explorer",
+  "author": "dvirtz <dvirtz@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "lerna": "^3.22.1"
+  },
+  "private": true
+}
