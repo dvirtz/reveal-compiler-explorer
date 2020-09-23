@@ -9,7 +9,7 @@
     "reveal-md": "^4.1.4"
   },
   "scripts": {
-    "present": "reveal-md demo.md",
+    "present": "reveal-md demo.md -w",
     "generate": "reveal-md demo.md --static"
   }
 }

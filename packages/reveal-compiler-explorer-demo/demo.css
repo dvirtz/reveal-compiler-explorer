@@ -1,0 +1,9 @@
+.row {
+  display: flex;
+  align-items: center
+}
+
+.column {
+  flex: 33.33%;
+  padding: 5px;
+}
