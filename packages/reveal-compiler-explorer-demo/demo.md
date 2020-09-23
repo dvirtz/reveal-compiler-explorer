@@ -2,13 +2,13 @@
 
 <div class="row">
   <div class="column">
-    <img src="reveal-black-text.svg" alt="reveal" style="width:100%">
+    <img src="images/reveal-black-text.svg" alt="reveal">
   </div>
   <div class="column">
-    <img src="heart.png" alt="heart" style="width:100%">
+    <img src="images/heart.png" alt="heart">
   </div>
   <div class="column">
-    <img src="ce.svg" alt="ce" style="width:100%">
+    <img src="images/ce.svg" alt="ce">
   </div>
 </div>
 
