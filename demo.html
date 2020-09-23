@@ -8,14 +8,27 @@
     <link rel="stylesheet" href="./dist/reveal.css" />
     <link rel="stylesheet" href="./dist/theme/black.css" id="theme" />
     <link rel="stylesheet" href="./css/highlight/zenburn.css" />
+    <link rel="stylesheet" href="./_assets/demo.css" />
 
   </head>
   <body>
     <div class="reveal">
-      <div class="slides"><section ><section data-markdown><script type="text/template"># reveal-compiler-explorer
+      <div class="slides"><section ><section data-markdown><script type="text/template">## reveal-compiler-explorer
+
+<div class="row">
+  <div class="column">
+    <img src="reveal-black-text.svg" alt="reveal" style="width:100%">
+  </div>
+  <div class="column">
+    <img src="heart.png" alt="heart" style="width:100%">
+  </div>
+  <div class="column">
+    <img src="ce.svg" alt="ce" style="width:100%">
+  </div>
+</div>
 
 </script></section><section data-markdown><script type="text/template">
-## click on code to go to compiler explorer
+Ctrl-click (or ⌘-click) on code to go to compiler explorer
 
 ```cpp
 ///external
@@ -68,7 +81,7 @@ int main() {
       // options from URL query string
       var queryOptions = Reveal().getQueryHash() || {};
 
-      var options = extend(defaultOptions, {}, queryOptions);
+      var options = extend(defaultOptions, {"compilerExplorer":{"compiler":"g83"}}, queryOptions);
     </script>
 
     <script src="./_assets/node_modules/reveal-compiler-explorer/reveal-compiler-explorer.js"></script>
