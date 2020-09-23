@@ -23,18 +23,21 @@ const directives = new Map([
   ['((un)?hide)', (matches, info) => matches.slice(1, 2).forEach(match => info.hide = match == 'hide')]
 ].map(([regex, action]) => [directive(regex), action]));
 
-const processElement = (content, isLocal = false) => {
-  let defaultCompiler = 'g83';
-  let defaultOptions = '-O2 -march=haswell -Wall -Wextra -pedantic -Wno-unused-variable -Wno-unused-parameter';
-  let lines = unescape(content).split('\n');
+const classToLanguage = {
+  'cpp': 'c++'
+};
+
+const processElement = (block, config) => {
+  let lines = unescape(block.textContent).split('\n');
   let displaySource = '';
   let matches = (line, regex) => line.match(regex) || [];
   let skipDisplay = false;
 
   const info = {
     source: '',
-    compiler: defaultCompiler,
-    options: defaultOptions,
+    language: classToLanguage[block.classList[0]],
+    compiler: config.compiler,
+    options: config.options,
     libs: [],
     execute: false,
     forceExternal: false,
@@ -46,7 +49,7 @@ const processElement = (content, isLocal = false) => {
     if (line.startsWith('///')) {
       directives.forEach((action, regex) => action(matches(line, regex), info))
     } else {
-      matches(line, /int main/).forEach(_ => info.execute = true)
+      matches(line, /int main/).forEach(_ => info.execute = config.runMain)
       info.source += line + '\n';
       if (!skipDisplay && !info.hide)
         displaySource += line + '\n';
@@ -58,7 +61,7 @@ const processElement = (content, isLocal = false) => {
   return [info, displaySource]
 };
 
-function prepareUrl(info, isLocal) {
+function prepareUrl(info, config) {
   function trim(source) {
     while (source.startsWith('\n')) {
       source = source.slice(1, source.length);
@@ -87,7 +90,7 @@ function prepareUrl(info, isLocal) {
         componentName: 'compiler',
         componentState: {
           source: 1,
-          lang: 'c++',
+          lang: info.language,
           compiler: info.compiler,
           options: info.options,
           libs: info.libs,
@@ -119,23 +122,30 @@ function prepareUrl(info, isLocal) {
     }
   };
 
-  const baseUrl = (isLocal && !info.forceExternal) ? 'http://localhost:10240/' : 'https://godbolt.org/';
+  const baseUrl = (config.useLocal && !info.forceExternal) ? `http://localhost:${config.localPort}` : 'https://godbolt.org';
 
   let ceFragment = encodeURIComponent(JSON.stringify(obj));
 
-  return `${baseUrl}#${ceFragment}`;
+  return `${baseUrl}/#${ceFragment}`;
 };
 
 const RevealCompilerExplorer = {
   id: 'compiler-explorer',
   init: function (reveal) {
+    const config = reveal.getConfig().compilerExplorer || {};
+    config.runMain = config.runMain || true;
+    config.useLocal = (config.useLocal && !!window.location.host.match(/localhost/gi)) || false;
+    config.compiler = config.compiler || 'g102';
+    config.options = config.options || '-O2 -march=haswell -Wall -Wextra -pedantic -Wno-unused-variable -Wno-unused-parameter';
+    config.localPort = config.localPort || 10240;
+
     const highlighPlugin = reveal.getPlugin('highlight');
     const highlightConfig = reveal.getConfig().highlight || {};
-    const highlightOnLoad = typeof highlightConfig.highlightOnLoad === 'boolean' ? highlightConfig.highlightOnLoad : true;
-    const isLocal = !!window.location.host.match(/localhost/gi);
+    const highlightOnLoad = highlightConfig.highlightOnLoad || true;
+
     [].slice.call(reveal.getRevealElement().querySelectorAll('pre code')).forEach(function (block) {
-      const [info, displaySource] = processElement(block.textContent, isLocal)
-      const url = prepareUrl(info, isLocal);
+      const [info, displaySource] = processElement(block, config)
+      const url = prepareUrl(info, config);
       block.parentNode.onclick = (evt) => {
         if (evt.ctrlKey || evt.metaKey) {
           window.open(url, 'ce');
