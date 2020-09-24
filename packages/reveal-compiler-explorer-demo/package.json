@@ -1,11 +1,11 @@
 {
   "name": "reveal-compiler-explorer-demo",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "The demo package",
   "license": "MIT",
   "private": true,
   "devDependencies": {
-    "reveal-compiler-explorer": "^0.0.1",
+    "reveal-compiler-explorer": "^0.0.2",
     "reveal-md": "^4.1.4"
   },
   "scripts": {
