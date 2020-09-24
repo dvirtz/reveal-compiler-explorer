@@ -15,7 +15,7 @@
     "postversionup:patch": "npm run commit-version",
     "postversionup:minor": "npm run commit-version",
     "postversionup:major": "npm run commit-version",
-    "commit-version": "git add . && git commit -m \"publish `node -p 'require(\"./lerna.json\").version'`\"",
+    "commit-version": "git add . && git commit -m \"v`node -p 'require(\"./lerna.json\").version'`\"",
     "release": "lerna publish from-package"
   },
   "devDependencies": {
