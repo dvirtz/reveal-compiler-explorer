@@ -8,7 +8,7 @@ on:
     types: [closed]
 
 jobs:
-  build:
+  publish:
     runs-on: ubuntu-latest
 
     strategy:
@@ -50,15 +50,6 @@ jobs:
 
       - name: Bootstrap
         run: yarn lerna bootstrap
-
-      - name: Generate static site
-        run: yarn lerna run generate
-
-      - name: GitHub Pages action
-        uses: peaceiris/actions-gh-pages@v3.6.1
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./packages/reveal-compiler-explorer-demo/_static
 
       - name: Set Current Version
         shell: bash -ex {0}
@@ -113,3 +104,12 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+
+      - name: Generate static site
+        run: yarn lerna run generate
+
+      - name: GitHub Pages action
+        uses: peaceiris/actions-gh-pages@v3.6.1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./packages/reveal-compiler-explorer-demo/_static
