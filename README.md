@@ -52,7 +52,7 @@ Reveal.initialize({
 });
 ```
 
-----
+---
 
 ## Configuration
 
@@ -77,3 +77,42 @@ Whether to use a local running instance of Compiler Explorer when presentation i
 ### localPort
 
 Port of local running Compiler Explorer, in case `useLocal` is `true`. Defaults to `10240`.
+
+---
+
+## Directives
+
+Use `///` directives for configuring a specific code snippet. 
+The directives will not be shown on the presentation.
+
+### `///compiler=<compiler>`
+
+Override default compiler.
+
+### `///options=<options>`
+
+Override default options.
+
+### `///options+=<options>`
+
+Add to default options.
+
+### `///libs=<lib:version>[,lib:version...]`
+
+Use libraries in snippet.
+
+### `///execute`
+
+Run the compiled output.
+
+### `///external`
+
+Always open on `godbolt.com`.
+
+### `///hide`
+
+Hides the following code, until `///unhide` or end of snippet, from presentation.
+
+### `///unhide`
+
+Shows the following code.
