@@ -1,5 +1,6 @@
 {
   "compilerExplorer": {
-    "compiler": "g83"
+    "compiler": "g83",
+    "runMain": "false"
   }
 }

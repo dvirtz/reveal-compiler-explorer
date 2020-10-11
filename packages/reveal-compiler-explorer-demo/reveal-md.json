@@ -2,8 +2,9 @@
     "verticalSeparator": "^---\n",
     "separator": "^----\n",
     "scripts": [
-        "node_modules/reveal-compiler-explorer/reveal-compiler-explorer.js",
-        "load-plugins.js"
+        "plugins/reveal-compiler-explorer/dist/reveal-compiler-explorer.js",
+        "scripts/load-plugins.js",
+        "scripts/bypass-bug-2744.js"
     ],
     "css": [
         "demo.css"

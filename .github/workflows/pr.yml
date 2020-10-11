@@ -40,3 +40,9 @@ jobs:
 
       - name: Bootstrap
         run: yarn lerna bootstrap
+
+      - name: Test
+        run: yarn test
+
+      - name: Generate static site
+        run: yarn lerna run generate

@@ -1,0 +1,38 @@
+{
+  "name": "compiler-explorer-directives",
+  "version": "0.1.0",
+  "description": "Utilities for interacting with Compiler Explorer",
+  "author": "dvirtz <dvirtz@gmail.com>",
+  "homepage": "https://github.com/dvirtz/reveal-compiler-explorer/tree/compiler-explorer-directives",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/compiler-explorer-directives.cjs.js",
+  "browser": "./dist/compiler-explorer-directives.js",
+  "exports": {
+    "import": "./src/compiler-explorer-directives.js",
+    "require": "./dist/compiler-explorer-directives.cjs.js"
+  },
+  "directories": {
+    "lib": "src",
+    "test": "test"
+  },
+  "files": [
+    "src"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dvirtz/reveal-compiler-explorer.git"
+  },
+  "scripts": {
+    "build": "rollup -c",
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "bugs": {
+    "url": "https://github.com/dvirtz/reveal-compiler-explorer/issues"
+  },
+  "dependencies": {
+    "bent": "^7.3.10",
+    "markdown-it": "^11.0.1",
+    "promise-retry": "^2.0.1"
+  }
+}

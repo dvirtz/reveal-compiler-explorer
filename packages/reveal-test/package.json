@@ -1,0 +1,30 @@
+{
+  "name": "reveal-test",
+  "version": "0.1.0",
+  "description": "utilities for testing with compiler explorer",
+  "author": "dvirtz <dvirtz@gmail.com>",
+  "homepage": "https://github.com/dvirtz/reveal-compiler-explorer/tree/reveal-test",
+  "license": "MIT",
+  "main": "src/reveal-test.js",
+  "type": "module",
+  "directories": {
+    "lib": "src",
+    "test": "test"
+  },
+  "files": [
+    "src"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dvirtz/reveal-compiler-explorer.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "bugs": {
+    "url": "https://github.com/dvirtz/reveal-compiler-explorer/issues"
+  },
+  "dependencies": {
+    "compiler-explorer-directives": "^0.1.0"
+  }
+}

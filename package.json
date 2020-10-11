@@ -1,5 +1,8 @@
 {
-  "name": "reveal-compiler-explorer-root",
+  "name": "reveal-compiler-explorer-monorepo",
+  "workspaces": [
+    "packages/*"
+  ],
   "version": "0.0.0",
   "description": "A Compiler Explorer plugin for reveal.js",
   "main": "index.js",
@@ -7,6 +10,9 @@
   "author": "dvirtz <dvirtz@gmail.com>",
   "license": "MIT",
   "scripts": {
+    "build": "lerna run build --stream",
+    "test": "mocha \"packages/**/test/**/*.test.js\"",
+    "pretest": "yarn build",
     "versionup": "lerna version --no-git-tag-version",
     "versionup:patch": "lerna version patch -y --no-git-tag-version",
     "versionup:minor": "lerna version minor -y --no-git-tag-version",
@@ -19,7 +25,17 @@
     "release": "lerna publish from-package"
   },
   "devDependencies": {
-    "lerna": "^3.22.1"
+    "@rollup/plugin-commonjs": "^15.1.0",
+    "@rollup/plugin-json": "^4.1.0",
+    "@rollup/plugin-node-resolve": "^9.0.0",
+    "lerna": "^3.22.1",
+    "mocha": "^8.1.3",
+    "reveal-md": "^4.1.4",
+    "rollup": "^2.28.2",
+    "rollup-plugin-delete": "^2.0.0",
+    "rollup-plugin-node-builtins": "^2.1.2",
+    "rollup-plugin-node-globals": "^1.4.0",
+    "rollup-plugin-node-polyfills": "^0.2.1"
   },
   "private": true
 }
