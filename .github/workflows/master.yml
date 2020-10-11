@@ -13,7 +13,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [13.x]
+        node_version: [13.x]
 
     steps:
       - uses: actions/checkout@v2
@@ -24,7 +24,7 @@ jobs:
 
       - uses: actions/setup-node@v1
         with:
-          node-version: '${{ matrix.node-version }}'
+          node-version: '${{ matrix.node_version }}'
           registry-url: 'https://registry.npmjs.org'
 
       # pulls all tags (needed for lerna to correctly version)
@@ -50,8 +50,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Install Packages
-        run: yarn install
+      - name: Install dependencies
+        run: yarn --frozen-lockfile
 
       - name: Bootstrap
         run: yarn lerna bootstrap
