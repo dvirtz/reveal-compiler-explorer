@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 
     <title>reveal-md</title>
+    <link rel="shortcut icon" href="./favicon.ico"/>
     <link rel="stylesheet" href="./dist/reveal.css" />
     <link rel="stylesheet" href="./dist/theme/black.css" id="theme" />
     <link rel="stylesheet" href="./css/highlight/zenburn.css" />
@@ -32,7 +33,7 @@ Ctrl-click (or ⌘-click) on code to go to compiler explorer
 
 ```cpp
 ///external
-#include &lt;iostream&gt;
+#include <iostream>
 
 int main() {
   std::cout << "Hello CE!";
@@ -61,6 +62,7 @@ See example on next slide.
 ///compiler=ldc1_20
 ///options=-m32
 ///libs=cblas:trunk
+///noexecute
 ///hide
 import cblas;
 <br/>
@@ -90,6 +92,7 @@ assert(C == [1, 0,
 ///compiler=ldc1_20
 ///options=-m32
 ///libs=cblas:trunk
+///noexecute
 ///hide
 import cblas;
 <br/>
@@ -157,11 +160,12 @@ assert(C == [1, 0,
       // options from URL query string
       var queryOptions = Reveal().getQueryHash() || {};
 
-      var options = extend(defaultOptions, {"compilerExplorer":{"compiler":"g83"}}, queryOptions);
+      var options = extend(defaultOptions, {"compilerExplorer":{"compiler":"g83","runMain":"false"}}, queryOptions);
     </script>
 
-    <script src="./_assets/node_modules/reveal-compiler-explorer/reveal-compiler-explorer.js"></script>
-    <script src="./_assets/load-plugins.js"></script>
+    <script src="./_assets/plugins/reveal-compiler-explorer/dist/reveal-compiler-explorer.js"></script>
+    <script src="./_assets/scripts/load-plugins.js"></script>
+    <script src="./_assets/scripts/bypass-bug-2744.js"></script>
 
     <script>
       Reveal.initialize(options);
