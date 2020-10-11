@@ -18,10 +18,11 @@ Ctrl-click (or ⌘-click) on code to go to compiler explorer
 
 ```cpp
 ///external
+///fails=missing semicolon
 #include <iostream>
 
 int main() {
-  std::cout << "Hello CE!";
+  std::cout << "Hello CE!"
 }
 ```
 
@@ -49,7 +50,6 @@ See example on next slide.
 ///compiler=ldc1_20
 ///options=-m32
 ///libs=cblas:trunk
-///noexecute
 ///hide
 import cblas;
 <br/>
@@ -79,7 +79,6 @@ assert(C == [1, 0,
 ///compiler=ldc1_20
 ///options=-m32
 ///libs=cblas:trunk
-///noexecute
 ///hide
 import cblas;
 <br/>

@@ -10,7 +10,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [12.x]
+        node_version: [14.x]
 
     steps:
       - uses: actions/checkout@v2
@@ -18,6 +18,11 @@ jobs:
           # pulls all commits (needed for lerna to correctly version)
           # see https://stackoverflow.com/a/60184319/9285308 & https://github.com/actions/checkout
           fetch-depth: "0"
+
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '${{ matrix.node_version }}'
+          registry-url: 'https://registry.npmjs.org'
 
       # pulls all tags (needed for lerna to correctly version)
       - run: git fetch --depth=1 origin +refs/tags/*:refs/tags/* # see https://stackoverflow.com/a/60184319/9285308
@@ -35,8 +40,14 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-yarn-
 
-      - name: Install Packages
-        run: yarn install
+      - name: Install dependencies
+        run: yarn --frozen-lockfile
 
       - name: Bootstrap
         run: yarn lerna bootstrap
+
+      - name: Test
+        run: yarn test
+
+      - name: Generate static site
+        run: yarn lerna run generate

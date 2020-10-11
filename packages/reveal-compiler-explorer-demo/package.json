@@ -3,13 +3,14 @@
   "version": "0.1.0",
   "description": "The demo package",
   "license": "MIT",
+  "type": "module",
   "private": true,
-  "devDependencies": {
-    "reveal-compiler-explorer": "^0.1.0",
-    "reveal-md": "^4.1.4"
-  },
   "scripts": {
     "present": "reveal-md demo.md -w",
     "generate": "reveal-md demo.md --static"
+  },
+  "dependencies": {
+    "reveal-test": "^0.1.0",
+    "reveal-compiler-explorer": "^0.1.0"
   }
 }
