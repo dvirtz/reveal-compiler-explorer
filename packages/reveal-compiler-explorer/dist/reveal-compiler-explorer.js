@@ -1,8 +1,6 @@
 var RevealCompilerExplorer = (function () {
 	'use strict';
 
-	var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
-
 	function createCommonjsModule(fn, basedir, module) {
 		return module = {
 			path: basedir,
@@ -13,15 +11,26 @@ var RevealCompilerExplorer = (function () {
 		}, fn(module, module.exports), module.exports;
 	}
 
+	function getAugmentedNamespace(n) {
+		if (n.__esModule) return n;
+		var a = Object.defineProperty({}, '__esModule', {value: true});
+		Object.keys(n).forEach(function (k) {
+			var d = Object.getOwnPropertyDescriptor(n, k);
+			Object.defineProperty(a, k, d.get ? d : {
+				enumerable: true,
+				get: function () {
+					return n[k];
+				}
+			});
+		});
+		return a;
+	}
+
 	function commonjsRequire () {
 		throw new Error('Dynamic requires are not currently supported by @rollup/plugin-commonjs');
 	}
 
-	var compilerExplorerDirectives_cjs = createCommonjsModule(function (module, exports) {
-
-	Object.defineProperty(exports, '__esModule', { value: true });
-
-	var global$1 = (typeof commonjsGlobal !== "undefined" ? commonjsGlobal :
+	var global$1 = (typeof global !== "undefined" ? global :
 	  typeof self !== "undefined" ? self :
 	  typeof window !== "undefined" ? window : {});
 
@@ -262,11 +271,6 @@ var RevealCompilerExplorer = (function () {
 	Buffer.TYPED_ARRAY_SUPPORT = global$1.TYPED_ARRAY_SUPPORT !== undefined
 	  ? global$1.TYPED_ARRAY_SUPPORT
 	  : true;
-
-	/*
-	 * Export kMaxLength after typed array support is determined.
-	 */
-	var _kMaxLength = kMaxLength();
 
 	function kMaxLength () {
 	  return Buffer.TYPED_ARRAY_SUPPORT
@@ -518,13 +522,6 @@ var RevealCompilerExplorer = (function () {
 	                         'size: 0x' + kMaxLength().toString(16) + ' bytes')
 	  }
 	  return length | 0
-	}
-
-	function SlowBuffer (length) {
-	  if (+length != length) { // eslint-disable-line eqeqeq
-	    length = 0;
-	  }
-	  return Buffer.alloc(+length)
 	}
 	Buffer.isBuffer = isBuffer;
 	function internalIsBuffer (b) {
@@ -2005,15 +2002,6 @@ var RevealCompilerExplorer = (function () {
 	  return typeof obj.readFloatLE === 'function' && typeof obj.slice === 'function' && isFastBuffer(obj.slice(0, 0))
 	}
 
-	var bufferEs6 = /*#__PURE__*/Object.freeze({
-	  __proto__: null,
-	  Buffer: Buffer,
-	  INSPECT_MAX_BYTES: INSPECT_MAX_BYTES,
-	  SlowBuffer: SlowBuffer,
-	  isBuffer: isBuffer,
-	  kMaxLength: _kMaxLength
-	});
-
 	// shim for using process in browser
 	// based off https://github.com/defunctzombie/node-process/blob/master/browser.js
 
@@ -3325,61 +3313,7 @@ var RevealCompilerExplorer = (function () {
 	  return ret;
 	};
 
-	function createCommonjsModule(fn, basedir, module) {
-		return module = {
-			path: basedir,
-			exports: {},
-			require: function (path, base) {
-				return commonjsRequire(path, (base === undefined || base === null) ? module.path : base);
-			}
-		}, fn(module, module.exports), module.exports;
-	}
-
-	function getAugmentedNamespace(n) {
-		if (n.__esModule) return n;
-		var a = Object.defineProperty({}, '__esModule', {value: true});
-		Object.keys(n).forEach(function (k) {
-			var d = Object.getOwnPropertyDescriptor(n, k);
-			Object.defineProperty(a, k, d.get ? d : {
-				enumerable: true,
-				get: function () {
-					return n[k];
-				}
-			});
-		});
-		return a;
-	}
-
-	function commonjsRequire () {
-		throw new Error('Dynamic requires are not currently supported by @rollup/plugin-commonjs');
-	}
-
-	var require$$0 = /*@__PURE__*/getAugmentedNamespace(bufferEs6);
-
-	var string_decoder = createCommonjsModule(function (module, exports) {
 	// Copyright Joyent, Inc. and other Node contributors.
-	//
-	// Permission is hereby granted, free of charge, to any person obtaining a
-	// copy of this software and associated documentation files (the
-	// "Software"), to deal in the Software without restriction, including
-	// without limitation the rights to use, copy, modify, merge, publish,
-	// distribute, sublicense, and/or sell copies of the Software, and to permit
-	// persons to whom the Software is furnished to do so, subject to the
-	// following conditions:
-	//
-	// The above copyright notice and this permission notice shall be included
-	// in all copies or substantial portions of the Software.
-	//
-	// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-	// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-	// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
-	// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-	// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
-	// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
-	// USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-	var Buffer = require$$0.Buffer;
-
 	var isBufferEncoding = Buffer.isEncoding
 	  || function(encoding) {
 	       switch (encoding && encoding.toLowerCase()) {
@@ -3403,7 +3337,7 @@ var RevealCompilerExplorer = (function () {
 	// to reason about this code, so it should be split up in the future.
 	// @TODO There should be a utf8-strict encoding that rejects invalid UTF-8 code
 	// points as used by CESU-8.
-	var StringDecoder = exports.StringDecoder = function(encoding) {
+	function StringDecoder(encoding) {
 	  this.encoding = (encoding || 'utf8').toLowerCase().replace(/[-_]/, '');
 	  assertEncoding(encoding);
 	  switch (this.encoding) {
@@ -3434,8 +3368,7 @@ var RevealCompilerExplorer = (function () {
 	  this.charReceived = 0;
 	  // Number of bytes expected for the current incomplete multi-byte character.
 	  this.charLength = 0;
-	};
-
+	}
 
 	// write decodes the given buffer and returns it as JS string that is
 	// guaranteed to not contain any partial multi-byte characters. Any partial
@@ -3578,7 +3511,6 @@ var RevealCompilerExplorer = (function () {
 	  this.charReceived = buffer.length % 3;
 	  this.charLength = this.charReceived ? 3 : 0;
 	}
-	});
 
 	Readable.ReadableState = ReadableState;
 
@@ -3668,7 +3600,7 @@ var RevealCompilerExplorer = (function () {
 	  this.decoder = null;
 	  this.encoding = null;
 	  if (options.encoding) {
-	    this.decoder = new string_decoder.StringDecoder(options.encoding);
+	    this.decoder = new StringDecoder(options.encoding);
 	    this.encoding = options.encoding;
 	  }
 	}
@@ -3775,7 +3707,7 @@ var RevealCompilerExplorer = (function () {
 
 	// backwards compatibility.
 	Readable.prototype.setEncoding = function (enc) {
-	  this._readableState.decoder = new string_decoder.StringDecoder(enc);
+	  this._readableState.decoder = new StringDecoder(enc);
 	  this._readableState.encoding = enc;
 	  return this;
 	};
@@ -5218,14 +5150,14 @@ var RevealCompilerExplorer = (function () {
 	};
 
 	var stream = /*#__PURE__*/Object.freeze({
-	  __proto__: null,
-	  'default': Stream,
-	  Readable: Readable,
-	  Writable: Writable,
-	  Duplex: Duplex,
-	  Transform: Transform,
-	  PassThrough: PassThrough,
-	  Stream: Stream
+		__proto__: null,
+		'default': Stream,
+		Readable: Readable,
+		Writable: Writable,
+		Duplex: Duplex,
+		Transform: Transform,
+		PassThrough: PassThrough,
+		Stream: Stream
 	});
 
 	var rStates = {
@@ -5706,32 +5638,35 @@ var RevealCompilerExplorer = (function () {
 	ClientRequest.prototype.setNoDelay = function() {};
 	ClientRequest.prototype.setSocketKeepAlive = function() {};
 
+	/*! https://mths.be/punycode v1.4.1 by @mathias */
+
+
 	/** Highest positive signed 32-bit float value */
-	const maxInt = 2147483647; // aka. 0x7FFFFFFF or 2^31-1
+	var maxInt = 2147483647; // aka. 0x7FFFFFFF or 2^31-1
 
 	/** Bootstring parameters */
-	const base = 36;
-	const tMin = 1;
-	const tMax = 26;
-	const skew = 38;
-	const damp = 700;
-	const initialBias = 72;
-	const initialN = 128; // 0x80
-	const delimiter = '-'; // '\x2D'
-	const regexNonASCII = /[^\0-\x7E]/; // non-ASCII chars
-	const regexSeparators = /[\x2E\u3002\uFF0E\uFF61]/g; // RFC 3490 separators
+	var base = 36;
+	var tMin = 1;
+	var tMax = 26;
+	var skew = 38;
+	var damp = 700;
+	var initialBias = 72;
+	var initialN = 128; // 0x80
+	var delimiter = '-'; // '\x2D'
+	var regexNonASCII = /[^\x20-\x7E]/; // unprintable ASCII chars + non-ASCII chars
+	var regexSeparators = /[\x2E\u3002\uFF0E\uFF61]/g; // RFC 3490 separators
 
 	/** Error messages */
-	const errors = {
-		'overflow': 'Overflow: input needs wider integers to process',
-		'not-basic': 'Illegal input >= 0x80 (not a basic code point)',
-		'invalid-input': 'Invalid input'
+	var errors = {
+	  'overflow': 'Overflow: input needs wider integers to process',
+	  'not-basic': 'Illegal input >= 0x80 (not a basic code point)',
+	  'invalid-input': 'Invalid input'
 	};
 
 	/** Convenience shortcuts */
-	const baseMinusTMin = base - tMin;
-	const floor = Math.floor;
-	const stringFromCharCode = String.fromCharCode;
+	var baseMinusTMin = base - tMin;
+	var floor = Math.floor;
+	var stringFromCharCode = String.fromCharCode;
 
 	/*--------------------------------------------------------------------------*/
 
@@ -5742,7 +5677,7 @@ var RevealCompilerExplorer = (function () {
 	 * @returns {Error} Throws a `RangeError` with the applicable error message.
 	 */
 	function error(type) {
-		throw new RangeError(errors[type]);
+	  throw new RangeError(errors[type]);
 	}
 
 	/**
@@ -5754,12 +5689,12 @@ var RevealCompilerExplorer = (function () {
 	 * @returns {Array} A new array of values returned by the callback function.
 	 */
 	function map(array, fn) {
-		const result = [];
-		let length = array.length;
-		while (length--) {
-			result[length] = fn(array[length]);
-		}
-		return result;
+	  var length = array.length;
+	  var result = [];
+	  while (length--) {
+	    result[length] = fn(array[length]);
+	  }
+	  return result;
 	}
 
 	/**
@@ -5773,19 +5708,19 @@ var RevealCompilerExplorer = (function () {
 	 * function.
 	 */
 	function mapDomain(string, fn) {
-		const parts = string.split('@');
-		let result = '';
-		if (parts.length > 1) {
-			// In email addresses, only the domain name should be punycoded. Leave
-			// the local part (i.e. everything up to `@`) intact.
-			result = parts[0] + '@';
-			string = parts[1];
-		}
-		// Avoid `split(regex)` for IE8 compatibility. See #17.
-		string = string.replace(regexSeparators, '\x2E');
-		const labels = string.split('.');
-		const encoded = map(labels, fn).join('.');
-		return result + encoded;
+	  var parts = string.split('@');
+	  var result = '';
+	  if (parts.length > 1) {
+	    // In email addresses, only the domain name should be punycoded. Leave
+	    // the local part (i.e. everything up to `@`) intact.
+	    result = parts[0] + '@';
+	    string = parts[1];
+	  }
+	  // Avoid `split(regex)` for IE8 compatibility. See #17.
+	  string = string.replace(regexSeparators, '\x2E');
+	  var labels = string.split('.');
+	  var encoded = map(labels, fn).join('.');
+	  return result + encoded;
 	}
 
 	/**
@@ -5802,27 +5737,29 @@ var RevealCompilerExplorer = (function () {
 	 * @returns {Array} The new array of code points.
 	 */
 	function ucs2decode(string) {
-		const output = [];
-		let counter = 0;
-		const length = string.length;
-		while (counter < length) {
-			const value = string.charCodeAt(counter++);
-			if (value >= 0xD800 && value <= 0xDBFF && counter < length) {
-				// It's a high surrogate, and there is a next character.
-				const extra = string.charCodeAt(counter++);
-				if ((extra & 0xFC00) == 0xDC00) { // Low surrogate.
-					output.push(((value & 0x3FF) << 10) + (extra & 0x3FF) + 0x10000);
-				} else {
-					// It's an unmatched surrogate; only append this code unit, in case the
-					// next code unit is the high surrogate of a surrogate pair.
-					output.push(value);
-					counter--;
-				}
-			} else {
-				output.push(value);
-			}
-		}
-		return output;
+	  var output = [],
+	    counter = 0,
+	    length = string.length,
+	    value,
+	    extra;
+	  while (counter < length) {
+	    value = string.charCodeAt(counter++);
+	    if (value >= 0xD800 && value <= 0xDBFF && counter < length) {
+	      // high surrogate, and there is a next character
+	      extra = string.charCodeAt(counter++);
+	      if ((extra & 0xFC00) == 0xDC00) { // low surrogate
+	        output.push(((value & 0x3FF) << 10) + (extra & 0x3FF) + 0x10000);
+	      } else {
+	        // unmatched surrogate; only append this code unit, in case the next
+	        // code unit is the high surrogate of a surrogate pair
+	        output.push(value);
+	        counter--;
+	      }
+	    } else {
+	      output.push(value);
+	    }
+	  }
+	  return output;
 	}
 
 	/**
@@ -5836,26 +5773,26 @@ var RevealCompilerExplorer = (function () {
 	 * used; else, the lowercase form is used. The behavior is undefined
 	 * if `flag` is non-zero and `digit` has no uppercase form.
 	 */
-	const digitToBasic = function(digit, flag) {
-		//  0..25 map to ASCII a..z or A..Z
-		// 26..35 map to ASCII 0..9
-		return digit + 22 + 75 * (digit < 26) - ((flag != 0) << 5);
-	};
+	function digitToBasic(digit, flag) {
+	  //  0..25 map to ASCII a..z or A..Z
+	  // 26..35 map to ASCII 0..9
+	  return digit + 22 + 75 * (digit < 26) - ((flag != 0) << 5);
+	}
 
 	/**
 	 * Bias adaptation function as per section 3.4 of RFC 3492.
 	 * https://tools.ietf.org/html/rfc3492#section-3.4
 	 * @private
 	 */
-	const adapt = function(delta, numPoints, firstTime) {
-		let k = 0;
-		delta = firstTime ? floor(delta / damp) : delta >> 1;
-		delta += floor(delta / numPoints);
-		for (/* no initialization */; delta > baseMinusTMin * tMax >> 1; k += base) {
-			delta = floor(delta / baseMinusTMin);
-		}
-		return floor(k + (baseMinusTMin + 1) * delta / (delta + skew));
-	};
+	function adapt(delta, numPoints, firstTime) {
+	  var k = 0;
+	  delta = firstTime ? floor(delta / damp) : delta >> 1;
+	  delta += floor(delta / numPoints);
+	  for ( /* no initialization */ ; delta > baseMinusTMin * tMax >> 1; k += base) {
+	    delta = floor(delta / baseMinusTMin);
+	  }
+	  return floor(k + (baseMinusTMin + 1) * delta / (delta + skew));
+	}
 
 	/**
 	 * Converts a string of Unicode symbols (e.g. a domain name label) to a
@@ -5864,93 +5801,112 @@ var RevealCompilerExplorer = (function () {
 	 * @param {String} input The string of Unicode symbols.
 	 * @returns {String} The resulting Punycode string of ASCII-only symbols.
 	 */
-	const encode = function(input) {
-		const output = [];
+	function encode(input) {
+	  var n,
+	    delta,
+	    handledCPCount,
+	    basicLength,
+	    bias,
+	    j,
+	    m,
+	    q,
+	    k,
+	    t,
+	    currentValue,
+	    output = [],
+	    /** `inputLength` will hold the number of code points in `input`. */
+	    inputLength,
+	    /** Cached calculation results */
+	    handledCPCountPlusOne,
+	    baseMinusT,
+	    qMinusT;
 
-		// Convert the input in UCS-2 to an array of Unicode code points.
-		input = ucs2decode(input);
+	  // Convert the input in UCS-2 to Unicode
+	  input = ucs2decode(input);
 
-		// Cache the length.
-		let inputLength = input.length;
+	  // Cache the length
+	  inputLength = input.length;
 
-		// Initialize the state.
-		let n = initialN;
-		let delta = 0;
-		let bias = initialBias;
+	  // Initialize the state
+	  n = initialN;
+	  delta = 0;
+	  bias = initialBias;
 
-		// Handle the basic code points.
-		for (const currentValue of input) {
-			if (currentValue < 0x80) {
-				output.push(stringFromCharCode(currentValue));
-			}
-		}
+	  // Handle the basic code points
+	  for (j = 0; j < inputLength; ++j) {
+	    currentValue = input[j];
+	    if (currentValue < 0x80) {
+	      output.push(stringFromCharCode(currentValue));
+	    }
+	  }
 
-		let basicLength = output.length;
-		let handledCPCount = basicLength;
+	  handledCPCount = basicLength = output.length;
 
-		// `handledCPCount` is the number of code points that have been handled;
-		// `basicLength` is the number of basic code points.
+	  // `handledCPCount` is the number of code points that have been handled;
+	  // `basicLength` is the number of basic code points.
 
-		// Finish the basic string with a delimiter unless it's empty.
-		if (basicLength) {
-			output.push(delimiter);
-		}
+	  // Finish the basic string - if it is not empty - with a delimiter
+	  if (basicLength) {
+	    output.push(delimiter);
+	  }
 
-		// Main encoding loop:
-		while (handledCPCount < inputLength) {
+	  // Main encoding loop:
+	  while (handledCPCount < inputLength) {
 
-			// All non-basic code points < n have been handled already. Find the next
-			// larger one:
-			let m = maxInt;
-			for (const currentValue of input) {
-				if (currentValue >= n && currentValue < m) {
-					m = currentValue;
-				}
-			}
+	    // All non-basic code points < n have been handled already. Find the next
+	    // larger one:
+	    for (m = maxInt, j = 0; j < inputLength; ++j) {
+	      currentValue = input[j];
+	      if (currentValue >= n && currentValue < m) {
+	        m = currentValue;
+	      }
+	    }
 
-			// Increase `delta` enough to advance the decoder's <n,i> state to <m,0>,
-			// but guard against overflow.
-			const handledCPCountPlusOne = handledCPCount + 1;
-			if (m - n > floor((maxInt - delta) / handledCPCountPlusOne)) {
-				error('overflow');
-			}
+	    // Increase `delta` enough to advance the decoder's <n,i> state to <m,0>,
+	    // but guard against overflow
+	    handledCPCountPlusOne = handledCPCount + 1;
+	    if (m - n > floor((maxInt - delta) / handledCPCountPlusOne)) {
+	      error('overflow');
+	    }
 
-			delta += (m - n) * handledCPCountPlusOne;
-			n = m;
+	    delta += (m - n) * handledCPCountPlusOne;
+	    n = m;
 
-			for (const currentValue of input) {
-				if (currentValue < n && ++delta > maxInt) {
-					error('overflow');
-				}
-				if (currentValue == n) {
-					// Represent delta as a generalized variable-length integer.
-					let q = delta;
-					for (let k = base; /* no condition */; k += base) {
-						const t = k <= bias ? tMin : (k >= bias + tMax ? tMax : k - bias);
-						if (q < t) {
-							break;
-						}
-						const qMinusT = q - t;
-						const baseMinusT = base - t;
-						output.push(
-							stringFromCharCode(digitToBasic(t + qMinusT % baseMinusT, 0))
-						);
-						q = floor(qMinusT / baseMinusT);
-					}
+	    for (j = 0; j < inputLength; ++j) {
+	      currentValue = input[j];
 
-					output.push(stringFromCharCode(digitToBasic(q, 0)));
-					bias = adapt(delta, handledCPCountPlusOne, handledCPCount == basicLength);
-					delta = 0;
-					++handledCPCount;
-				}
-			}
+	      if (currentValue < n && ++delta > maxInt) {
+	        error('overflow');
+	      }
 
-			++delta;
-			++n;
+	      if (currentValue == n) {
+	        // Represent delta as a generalized variable-length integer
+	        for (q = delta, k = base; /* no condition */ ; k += base) {
+	          t = k <= bias ? tMin : (k >= bias + tMax ? tMax : k - bias);
+	          if (q < t) {
+	            break;
+	          }
+	          qMinusT = q - t;
+	          baseMinusT = base - t;
+	          output.push(
+	            stringFromCharCode(digitToBasic(t + qMinusT % baseMinusT, 0))
+	          );
+	          q = floor(qMinusT / baseMinusT);
+	        }
 
-		}
-		return output.join('');
-	};
+	        output.push(stringFromCharCode(digitToBasic(q, 0)));
+	        bias = adapt(delta, handledCPCountPlusOne, handledCPCount == basicLength);
+	        delta = 0;
+	        ++handledCPCount;
+	      }
+	    }
+
+	    ++delta;
+	    ++n;
+
+	  }
+	  return output.join('');
+	}
 
 	/**
 	 * Converts a Unicode string representing a domain name or an email address to
@@ -5963,13 +5919,13 @@ var RevealCompilerExplorer = (function () {
 	 * @returns {String} The Punycode representation of the given domain name or
 	 * email address.
 	 */
-	const toASCII = function(input) {
-		return mapDomain(input, function(string) {
-			return regexNonASCII.test(string)
-				? 'xn--' + encode(string)
-				: string;
-		});
-	};
+	function toASCII(input) {
+	  return mapDomain(input, function(string) {
+	    return regexNonASCII.test(string) ?
+	      'xn--' + encode(string) :
+	      string;
+	  });
+	}
 
 	// Copyright Joyent, Inc. and other Node contributors.
 	//
@@ -6828,13 +6784,13 @@ var RevealCompilerExplorer = (function () {
 	}
 
 	var url$1 = /*#__PURE__*/Object.freeze({
-	  __proto__: null,
-	  parse: urlParse,
-	  resolve: urlResolve,
-	  resolveObject: urlResolveObject,
-	  format: urlFormat,
-	  'default': url,
-	  Url: Url
+		__proto__: null,
+		parse: urlParse,
+		resolve: urlResolve,
+		resolveObject: urlResolveObject,
+		format: urlFormat,
+		'default': url,
+		Url: Url
 	});
 
 	function request(opts, cb) {
@@ -6974,13 +6930,13 @@ var RevealCompilerExplorer = (function () {
 	};
 
 	var http$1 = /*#__PURE__*/Object.freeze({
-	  __proto__: null,
-	  request: request,
-	  get: get,
-	  Agent: Agent,
-	  METHODS: METHODS,
-	  STATUS_CODES: STATUS_CODES,
-	  'default': http
+		__proto__: null,
+		request: request,
+		get: get,
+		Agent: Agent,
+		METHODS: METHODS,
+		STATUS_CODES: STATUS_CODES,
+		'default': http
 	});
 
 	const isStream = stream =>
@@ -7083,8 +7039,8 @@ var RevealCompilerExplorer = (function () {
 	var empty = {};
 
 	var empty$1 = /*#__PURE__*/Object.freeze({
-	  __proto__: null,
-	  'default': empty
+		__proto__: null,
+		'default': empty
 	});
 
 	const length = (a, b) => {
@@ -12874,43 +12830,43 @@ var RevealCompilerExplorer = (function () {
 	};
 
 	var _binding = /*#__PURE__*/Object.freeze({
-	  __proto__: null,
-	  NONE: NONE,
-	  DEFLATE: DEFLATE,
-	  INFLATE: INFLATE,
-	  GZIP: GZIP,
-	  GUNZIP: GUNZIP,
-	  DEFLATERAW: DEFLATERAW,
-	  INFLATERAW: INFLATERAW,
-	  UNZIP: UNZIP,
-	  Z_NO_FLUSH: Z_NO_FLUSH$1,
-	  Z_PARTIAL_FLUSH: Z_PARTIAL_FLUSH$1,
-	  Z_SYNC_FLUSH: Z_SYNC_FLUSH,
-	  Z_FULL_FLUSH: Z_FULL_FLUSH$1,
-	  Z_FINISH: Z_FINISH$2,
-	  Z_BLOCK: Z_BLOCK$2,
-	  Z_TREES: Z_TREES$1,
-	  Z_OK: Z_OK$2,
-	  Z_STREAM_END: Z_STREAM_END$2,
-	  Z_NEED_DICT: Z_NEED_DICT$1,
-	  Z_ERRNO: Z_ERRNO,
-	  Z_STREAM_ERROR: Z_STREAM_ERROR$2,
-	  Z_DATA_ERROR: Z_DATA_ERROR$2,
-	  Z_BUF_ERROR: Z_BUF_ERROR$2,
-	  Z_NO_COMPRESSION: Z_NO_COMPRESSION,
-	  Z_BEST_SPEED: Z_BEST_SPEED,
-	  Z_BEST_COMPRESSION: Z_BEST_COMPRESSION,
-	  Z_DEFAULT_COMPRESSION: Z_DEFAULT_COMPRESSION$1,
-	  Z_FILTERED: Z_FILTERED$1,
-	  Z_HUFFMAN_ONLY: Z_HUFFMAN_ONLY$1,
-	  Z_RLE: Z_RLE$1,
-	  Z_FIXED: Z_FIXED$2,
-	  Z_DEFAULT_STRATEGY: Z_DEFAULT_STRATEGY,
-	  Z_BINARY: Z_BINARY$1,
-	  Z_TEXT: Z_TEXT$1,
-	  Z_UNKNOWN: Z_UNKNOWN$2,
-	  Z_DEFLATED: Z_DEFLATED$2,
-	  Zlib: Zlib
+		__proto__: null,
+		NONE: NONE,
+		DEFLATE: DEFLATE,
+		INFLATE: INFLATE,
+		GZIP: GZIP,
+		GUNZIP: GUNZIP,
+		DEFLATERAW: DEFLATERAW,
+		INFLATERAW: INFLATERAW,
+		UNZIP: UNZIP,
+		Z_NO_FLUSH: Z_NO_FLUSH$1,
+		Z_PARTIAL_FLUSH: Z_PARTIAL_FLUSH$1,
+		Z_SYNC_FLUSH: Z_SYNC_FLUSH,
+		Z_FULL_FLUSH: Z_FULL_FLUSH$1,
+		Z_FINISH: Z_FINISH$2,
+		Z_BLOCK: Z_BLOCK$2,
+		Z_TREES: Z_TREES$1,
+		Z_OK: Z_OK$2,
+		Z_STREAM_END: Z_STREAM_END$2,
+		Z_NEED_DICT: Z_NEED_DICT$1,
+		Z_ERRNO: Z_ERRNO,
+		Z_STREAM_ERROR: Z_STREAM_ERROR$2,
+		Z_DATA_ERROR: Z_DATA_ERROR$2,
+		Z_BUF_ERROR: Z_BUF_ERROR$2,
+		Z_NO_COMPRESSION: Z_NO_COMPRESSION,
+		Z_BEST_SPEED: Z_BEST_SPEED,
+		Z_BEST_COMPRESSION: Z_BEST_COMPRESSION,
+		Z_DEFAULT_COMPRESSION: Z_DEFAULT_COMPRESSION$1,
+		Z_FILTERED: Z_FILTERED$1,
+		Z_HUFFMAN_ONLY: Z_HUFFMAN_ONLY$1,
+		Z_RLE: Z_RLE$1,
+		Z_FIXED: Z_FIXED$2,
+		Z_DEFAULT_STRATEGY: Z_DEFAULT_STRATEGY,
+		Z_BINARY: Z_BINARY$1,
+		Z_TEXT: Z_TEXT$1,
+		Z_UNKNOWN: Z_UNKNOWN$2,
+		Z_DEFLATED: Z_DEFLATED$2,
+		Zlib: Zlib
 	});
 
 	function assert (a, msg) {
@@ -13526,49 +13482,49 @@ var RevealCompilerExplorer = (function () {
 	};
 
 	var zlib$1 = /*#__PURE__*/Object.freeze({
-	  __proto__: null,
-	  codes: codes,
-	  createDeflate: createDeflate,
-	  createInflate: createInflate,
-	  createDeflateRaw: createDeflateRaw,
-	  createInflateRaw: createInflateRaw,
-	  createGzip: createGzip,
-	  createGunzip: createGunzip,
-	  createUnzip: createUnzip,
-	  deflate: deflate$1,
-	  deflateSync: deflateSync,
-	  gzip: gzip,
-	  gzipSync: gzipSync,
-	  deflateRaw: deflateRaw,
-	  deflateRawSync: deflateRawSync,
-	  unzip: unzip,
-	  unzipSync: unzipSync,
-	  inflate: inflate$1,
-	  inflateSync: inflateSync,
-	  gunzip: gunzip,
-	  gunzipSync: gunzipSync,
-	  inflateRaw: inflateRaw,
-	  inflateRawSync: inflateRawSync,
-	  Deflate: Deflate,
-	  Inflate: Inflate,
-	  Gzip: Gzip,
-	  Gunzip: Gunzip,
-	  DeflateRaw: DeflateRaw,
-	  InflateRaw: InflateRaw,
-	  Unzip: Unzip,
-	  Zlib: Zlib$1,
-	  'default': zlib
+		__proto__: null,
+		codes: codes,
+		createDeflate: createDeflate,
+		createInflate: createInflate,
+		createDeflateRaw: createDeflateRaw,
+		createInflateRaw: createInflateRaw,
+		createGzip: createGzip,
+		createGunzip: createGunzip,
+		createUnzip: createUnzip,
+		deflate: deflate$1,
+		deflateSync: deflateSync,
+		gzip: gzip,
+		gzipSync: gzipSync,
+		deflateRaw: deflateRaw,
+		deflateRawSync: deflateRawSync,
+		unzip: unzip,
+		unzipSync: unzipSync,
+		inflate: inflate$1,
+		inflateSync: inflateSync,
+		gunzip: gunzip,
+		gunzipSync: gunzipSync,
+		inflateRaw: inflateRaw,
+		inflateRawSync: inflateRawSync,
+		Deflate: Deflate,
+		Inflate: Inflate,
+		Gzip: Gzip,
+		Gunzip: Gunzip,
+		DeflateRaw: DeflateRaw,
+		InflateRaw: InflateRaw,
+		Unzip: Unzip,
+		Zlib: Zlib$1,
+		'default': zlib
 	});
 
 	var http$2 = /*@__PURE__*/getAugmentedNamespace(http$1);
 
-	var require$$0$1 = /*@__PURE__*/getAugmentedNamespace(url$1);
+	var require$$0 = /*@__PURE__*/getAugmentedNamespace(url$1);
 
 	var zlib$2 = /*@__PURE__*/getAugmentedNamespace(zlib$1);
 
 	var require$$1 = /*@__PURE__*/getAugmentedNamespace(stream);
 
-	const { URL } = require$$0$1;
+	const { URL } = require$$0;
 
 
 
@@ -14346,7 +14302,21 @@ var RevealCompilerExplorer = (function () {
 	var create_1 = create;
 	ansiColors.create = create_1;
 
-	const { unstyle } = ansiColors;
+	var compilerExplorerDirectives = createCommonjsModule(function (module, exports) {
+
+	Object.defineProperty(exports, '__esModule', { value: true });
+
+
+
+
+
+	function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
+
+	var bent__default = /*#__PURE__*/_interopDefaultLegacy(nodejs);
+	var promiseRetry__default = /*#__PURE__*/_interopDefaultLegacy(promiseRetry_1);
+	var ansi_colors__default = /*#__PURE__*/_interopDefaultLegacy(ansiColors);
+
+	const { unstyle } = ansi_colors__default['default'];
 
 	// https://github.com/highlightjs/highlight.js/blob/master/SUPPORTED_LANGUAGES.md
 	const langAliases = {
@@ -14526,8 +14496,8 @@ var RevealCompilerExplorer = (function () {
 	      })
 	    }
 	  };
-	  const post = nodejs(info.baseUrl, 'POST', 'json');
-	  const response = await promiseRetry_1(retryOptions, async (retry) => {
+	  const post = bent__default['default'](info.baseUrl, 'POST', 'json');
+	  const response = await promiseRetry__default['default'](retryOptions, async (retry) => {
 	    try {
 	      return post(`api/compiler/${info.compiler}/compile`, data);
 	    }
@@ -14580,8 +14550,8 @@ var RevealCompilerExplorer = (function () {
 	    [].slice.call(reveal.getRevealElement().querySelectorAll('pre code')).forEach(function (block) {
 	      const lang = block.classList.length > 0 ? block.classList[0].replace('language-', '') : config.language;
 	      const config = reveal.getConfig().compilerExplorer;
-	      const info = compilerExplorerDirectives_cjs.parseCode(block.textContent, lang, config);
-	      const url = compilerExplorerDirectives_cjs.displayUrl(info);
+	      const info = compilerExplorerDirectives.parseCode(block.textContent, lang, config);
+	      const url = compilerExplorerDirectives.displayUrl(info);
 	      block.parentNode.onclick = (evt) => {
 	        if (evt.ctrlKey || evt.metaKey) {
 	          window.open(url, 'ce');
@@ -14593,7 +14563,7 @@ var RevealCompilerExplorer = (function () {
 	      }
 	    });
 	  },
-	  compile: compilerExplorerDirectives_cjs.compile
+	  compile: compilerExplorerDirectives.compile
 	};
 
 	return revealCompilerExplorer;

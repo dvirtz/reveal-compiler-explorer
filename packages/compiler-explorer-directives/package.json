@@ -6,11 +6,10 @@
   "homepage": "https://github.com/dvirtz/reveal-compiler-explorer/tree/master/packages/compiler-explorer-directives",
   "license": "MIT",
   "type": "module",
-  "main": "./dist/compiler-explorer-directives.cjs.js",
-  "browser": "./dist/compiler-explorer-directives.js",
+  "main": "./dist/compiler-explorer-directives.cjs",
   "exports": {
     "import": "./src/compiler-explorer-directives.js",
-    "require": "./dist/compiler-explorer-directives.cjs.js"
+    "require": "./dist/compiler-explorer-directives.cjs"
   },
   "directories": {
     "lib": "src",

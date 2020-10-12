@@ -1,12 +1,11 @@
 import json from '@rollup/plugin-json';
 import del from 'rollup-plugin-delete';
 
-
 export default {
-  input: 'src/compiler-explorer-directives.js',
+  input: 'src/reveal-test.js',
   output: [
     {
-      file: 'dist/compiler-explorer-directives.cjs',
+      file: 'dist/reveal-test.cjs',
       format: 'cjs',
     }
   ],
@@ -15,8 +14,9 @@ export default {
     del({ targets: 'dist/*' })
   ],
   external: [
-    'bent',
-    'promise-retry',
-    'ansi-colors'
+    'compiler-explorer-directives',
+    'markdown-it',
+    'fs',
+    'fs/promises'
   ]
 };
