@@ -1,10 +1,13 @@
 {
   "name": "reveal-test",
   "version": "1.0.2",
-  "description": "utilities for testing with compiler explorer",
+  "description": "Utilities for testing with compiler explorer",
   "author": "dvirtz <dvirtz@gmail.com>",
   "homepage": "https://github.com/dvirtz/reveal-compiler-explorer/tree/master/packages/reveal-test",
   "license": "MIT",
+  "keywords": [
+    "reveal.js", "compiler-explorer", "godbolt"
+  ],
   "main": "./dist/reveal-test.cjs",
   "type": "module",
   "exports": {
@@ -16,7 +19,8 @@
     "test": "test"
   },
   "files": [
-    "src"
+    "src",
+    "dist"
   ],
   "repository": {
     "type": "git",
