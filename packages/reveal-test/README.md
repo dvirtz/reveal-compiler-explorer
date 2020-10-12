@@ -67,7 +67,7 @@ Asynchronously generates a list of all code snippets from a given markdown file.
 parseMarkdownSync(path: String, config: Config = {}) => Array<SnippetInfo>
 ```
 
-Synchronously generates a list of all code snippets from a given markdown file. For possible `config` fields, see [here](#../compiler-explorer-directives/#Configuration).
+Synchronously generates a list of all code snippets from a given markdown file. For possible `config` fields, see [here](/packages/compiler-explorer-directives/#Configuration).
 
 ### compile
 
@@ -83,7 +83,7 @@ Returns output from compiling and running the code (if enabled) on success, othe
 
 ## Directives
 
-In addition to the directives mentioned [here](../compiler-explorer-directives/#Directives), the following directives are supported:
+In addition to the directives mentioned [here](/packages/compiler-explorer-directives/#Directives), the following directives are supported:
 
 ### `///failReason=<reason>`
 
