@@ -1,3 +1,8 @@
+# reveal-compiler-explorer
+
+[![npm version](https://badge.fury.io/js/reveal-compiler-explorer.svg)](https://badge.fury.io/js/reveal-compiler-explorer) 
+![master](https://github.com/dvirtz/reveal-compiler-explorer/workflows/master/badge.svg)
+
 A [Reveal.js](https://revealjs.com/) plugin for opening up code snippets on [Compiler Explorer](https://godbolt.org).
 
 Check out the [live demo](https://dvirtz.github.io/reveal-compiler-explorer).
@@ -6,7 +11,7 @@ Check out the [live demo](https://dvirtz.github.io/reveal-compiler-explorer).
 
 ## Installation
 
-### using a package manager
+### Using a package manager
 
 1. Download and install the package in your project:
 
@@ -65,6 +70,25 @@ Check out the [live demo](https://dvirtz.github.io/reveal-compiler-explorer).
 ## Configuration
 
 To configure the plugin pass a `compilerExplorer` object to `Reveal.initialize` with any of the options from [here](../compiler-explorer-directives/#Configuration).
+
+For example
+
+```javascript
+// ...
+Reveal.initialize({
+  // ...
+  plugins: [
+    // ...
+    RevealCompilerExplorer
+    // ...
+  ],
+  // ...
+  compilerExplorer: {
+    compiler: "g83",
+    runMain: false
+  }
+});
+```
 
 ---
 

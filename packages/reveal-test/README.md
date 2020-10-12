@@ -1,5 +1,8 @@
 # `reveal-test`
 
+[![npm version](https://badge.fury.io/js/reveal-test.svg)](https://badge.fury.io/js/reveal-test) 
+![master](https://github.com/dvirtz/reveal-compiler-explorer/workflows/master/badge.svg)
+
 Utilities for testing presentation code snippets by compiling them on [Compiler Explorer](https://godbolt.org).
 
 ## Example

@@ -1,3 +1,8 @@
+# compiler-explorer-directives
+
+[![npm version](https://badge.fury.io/js/compiler-explorer-directives.svg)](https://badge.fury.io/js/compiler-explorer-directives) 
+![master](https://github.com/dvirtz/reveal-compiler-explorer/workflows/master/badge.svg)
+
 Interact with [Compiler Explorer](https://godbolt.org) links using inline code directives.
 
 Base'd on Matt Godbolt's code which can be found at [here](https://github.com/mattgodbolt/cpponsea-2019/blob/445506387c9ec63ad018b75af77a5feaa3dc2a17/compiler-explorer.js).
