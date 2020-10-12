@@ -7,7 +7,7 @@ A [Reveal.js](https://revealjs.com/) plugin for opening up code snippets on [Com
 
 Check out the [live demo](https://dvirtz.github.io/reveal-compiler-explorer).
 
-For testing presentation code, see [reveal-test](../reveal-test) package.
+For testing presentation code, see [reveal-test](/packages/reveal-test) package.
 
 ---
 
@@ -47,7 +47,7 @@ For testing presentation code, see [reveal-test](../reveal-test) package.
 
 ### Manual
 
-1. Download [dist/reveal-compiler-explorer.js](dist/reveal-compiler-explorer.js) into the plugin folder of your reveal.js presentation, i.e. `plugin/reveal-compiler-explorer`.
+1. Download [dist/reveal-compiler-explorer.js](/packages/reveal-compiler-explorer/dist/reveal-compiler-explorer.js) into the plugin folder of your reveal.js presentation, i.e. `plugin/reveal-compiler-explorer`.
 
 2. Add the plugins to the dependencies in your presentation
 
@@ -71,7 +71,7 @@ For testing presentation code, see [reveal-test](../reveal-test) package.
 
 ## Configuration
 
-To configure the plugin pass a `compilerExplorer` object to `Reveal.initialize` with any of the options from [here](../compiler-explorer-directives/#Configuration).
+To configure the plugin pass a `compilerExplorer` object to `Reveal.initialize` with any of the options from [here](/packages/compiler-explorer-directives/#Configuration).
 
 For example
 
@@ -96,7 +96,7 @@ Reveal.initialize({
 
 ## Directives
 
-In addition to the directives mentioned [here](../compiler-explorer-directives/#Directives), the following directives are supported:
+In addition to the directives mentioned [here](/packages/compiler-explorer-directives/#Directives), the following directives are supported:
 
 ### `///hide`
 
