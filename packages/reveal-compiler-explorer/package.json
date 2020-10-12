@@ -2,7 +2,7 @@
   "name": "reveal-compiler-explorer",
   "version": "1.0.1",
   "description": "The plugin package",
-  "homepage": "https://github.com/dvirtz/reveal-compiler-explorer/tree/reveal-compiler-explorer",
+  "homepage": "https://github.com/dvirtz/reveal-compiler-explorer/tree/master/packages/reveal-compiler-explorer",
   "bugs": {
     "url": "https://github.com/dvirtz/reveal-compiler-explorer/issues"
   },

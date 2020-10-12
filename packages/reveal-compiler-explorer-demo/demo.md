@@ -9,7 +9,7 @@ open, edit & compile code snippets
 <div class="row">
   <div class="column">
 
-  [![gitHub](images/GitHub_Logo.png)](https://github.com/dvirtz/reveal-compiler-explorer/tree/reveal-compiler-explorer)
+  [![gitHub](images/GitHub_Logo.png)](https://github.com/dvirtz/reveal-compiler-explorer/tree/master/packages/reveal-compiler-explorer)
 
   </div>
   <div class="column">
@@ -122,7 +122,7 @@ assert(C == [1, 0,
 <div class="row">
   <div class="column">
 
-  [![gitHub](images/GitHub_Logo.png)](https://github.com/dvirtz/reveal-compiler-explorer/tree/reveal-compiler-explorer)
+  [![gitHub](images/GitHub_Logo.png)](https://github.com/dvirtz/reveal-compiler-explorer/tree/master/packages/reveal-compiler-explorer)
 
   </div>
   <div class="column">
