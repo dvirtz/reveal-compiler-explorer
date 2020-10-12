@@ -18,6 +18,7 @@ Ctrl-click (or ⌘-click) on code to go to compiler explorer
 
 ```cpp
 ///external
+///execute
 #include <iostream>
 
 int main() {
@@ -49,7 +50,6 @@ See example on next slide.
 ///compiler=ldc1_20
 ///options=-m32
 ///libs=cblas:trunk
-///noexecute
 ///hide
 import cblas;
 <br/>

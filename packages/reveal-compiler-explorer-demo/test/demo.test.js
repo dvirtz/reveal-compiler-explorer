@@ -10,7 +10,8 @@ describe("demo presentation", function () {
   this.timeout('10s');
 
   const path = join(__dirname, '..', 'demo.md');
-  const codeInfo = parseMarkdownSync(path);
+  const config = { runMain: false };
+  const codeInfo = parseMarkdownSync(path, config);
   codeInfo.forEach((info, index) => {
     it(`should have snippet ${index} compiled`, async function () {
       if (info.failReason) {
