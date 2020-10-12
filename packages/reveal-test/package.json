@@ -5,8 +5,12 @@
   "author": "dvirtz <dvirtz@gmail.com>",
   "homepage": "https://github.com/dvirtz/reveal-compiler-explorer/tree/master/packages/reveal-test",
   "license": "MIT",
-  "main": "src/reveal-test.js",
+  "main": "./dist/reveal-test.cjs",
   "type": "module",
+  "exports": {
+    "import": "./src/reveal-test.js",
+    "require": "./dist/reveal-test.cjs"
+  },
   "directories": {
     "lib": "src",
     "test": "test"
@@ -19,6 +23,7 @@
     "url": "git+https://github.com/dvirtz/reveal-compiler-explorer.git"
   },
   "scripts": {
+    "build": "rollup -c",
     "test": "echo \"Error: run tests from root\" && exit 1"
   },
   "bugs": {

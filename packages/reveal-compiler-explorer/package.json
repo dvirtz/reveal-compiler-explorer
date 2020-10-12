@@ -11,9 +11,12 @@
     "url": "https://github.com/dvirtz/reveal-compiler-explorer.git",
     "directory": "packages/reveal-compiler-explorer"
   },
-  "main": "./dist/reveal-compiler-explorer.cjs.js",
-  "module": "./dist/reveal-compiler-explorer.esm.js",
+  "main": "./dist/reveal-compiler-explorer.cjs",
   "browser": "./dist/reveal-compiler-explorer.js",
+  "exports": {
+    "import": "./dist/reveal-compiler-explorer.mjs",
+    "require": "./dist/reveal-compiler-explorer.cjs"
+  },
   "license": "MIT",
   "scripts": {
     "build": "rollup -c"

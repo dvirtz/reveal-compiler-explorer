@@ -7,24 +7,29 @@ export default {
   input: 'src/reveal-compiler-explorer.js',
   output: [
     {
-      file: 'dist/reveal-compiler-explorer.cjs.js',
+      file: 'dist/reveal-compiler-explorer.cjs',
       format: 'cjs',
+      exports: 'default'
     },
     {
       file: 'dist/reveal-compiler-explorer.js',
       format: 'iife',
       name: 'RevealCompilerExplorer',
-      sourcemap: true
+      sourcemap: true,
+      exports: 'default'
     },
     {
-      file: 'dist/reveal-compiler-explorer.esm.js',
-      format: 'es'
+      file: 'dist/reveal-compiler-explorer.mjs',
+      format: 'es',
+      exports: 'default'
     }
   ],
   plugins: [
-    resolve(),
+    resolve({ preferBuiltins: true }),
     commonjs(),
-    nodePolyfills(),
+    nodePolyfills({
+      include: 'process'
+    }),
     del({ targets: 'dist/*' })
   ]
 };
