@@ -1,7 +1,6 @@
 {
   "name": "reveal-compiler-explorer-demo",
   "version": "1.0.2",
-  "description": "The demo package",
   "license": "MIT",
   "type": "module",
   "private": true,
