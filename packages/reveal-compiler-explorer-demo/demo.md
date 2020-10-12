@@ -1,14 +1,21 @@
-## reveal-compiler-explorer
+<!-- .slide: data-background-color="#bee4fd" -->
+
+### reveal-compiler-explorer
+
+![reveal-heart-ce](images/reveal-heart-ce.png)
+
+open, edit & compile code snippets
 
 <div class="row">
   <div class="column">
-    <img src="images/reveal-black-text.svg" alt="reveal">
+
+  [![gitHub](images/GitHub_Logo.png)](https://github.com/dvirtz/reveal-compiler-explorer/tree/reveal-compiler-explorer)
+
   </div>
   <div class="column">
-    <img src="images/heart.png" alt="heart">
-  </div>
-  <div class="column">
-    <img src="images/ce.svg" alt="ce">
+  
+  [![npm version](https://badge.fury.io/js/reveal-compiler-explorer.svg)](https://badge.fury.io/js/reveal-compiler-explorer) 
+  
   </div>
 </div>
 
@@ -105,3 +112,22 @@ assert(C == [1, 0,
     </td>
   </tr>
 </table>
+
+---
+
+<!-- .slide: data-background-color="#bee4fd" -->
+
+## install now
+
+<div class="row">
+  <div class="column">
+
+  [![gitHub](images/GitHub_Logo.png)](https://github.com/dvirtz/reveal-compiler-explorer/tree/reveal-compiler-explorer)
+
+  </div>
+  <div class="column">
+  
+  [![npm version](https://badge.fury.io/js/reveal-compiler-explorer.svg)](https://badge.fury.io/js/reveal-compiler-explorer) 
+  
+  </div>
+</div>

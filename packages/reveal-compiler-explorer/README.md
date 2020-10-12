@@ -7,6 +7,8 @@ A [Reveal.js](https://revealjs.com/) plugin for opening up code snippets on [Com
 
 Check out the [live demo](https://dvirtz.github.io/reveal-compiler-explorer).
 
+For testing presentation code, see [reveal-test](../reveal-test) package.
+
 ---
 
 ## Installation
