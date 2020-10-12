@@ -5,6 +5,8 @@
 
 Utilities for testing presentation code snippets by compiling them on [Compiler Explorer](https://godbolt.org).
 
+Check out also [reveal-compiler-explorer](/packages/reveal-compiler-explorer) package.
+
 ## Example
 
 ```js
