@@ -1,6 +1,6 @@
 {
   "name": "reveal-compiler-explorer",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "The plugin package",
   "homepage": "https://github.com/dvirtz/reveal-compiler-explorer/tree/reveal-compiler-explorer",
   "bugs": {
@@ -17,5 +17,8 @@
   "license": "MIT",
   "scripts": {
     "build": "rollup -c"
+  },
+  "dependencies": {
+    "compiler-explorer-directives": "^1.0.0"
   }
 }
