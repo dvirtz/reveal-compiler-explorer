@@ -38,7 +38,7 @@ int main() {
     };
     await assert.rejects(compile(info), {
       name: 'CompileError',
-      message: /file\.md:10:\n.*expected ';' before '}'/s
+      message: /expected ';' before '}'/
     });
   });
 
@@ -58,7 +58,7 @@ int main() {
     };
     await assert.rejects(compile(info), (err) => {
       assert(err instanceof CompileError);
-      assert.notStrictEqual(err.code, 0);
+      assert.strictEqual(err.code, 2);
       assert.match(err.message, /FAILED/);
       return true;
     });

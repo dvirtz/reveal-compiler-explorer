@@ -6,6 +6,7 @@ var compilerExplorerDirectives = require('compiler-explorer-directives');
 var MarkdownIt = require('markdown-it');
 var fs = require('fs');
 var promises = require('fs/promises');
+require('assert');
 
 function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
 
@@ -19,12 +20,10 @@ const parseMarkdownImpl = (path, markdown, config) => {
     .map(({ content, info, map }) => {
       config = Object.assign(config, {
         directives:
-          [['fails=(.*)', (matches, info) => matches.slice(1).forEach(match => info.failReason = new RegExp(match))]]
+          [['fails=(.*)', (matches, info) => matches.slice(1).forEach(match => info.failReason = match)]]
       });
-      const parsed = compilerExplorerDirectives.parseCode(content.replace(/<br\/>/g, ''), info, config);
-      if (typeof path == 'string') {
-        parsed.path = `${path}:${map[0] + 1}`;
-      }
+      const parsed = compilerExplorerDirectives.parseCode(content.replace(/<br\/>/g, ''), info.replace(/(\w+).*/, '$1'), config);
+      parsed.path = `${path}:${map[0] + 1}`;
       return parsed;
     });
 };
@@ -39,17 +38,39 @@ const parseMarkdownSync = (path, config = {}) => {
   return parseMarkdownImpl(path, markdown, config);
 };
 
+const compile = async (info, retryOptions = {}) => {
+  const error = (text) => {
+    return `${info.path}:\n${text}`;
+  };
+  const failureMismatch = (output) => {
+    return new compilerExplorerDirectives.CompileError(-1, error(`should have failed with '${info.failReason}'${output.length > 0 ? `\nactual output is:\n${output}` : ''}`));
+  };
+  if (info.failReason) {
+    try {
+      const result = await compilerExplorerDirectives.compile(info, retryOptions);
+      throw failureMismatch(result);
+    } catch(err) {
+      if (!err.message.includes(info.failReason)) {
+        throw failureMismatch(err.message);
+      }
+      return err.message;
+    }
+  } else {
+    try {
+      return await compilerExplorerDirectives.compile(info);
+    } catch (err) {
+      const code = err.hasOwnProperty('code') ? err.code : -2;
+      throw new compilerExplorerDirectives.CompileError(err.code, error(err.message));
+    }
+  }
+};
+
 Object.defineProperty(exports, 'CompileError', {
   enumerable: true,
   get: function () {
     return compilerExplorerDirectives.CompileError;
   }
 });
-Object.defineProperty(exports, 'compile', {
-  enumerable: true,
-  get: function () {
-    return compilerExplorerDirectives.compile;
-  }
-});
+exports.compile = compile;
 exports.parseMarkdown = parseMarkdown;
 exports.parseMarkdownSync = parseMarkdownSync;

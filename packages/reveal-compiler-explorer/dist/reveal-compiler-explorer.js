@@ -14396,7 +14396,10 @@ var RevealCompilerExplorer = (function () {
 	    if (line.match(directive('.*'))) {
 	      directives.forEach(([regex, action]) => action(matches(line, regex), info));
 	    } else {
-	      if (config.runMain && line.match(config.mainRegex) && !info.hasOwnProperty('execute')) {
+	      if (config.runMain
+	          && config.mainRegex
+	          && line.match(config.mainRegex)
+	          && !info.hasOwnProperty('execute')) {
 	        info.execute = true;
 	      }
 	      info.source.push(line);
@@ -14511,13 +14514,6 @@ var RevealCompilerExplorer = (function () {
 	  });
 
 	  const text = (stream) => unstyle(stream.map(x => x.text).join('\n'));
-	  const error = (stream) => {
-	    if (info.hasOwnProperty('path')) {
-	      return `${info.path}:\n${text(stream)}`;
-	    }
-
-	    return text(stream);
-	  };
 
 	  if (response.code === 0) {
 	    if (info.execute) {
@@ -14525,13 +14521,13 @@ var RevealCompilerExplorer = (function () {
 	        return text(response.execResult.stdout);
 	      }
 
-	      throw new CompileError(response.execResult.code, error(response.execResult.buildResult.stderr.concat(response.execResult.stderr)));
+	      throw new CompileError(response.execResult.code, text(response.execResult.buildResult.stderr.concat(response.execResult.stderr)));
 	    }
 
 	    return text(response.stdout);
 	  }
 
-	  throw new CompileError(response.code, error(response.stderr));
+	  throw new CompileError(response.code, text(response.stderr));
 	};
 
 	exports.CompileError = CompileError;
