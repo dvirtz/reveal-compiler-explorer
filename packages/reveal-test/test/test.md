@@ -18,11 +18,10 @@ Ctrl-click (or ⌘-click) on code to go to compiler explorer
 
 ```cpp
 ///external
-///fails=missing semicolon
 #include <iostream>
 
 int main() {
-  std::cout << "Hello CE!"
+  std::cout << "Hello CE!";
 }
 ```
 
@@ -50,6 +49,7 @@ See example on next slide.
 ///compiler=ldc1_20
 ///options=-m32
 ///libs=cblas:trunk
+///noexecute
 ///hide
 import cblas;
 <br/>
@@ -104,3 +104,44 @@ assert(C == [1, 0,
     </td>
   </tr>
 </table>
+
+---
+
+## code with reveal.js highlighted lines
+
+```cpp [4]
+///fails=expected ';' before '}' token
+#include <iostream>
+
+int main() {
+  std::cout << "Hello CE!"
+}
+```
+
+---
+
+## test failReason escaping
+
+```cpp
+///fails=use of deleted function 'void foo(int)'
+void foo(short i);
+void foo(int i) = delete;
+
+///hide
+void bar() {
+///unhide
+foo(static_cast<short>(42));    // ok
+foo(42);                        // error, deleted function
+///hide
+}
+```
+
+---
+
+## test no language
+
+```
+///fails=Not Found
+template< class ForwardIt, class T >
+void iota( ForwardIt first, ForwardIt last, T value );
+```
