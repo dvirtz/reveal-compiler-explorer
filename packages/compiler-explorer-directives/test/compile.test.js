@@ -34,7 +34,6 @@ int main() {
       compiler: 'g83',
       options: '-Wall -Werror',
       baseUrl: 'https://godbolt.org/',
-      path: 'file.md:10'
     };
     await assert.rejects(compile(info), {
       name: 'CompileError',
@@ -42,13 +41,14 @@ int main() {
     });
   });
 
-  it('fails on invalid executing code', async function () {
+  it('fails on linker error', async function () {
     const info = {
       source: `#include <iostream>
+
+      void foo();
       
       int main() {
-        std::cerr << "FAILED\\n";
-  return 2;
+        foo();
 }`,
       language: 'cpp',
       compiler: 'g83',
@@ -58,13 +58,32 @@ int main() {
     };
     await assert.rejects(compile(info), (err) => {
       assert(err instanceof CompileError);
-      assert.strictEqual(err.code, 2);
-      assert.match(err.message, /FAILED/);
+      assert.notStrictEqual(err.code, 0);
+      assert.match(err.message, /undefined reference to `foo\(\)'/);
       return true;
     });
   });
 
-  it('matches failReason', async function() {
+  it('returns stderr + stdout', async function () {
+    const info = {
+      source: `#include <iostream>
+      
+      int main() {
+        std::cout << "Hello";
+        std::cerr << "World";
+  return 2;
+}`,
+      language: 'cpp',
+      compiler: 'g83',
+      options: '-Wall -Werror',
+      execute: true,
+      baseUrl: 'https://godbolt.org/'
+    };
+    const result = await compile(info);
+    assert.strictEqual(result, 'World\nHello');
+  });
+
+  it('sets expected failure', async function() {
     const info = {
       source: `#include <iostream>
 
@@ -74,14 +93,28 @@ int main() {
       language: 'cpp',
       compiler: 'g83',
       options: '-Wall -Werror',
-      baseUrl: 'https://godbolt.org/',
-      path: 'file.md:10',
-      failReason: new RegExp(`expected ';' before '}'`)
+      baseUrl: 'https://godbolt.org/'
     };
     await assert.rejects(compile(info), (err) => {
       assert(err instanceof CompileError);
       assert.notStrictEqual(err.code, 0);
-      assert.match(err.message, info.failReason);
+      assert.match(err.message, /expected ';' before '}'/);
+      return true;
+    });
+  });
+
+  it('fails with msvc', async function(){
+    const info = {
+      source: `int foo() {}`,
+      language: 'cpp',
+      compiler: 'vcpp_v19_24_x64',
+      options: '/O2',
+      baseUrl: 'https://godbolt.org/'
+    };
+    await assert.rejects(compile(info), (err) => {
+      assert(err instanceof CompileError);
+      assert.notStrictEqual(err.code, 0);
+      assert.match(err.message, /'foo': must return a value/);
       return true;
     });
   });

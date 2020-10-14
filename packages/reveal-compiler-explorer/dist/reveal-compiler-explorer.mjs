@@ -14510,21 +14510,22 @@ const compile = async (info, retryOptions = {}) => {
     }
   });
 
-  const text = (stream) => unstyle(stream.map(x => x.text).join('\n'));
+  const text = (stream) => unstyle(stream.stderr.concat(stream.stdout).map(x => x.text).join('\n'));
 
   if (response.code === 0) {
     if (info.execute) {
-      if (response.execResult.code === 0) {
-        return text(response.execResult.stdout);
+      if (response.execResult.buildResult.code === 0) {
+        return text(response.execResult);
       }
 
-      throw new CompileError(response.execResult.code, text(response.execResult.buildResult.stderr.concat(response.execResult.stderr)));
+      throw new CompileError(response.execResult.buildResult.code,
+        text(response.execResult.buildResult));
     }
 
-    return text(response.stdout);
+    return text(response);
   }
 
-  throw new CompileError(response.code, text(response.stderr));
+  throw new CompileError(response.code, text(response));
 };
 
 exports.CompileError = CompileError;
