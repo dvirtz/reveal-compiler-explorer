@@ -19,16 +19,7 @@ describe("demo presentation", function () {
   const codeInfo = parseMarkdownSync('presentation.md');
   codeInfo.forEach((info, index) => {
     it(`should have snippet ${index} compiled`, async function () {
-      if (info.failReason) {
-        await assert.rejects(compile(info), (err) => {
-          assert(err instanceof CompileError);
-          assert.notStrictEqual(err.code, 0);
-          assert.match(err.message, info.failReason);
-          return true;
-        });
-      } else {
-        await assert.doesNotReject(compile(info));
-      }
+      await assert.doesNotReject(compile(info));
     });
   });
 });
