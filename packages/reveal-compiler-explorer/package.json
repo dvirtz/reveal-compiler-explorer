@@ -31,6 +31,8 @@
     "build": "rollup -c"
   },
   "dependencies": {
-    "compiler-explorer-directives": "^1.1.1"
+    "compiler-explorer-directives": "^1.1.1",
+    "hammerjs": "^2.0.8",
+    "reveal.js": "^4.1.0"
   }
 }

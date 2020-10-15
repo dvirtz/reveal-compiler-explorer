@@ -21,7 +21,7 @@ open, edit & compile code snippets
 
 ---
 
-Ctrl-click (or ⌘-click) on code to go to compiler explorer
+Ctrl-click* on code to go to compiler explorer
 
 ```cpp
 ///external
@@ -32,6 +32,8 @@ int main() {
   std::cout << "Hello CE!";
 }
 ```
+
+\* ⌘-click on MacOS, double tap on mobile <!-- .element: style="font-size: 0.7em" -->
 
 ---
 

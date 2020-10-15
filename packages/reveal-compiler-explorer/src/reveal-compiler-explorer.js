@@ -1,4 +1,6 @@
 import { parseCode, displayUrl, compile } from 'compiler-explorer-directives';
+import Hammer from 'hammerjs';
+import { isMobile } from 'reveal.js/js/utils/device';
 
 export default {
   id: 'compiler-explorer',
@@ -12,11 +14,22 @@ export default {
       const config = reveal.getConfig().compilerExplorer;
       const info = parseCode(block.textContent, lang, config);
       const url = displayUrl(info);
-      block.parentNode.onclick = (evt) => {
-        if (evt.ctrlKey || evt.metaKey) {
+
+      if (isMobile) {
+        delete Hammer.defaults.cssProps.userSelect; // keep default behavior
+        var hammer = new Hammer.Manager(block.parentNode);
+        hammer.add(new Hammer.Tap({ event: 'doubletap', taps: 2 }));
+        hammer.on('doubletap', e => {
           window.open(url, 'ce');
-        }
-      };
+        });
+      } else {
+        block.parentNode.onclick = (evt) => {
+          if (evt.ctrlKey || evt.metaKey) {
+            window.open(url, 'ce');
+          }
+        };
+      }
+
       block.textContent = info.displaySource;
       if (highlightOnLoad) {
         highlighPlugin.highlightBlock(block);
