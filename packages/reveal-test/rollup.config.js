@@ -16,7 +16,6 @@ export default {
   external: [
     'compiler-explorer-directives',
     'markdown-it',
-    'fs',
-    'fs/promises'
+    'fs'
   ]
 };

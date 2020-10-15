@@ -3,7 +3,6 @@
 import { parseCode, compile as origCompile, CompileError } from 'compiler-explorer-directives';
 import MarkdownIt from 'markdown-it';
 import { readFileSync, promises } from 'fs';
-import assert from 'assert';
 
 const parseMarkdownImpl = (path, markdown, config) => {
   const md = new MarkdownIt();
