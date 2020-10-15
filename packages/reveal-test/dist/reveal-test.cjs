@@ -5,8 +5,6 @@ Object.defineProperty(exports, '__esModule', { value: true });
 var compilerExplorerDirectives = require('compiler-explorer-directives');
 var MarkdownIt = require('markdown-it');
 var fs = require('fs');
-var promises = require('fs/promises');
-require('assert');
 
 function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
 
@@ -29,7 +27,7 @@ const parseMarkdownImpl = (path, markdown, config) => {
 };
 
 const parseMarkdown = async (path, config = {}) => {
-  const markdown = await promises.readFile(path, 'utf-8');
+  const markdown = await fs.promises.readFile(path, 'utf-8');
   return parseMarkdownImpl(path, markdown, config);
 };
 
