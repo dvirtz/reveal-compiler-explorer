@@ -2,8 +2,7 @@
 
 import { parseCode, compile as origCompile, CompileError } from 'compiler-explorer-directives';
 import MarkdownIt from 'markdown-it';
-import { readFileSync } from 'fs';
-import { readFile } from 'fs/promises';
+import { readFileSync, promises } from 'fs';
 import assert from 'assert';
 
 const parseMarkdownImpl = (path, markdown, config) => {
@@ -23,7 +22,7 @@ const parseMarkdownImpl = (path, markdown, config) => {
 };
 
 const parseMarkdown = async (path, config = {}) => {
-  const markdown = await readFile(path, 'utf-8');
+  const markdown = await promises.readFile(path, 'utf-8');
   return parseMarkdownImpl(path, markdown, config);
 }
 

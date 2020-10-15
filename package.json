@@ -10,7 +10,7 @@
   "license": "MIT",
   "scripts": {
     "build": "lerna run build --stream",
-    "test": "mocha \"packages/**/test/**/*.test.js\"",
+    "test": "mocha",
     "pretest": "yarn build",
     "versionup": "lerna version --no-git-tag-version",
     "versionup:patch": "lerna version patch -y --no-git-tag-version",
