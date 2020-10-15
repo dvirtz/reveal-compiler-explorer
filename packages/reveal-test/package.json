@@ -35,5 +35,8 @@
   },
   "dependencies": {
     "compiler-explorer-directives": "^1.1.0"
+  },
+  "engines": {
+    "node": ">=10.0.0"
   }
 }
