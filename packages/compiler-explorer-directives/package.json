@@ -1,6 +1,6 @@
 {
   "name": "compiler-explorer-directives",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "description": "Utilities for interacting with Compiler Explorer",
   "author": "dvirtz <dvirtz@gmail.com>",
   "homepage": "https://github.com/dvirtz/reveal-compiler-explorer/tree/master/packages/compiler-explorer-directives",
