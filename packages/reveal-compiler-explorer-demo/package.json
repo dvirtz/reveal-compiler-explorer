@@ -11,5 +11,8 @@
   "dependencies": {
     "reveal-compiler-explorer": "^1.2.0",
     "reveal-test": "^1.2.0"
+  },
+  "devDependencies": {
+    "reveal-md": "^4.1.4"
   }
 }

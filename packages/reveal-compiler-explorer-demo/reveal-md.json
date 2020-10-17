@@ -3,8 +3,7 @@
     "separator": "^----\n",
     "scripts": [
         "plugins/reveal-compiler-explorer/dist/reveal-compiler-explorer.js",
-        "scripts/load-plugins.js",
-        "scripts/bypass-bug-2744.js"
+        "scripts/load-plugins.js"
     ],
     "css": [
         "demo.css"

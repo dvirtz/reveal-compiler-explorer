@@ -23,7 +23,7 @@ open, edit & compile code snippets
 
 Ctrl-click* on code to go to compiler explorer
 
-```cpp
+```cpp []
 ///external
 ///execute
 #include <iostream>
