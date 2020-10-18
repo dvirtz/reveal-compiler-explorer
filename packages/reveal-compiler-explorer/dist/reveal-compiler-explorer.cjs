@@ -17207,6 +17207,7 @@ var revealCompilerExplorer = {
     [].slice.call(reveal.getRevealElement().querySelectorAll('pre code')).forEach(function (block) {
       const config = reveal.getConfig().compilerExplorer;
       const lang = block.classList.length > 0 ? block.classList[0].replace('language-', '') : config.language;
+      // highlighting line numbers removes line break so we need to restore them
       const code = block.hasAttribute( 'data-line-numbers' ) && block.classList.contains('hljs')
         ? Array.from(block.querySelectorAll('tr').values()).map(v => v.textContent).join('\n')
         : block.textContent;
