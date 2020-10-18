@@ -4,7 +4,7 @@ import { compile, CompileError } from 'compiler-explorer-directives';
 import assert from 'assert';
 
 describe('compile', function () {
-  this.timeout('10s');
+  this.timeout('60s');
 
   it('compiles valid code', async function () {
     const info = {
