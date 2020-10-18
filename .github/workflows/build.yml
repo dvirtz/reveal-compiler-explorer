@@ -19,6 +19,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
+          # https://github.com/stefanzweifel/git-auto-commit-action#checkout-the-correct-branch
+          ref: ${{ github.head_ref }}
           # pulls all commits (needed for lerna to correctly version)
           # see https://stackoverflow.com/a/60184319/9285308 & https://github.com/actions/checkout
           fetch-depth: "0"
@@ -55,3 +57,10 @@ jobs:
 
       - name: Generate static site
         run: yarn lerna run generate
+
+      - uses: stefanzweifel/git-auto-commit-action@v4
+        if: ${{ matrix.node_version ==  '14.x' }}
+        with:
+          commit_message: Apply build changes
+          file_pattern: 'packages/*/dist/*'
+
