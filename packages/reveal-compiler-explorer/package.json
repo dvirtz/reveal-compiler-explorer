@@ -1,6 +1,6 @@
 {
   "name": "reveal-compiler-explorer",
-  "version": "1.2.2",
+  "version": "1.3.0",
   "description": "A Compiler Explorer plugin for reveal.js",
   "homepage": "https://github.com/dvirtz/reveal-compiler-explorer/tree/master/packages/reveal-compiler-explorer",
   "bugs": {
@@ -31,7 +31,7 @@
     "build": "rollup -c"
   },
   "dependencies": {
-    "compiler-explorer-directives": "^1.2.2",
+    "compiler-explorer-directives": "^1.3.0",
     "hammerjs": "^2.0.8",
     "reveal.js": "^4.1.0"
   }
