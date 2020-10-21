@@ -18,6 +18,7 @@ Ctrl-click (or ⌘-click) on code to go to compiler explorer
 
 ```cpp
 ///external
+///output=Hello CE!
 #include <iostream>
 
 int main() {

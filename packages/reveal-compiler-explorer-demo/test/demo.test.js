@@ -14,7 +14,7 @@ describe("demo presentation", function () {
   const codeInfo = parseMarkdownSync(path, config);
   codeInfo.forEach((info, index) => {
     it(`should have snippet ${index} compiled`, async function () {
-      await assert.doesNotReject(compile(info));
+      await compile(info);
     });
   });
 });
