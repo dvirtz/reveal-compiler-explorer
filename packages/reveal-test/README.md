@@ -19,7 +19,7 @@ describe("demo presentation", function () {
   const codeInfo = parseMarkdownSync('presentation.md');
   codeInfo.forEach((info, index) => {
     it(`should have snippet ${index} compiled`, async function () {
-      await assert.doesNotReject(compile(info));
+      await compile(info);
     });
   });
 });
@@ -76,6 +76,14 @@ Returns output from compiling and running the code (if enabled) on success, othe
 
 In addition to the directives mentioned [here](/packages/compiler-explorer-directives/#Directives), the following directives are supported:
 
-### `///failReason=<reason>`
+### `///fails=<reason>`
 
 When given, [`compile`](#compile) is expected to fail with an error containing the given reason.
+
+Cannot be defined together with [`output`](#`///output=<expected>`).
+
+### `///output=<expected>`
+
+When given, [`compile`](#compile) is expected to return the given output.
+
+Cannot be defined together with [`fails`](#`///fails=<reason>`).

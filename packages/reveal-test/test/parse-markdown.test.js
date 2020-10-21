@@ -4,9 +4,14 @@ import { parseMarkdownSync, compile } from 'reveal-test';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import assert from 'assert';
+import rewire from 'rewire';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
+
+const rewired = rewire(join(__dirname, '../dist/reveal-test.cjs'));
+const parseMarkdownImpl = rewired.__get__('parseMarkdownImpl');
+
 const path = join(__dirname, 'test.md');
 const expected = [{
   source: `#include <iostream>
@@ -27,7 +32,8 @@ int main() {
   libs: [],
   execute: true,
   baseUrl: 'https://godbolt.org/',
-  path: `${path}:19`
+  path: `${path}:19`,
+  expectedOutput: 'Hello CE!'
 }, {
   source: `import cblas;
 
@@ -70,7 +76,7 @@ assert(C == [1, 0,
   }],
   execute: false,
   baseUrl: 'https://godbolt.org/',
-  path: `${path}:48`
+  path: `${path}:49`
 }, {
   source: `#include <iostream>
 
@@ -91,7 +97,7 @@ int main() {
   execute: true,
   failReason: `expected ';' before '}' token`,
   baseUrl: 'https://godbolt.org/',
-  path: `${path}:112`
+  path: `${path}:113`
 }, {
   source: `void foo(short i);
 void foo(int i) = delete;
@@ -111,7 +117,7 @@ foo(42);                        // error, deleted function`,
   options: '-O2 -march=haswell -Wall -Wextra -pedantic -Wno-unused-variable -Wno-unused-parameter',
   libs: [],
   baseUrl: 'https://godbolt.org/',
-  path: `${path}:125`,
+  path: `${path}:126`,
   failReason: 'use of deleted function \'void foo(int)\''
 }, {
   source: `template< class ForwardIt, class T >
@@ -125,7 +131,7 @@ void iota( ForwardIt first, ForwardIt last, T value );
   options: '',
   libs: [],
   baseUrl: 'https://godbolt.org/',
-  path: `${path}:143`,
+  path: `${path}:144`,
   failReason: 'Not Found'
 }
 ];
@@ -141,9 +147,24 @@ describe('parseMarkdown', function () {
       assert.deepStrictEqual(info, expected[index]);
     });
 
-    it(`should compile code block #${index}`, async function() {
+    it(`should compile code block #${index}`, async function () {
       this.timeout(10000);
       await assert.doesNotReject(compile(info));
     });
+  });
+});
+
+describe('parseMarkdownImpl', function () {
+  it('errors on output and failure defined together', function () {
+    const markdown = `
+\`\`\`ada
+///output=expected
+///fails=failed
+function Square(num : Integer) return Integer is
+begin
+    return num**2;
+end Square;
+`
+    assert.throws(() => parseMarkdownImpl(markdown), /cannot have "fails" and "output" together/);
   });
 });

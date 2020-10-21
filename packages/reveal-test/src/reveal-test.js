@@ -4,30 +4,50 @@ import { parseCode, compile as origCompile, CompileError } from 'compiler-explor
 import MarkdownIt from 'markdown-it';
 import { readFileSync, promises } from 'fs';
 
-const parseMarkdownImpl = (path, markdown, config) => {
+const parseMarkdownImpl = (markdown, path, config = {}) => {
   const md = new MarkdownIt();
   const result = md.parse(markdown, {});
   return result
     .filter(({ type, tag }) => type === 'fence' && tag === 'code')
     .map(({ content, info, map }) => {
+      const [location, error] = (() => {
+        if (path) {
+          return [`${path}:${map[0] + 1}`, message => new Error(`${location}:\n${message}`)];
+        }
+        return [undefined, message => new Error(message)];
+      })();
       config = Object.assign(config, {
-        directives:
-          [['fails=(.*)', (matches, info) => matches.slice(1).forEach(match => info.failReason = match)]]
+        directives: [
+          ['fails=(.*)', (matches, info) => matches.slice(1).forEach(match => {
+            if (info.hasOwnProperty('expectedOutput')) {
+              throw error('cannot have "fails" and "output" together');
+            }
+            info.failReason = match;
+          })],
+          ['output=(.*)', (matches, info) => matches.slice(1).forEach(match => {
+            if (info.hasOwnProperty('failReason')) {
+              throw error('cannot have "fails" and "output" together');
+            }
+            info.expectedOutput = matches[1];
+          })]
+        ]
       });
       const parsed = parseCode(content.replace(/<br\/>/g, ''), info.replace(/(\w+).*/, '$1'), config);
-      parsed.path = `${path}:${map[0] + 1}`;
+      if (location) {
+        parsed.path = location;
+      }
       return parsed;
     });
 };
 
 const parseMarkdown = async (path, config = {}) => {
   const markdown = await promises.readFile(path, 'utf-8');
-  return parseMarkdownImpl(path, markdown, config);
+  return parseMarkdownImpl(markdown, path, config);
 }
 
 const parseMarkdownSync = (path, config = {}) => {
   const markdown = readFileSync(path, 'utf-8');
-  return parseMarkdownImpl(path, markdown, config);
+  return parseMarkdownImpl(markdown, path, config);
 }
 
 const compile = async (info, retryOptions = {}) => {
@@ -37,11 +57,12 @@ const compile = async (info, retryOptions = {}) => {
   const failureMismatch = (output) => {
     return new CompileError(-1, error(`should have failed with '${info.failReason}'${output.length > 0 ? `\nactual output is:\n${output}` : ''}`));
   };
+  const resultPromise = origCompile(info, retryOptions)
   if (info.failReason) {
     try {
-      const result = await origCompile(info, retryOptions);
+      const result = await resultPromise;
       throw failureMismatch(result);
-    } catch(err) {
+    } catch (err) {
       if (!err.message.includes(info.failReason)) {
         throw failureMismatch(err.message);
       }
@@ -49,7 +70,13 @@ const compile = async (info, retryOptions = {}) => {
     }
   } else {
     try {
-      return await origCompile(info);
+      if (info.hasOwnProperty('expectedOutput')) {
+        const result = await resultPromise;
+        if (result !== info.expectedOutput) {
+          throw new CompileError(-2, error(`output mismatch:\nactual: ${result}\nexpected: ${info.expectedOutput}`));
+        }
+        return result;
+      }
     } catch (err) {
       const code = err.hasOwnProperty('code') ? err.code : -2;
       throw new CompileError(err.code, error(err.message));

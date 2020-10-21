@@ -25,6 +25,7 @@ Ctrl-click* on code to go to compiler explorer
 
 ```cpp []
 ///external
+///output=Hello CE!
 ///execute
 #include <iostream>
 
