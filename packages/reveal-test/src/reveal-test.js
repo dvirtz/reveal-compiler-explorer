@@ -78,7 +78,7 @@ const compile = async (info, retryOptions = {}) => {
       }
     })();
 
-    if (info.hasOwnProperty('expectedOutput') && !result.match(info.expectedOutput)) {
+    if (info.hasOwnProperty('expectedOutput') && !result.includes(info.expectedOutput)) {
       throw new CompileError(-3, error(`output mismatch:\nactual: ${result}\nexpected: ${info.expectedOutput}`));
     }
 
