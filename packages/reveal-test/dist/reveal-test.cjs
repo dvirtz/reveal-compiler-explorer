@@ -75,18 +75,20 @@ const compile = async (info, retryOptions = {}) => {
       return err.message;
     }
   } else {
-    try {
-      if (info.hasOwnProperty('expectedOutput')) {
-        const result = await resultPromise;
-        if (result !== info.expectedOutput) {
-          throw new compilerExplorerDirectives.CompileError(-2, error(`output mismatch:\nactual: ${result}\nexpected: ${info.expectedOutput}`));
-        }
-        return result;
+    const result = async () => {
+      try {
+        return await resultPromise;
+      } catch (err) {
+        const code = err.hasOwnProperty('code') ? err.code : -2;
+        throw new compilerExplorerDirectives.CompileError(err.code, error(err.message));
       }
-    } catch (err) {
-      const code = err.hasOwnProperty('code') ? err.code : -2;
-      throw new compilerExplorerDirectives.CompileError(err.code, error(err.message));
+    };
+
+    if (info.hasOwnProperty('expectedOutput') && !result.match(info.expectedOutput)) {
+      throw new compilerExplorerDirectives.CompileError(-3, error(`output mismatch:\nactual: ${result}\nexpected: ${info.expectedOutput}`));
     }
+
+    return result;
   }
 };
 
