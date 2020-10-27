@@ -75,14 +75,14 @@ const compile = async (info, retryOptions = {}) => {
       return err.message;
     }
   } else {
-    const result = async () => {
+    const result = await (async () => {
       try {
         return await resultPromise;
       } catch (err) {
         const code = err.hasOwnProperty('code') ? err.code : -2;
         throw new compilerExplorerDirectives.CompileError(err.code, error(err.message));
       }
-    };
+    })();
 
     if (info.hasOwnProperty('expectedOutput') && !result.match(info.expectedOutput)) {
       throw new compilerExplorerDirectives.CompileError(-3, error(`output mismatch:\nactual: ${result}\nexpected: ${info.expectedOutput}`));
