@@ -146,3 +146,16 @@ foo(42);                        // error, deleted function
 template< class ForwardIt, class T >
 void iota( ForwardIt first, ForwardIt last, T value );
 ```
+
+---
+
+## test multiline output
+
+```cpp
+///output=Hello\nCE!
+#include <iostream>
+
+int main() {
+  std::cout << "Hello\nCE!";
+}
+```

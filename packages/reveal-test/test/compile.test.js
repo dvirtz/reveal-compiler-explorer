@@ -50,4 +50,24 @@ World
 expected: Hello You`
     });
   });
+
+  it('succeeds on matching multiline output', async function() {
+    const info = {
+      source: `#include <iostream>
+
+int main() {
+  std::cout << "Hello\\n" << "World\\n";
+}
+`,
+      language: 'c++',
+      compiler: 'g102',
+      options: '-O2 -march=haswell -Wall -Wextra -pedantic -Wno-unused-variable -Wno-unused-parameter',
+      libs: [],
+      execute: true,
+      baseUrl: 'https://godbolt.org/',
+      path: `demo.md:19`,
+      expectedOutput: 'Hello\nWorld'
+    };
+    await compile(info);
+  });
 });
