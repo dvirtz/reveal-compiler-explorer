@@ -133,13 +133,34 @@ void iota( ForwardIt first, ForwardIt last, T value );
   baseUrl: 'https://godbolt.org/',
   path: `${path}:144`,
   failReason: 'Not Found'
+}, {
+  source: `#include <iostream>
+
+int main() {
+  std::cout << "Hello\\nCE!";
+}
+`,
+  displaySource: `#include <iostream>
+
+int main() {
+  std::cout << "Hello\\nCE!";
+}
+`,
+  language: 'c++',
+  compiler: 'g102',
+  options: '-O2 -march=haswell -Wall -Wextra -pedantic -Wno-unused-variable -Wno-unused-parameter',
+  libs: [],
+  execute: true,
+  baseUrl: 'https://godbolt.org/',
+  path: `${path}:154`,
+  expectedOutput: 'Hello\nCE!'
 }
 ];
 
 describe('parseMarkdown', function () {
   const codeInfos = parseMarkdownSync(path);
   it('should parse all blocks', function () {
-    assert.strictEqual(codeInfos.length, 5);
+    assert.strictEqual(codeInfos.length, 6);
   });
 
   codeInfos.forEach((info, index) => {
