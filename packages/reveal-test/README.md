@@ -78,12 +78,35 @@ In addition to the directives mentioned [here](/packages/compiler-explorer-direc
 
 ### `///fails=<reason>`
 
-When given, [`compile`](#compile) is expected to fail with an error containing the given reason.
+When given, [`compile`](#compile) will fail if compiling and running the code (if enabled) succeeds, or if the error message doesn't include the given reason.
 
 Cannot be defined together with [`output`](#`///output=<expected>`).
 
+Usage example:
+
+```cpp
+///fails=expected ';' before '}' token
+#include <iostream>
+
+int main() {
+  std::cout << "Hello CE!"
+}
+```
+
 ### `///output=<expected>`
 
-When given, [`compile`](#compile) is expected to return the given output.
+When given, [`compile`](#compile) will fail if the snippet's output doesn't include the given output.
 
 Cannot be defined together with [`fails`](#`///fails=<reason>`).
+
+Usage example:
+
+```cpp
+///external
+///output=Hello CE!
+#include <iostream>
+
+int main() {
+  std::cout << "Hello CE!";
+}
+```
