@@ -1,6 +1,6 @@
 # `reveal-test`
 
-[![npm version](https://badge.fury.io/js/reveal-test.svg)](https://badge.fury.io/js/reveal-test) 
+[![npm version](https://badge.fury.io/js/reveal-test.svg) ![npm](https://img.shields.io/npm/dt/reveal-test)](https://www.npmjs.com/package/reveal-test) 
 [![publish](https://github.com/dvirtz/reveal-compiler-explorer/workflows/publish/badge.svg)](https://github.com/dvirtz/reveal-compiler-explorer/actions?query=workflow%3Apublish)
 
 Utilities for testing presentation code snippets by compiling them on [Compiler Explorer](https://godbolt.org).

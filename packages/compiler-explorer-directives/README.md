@@ -1,6 +1,6 @@
 # compiler-explorer-directives
 
-[![npm version](https://badge.fury.io/js/compiler-explorer-directives.svg)](https://badge.fury.io/js/compiler-explorer-directives) 
+[![npm version](https://badge.fury.io/js/compiler-explorer-directives.svg) ![npm](https://img.shields.io/npm/dt/compiler-explorer-directives)](https://www.npmjs.com/package/compiler-explorer-directives) 
 [![publish](https://github.com/dvirtz/reveal-compiler-explorer/workflows/publish/badge.svg)](https://github.com/dvirtz/reveal-compiler-explorer/actions?query=workflow%3Apublish)
 
 Interact with [Compiler Explorer](https://godbolt.org) links using inline code directives.
