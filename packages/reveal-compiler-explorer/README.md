@@ -1,6 +1,6 @@
 # reveal-compiler-explorer
 
-[![npm version](https://badge.fury.io/js/reveal-compiler-explorer.svg)](https://badge.fury.io/js/reveal-compiler-explorer) 
+[![npm version](https://badge.fury.io/js/reveal-compiler-explorer.svg) ![npm](https://img.shields.io/npm/dt/reveal-compiler-explorer)](https://www.npmjs.com/package/reveal-compiler-explorer) 
 [![publish](https://github.com/dvirtz/reveal-compiler-explorer/workflows/publish/badge.svg)](https://github.com/dvirtz/reveal-compiler-explorer/actions?query=workflow%3Apublish)
 
 A [Reveal.js](https://revealjs.com/) plugin for opening code snippets in [Compiler Explorer](https://godbolt.org) by clicking on them.
