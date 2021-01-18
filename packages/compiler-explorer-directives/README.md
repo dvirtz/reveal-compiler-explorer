@@ -80,6 +80,10 @@ Use libraries in snippet.
 
 Run the compiled output.
 
+### `///noexecute`
+
+Disable execution in case [`runMain`](#runMain) is set, this snippet contains a `main` function but execution is not wanted.
+
 ### `///external`
 
 Always open on `godbolt.com` even if [`useLocal`](#useLocal) is set.
