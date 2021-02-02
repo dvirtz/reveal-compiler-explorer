@@ -152,10 +152,10 @@ void iota( ForwardIt first, ForwardIt last, T value );
 ## test multiline output
 
 ```cpp
-///output=Hello\nCE!
+///output=Hello\nCE\n!
 #include <iostream>
 
 int main() {
-  std::cout << "Hello\nCE!";
+  std::cout << "Hello\nCE\n!";
 }
 ```
