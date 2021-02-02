@@ -1,6 +1,6 @@
 {
   "name": "reveal-test",
-  "version": "1.3.3",
+  "version": "1.3.4",
   "description": "Utilities for testing with compiler explorer",
   "author": "dvirtz <dvirtz@gmail.com>",
   "homepage": "https://github.com/dvirtz/reveal-compiler-explorer/tree/master/packages/reveal-test",
@@ -36,7 +36,7 @@
     "url": "https://github.com/dvirtz/reveal-compiler-explorer/issues"
   },
   "dependencies": {
-    "compiler-explorer-directives": "^1.3.3"
+    "compiler-explorer-directives": "^1.3.4"
   },
   "engines": {
     "node": ">=10.0.0"
