@@ -137,13 +137,13 @@ void iota( ForwardIt first, ForwardIt last, T value );
   source: `#include <iostream>
 
 int main() {
-  std::cout << "Hello\\nCE!";
+  std::cout << "Hello\\nCE\\n!";
 }
 `,
   displaySource: `#include <iostream>
 
 int main() {
-  std::cout << "Hello\\nCE!";
+  std::cout << "Hello\\nCE\\n!";
 }
 `,
   language: 'c++',
@@ -153,7 +153,7 @@ int main() {
   execute: true,
   baseUrl: 'https://godbolt.org/',
   path: `${path}:154`,
-  expectedOutput: 'Hello\nCE!'
+  expectedOutput: 'Hello\nCE\n!'
 }
 ];
 

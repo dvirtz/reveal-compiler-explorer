@@ -28,7 +28,7 @@ const parseMarkdownImpl = (markdown, path, config = {}) => {
             if (info.hasOwnProperty('failReason')) {
               throw error('cannot have "fails" and "output" together');
             }
-            info.expectedOutput = matches[1].replace('\\n', '\n');
+            info.expectedOutput = matches[1].replace(/\\n/g, '\n');
           })]
         ]
       });
