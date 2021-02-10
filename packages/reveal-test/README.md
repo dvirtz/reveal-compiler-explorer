@@ -10,13 +10,14 @@ Check out also [reveal-compiler-explorer](/packages/reveal-compiler-explorer) pa
 ## Example
 
 ```js
-import { parseMarkdownSync, compile, CompileError } from 'reveal-test';
+import { parseMarkdown, compile, CompileError } from 'reveal-test';
 import assert from 'assert';
+
+const codeInfos = await parseMarkdown('presentation.md');
 
 describe("demo presentation", function () {
   this.timeout('10s');
 
-  const codeInfo = parseMarkdownSync('presentation.md');
   codeInfo.forEach((info, index) => {
     it(`should have snippet ${index} compiled`, async function () {
       await compile(info);
@@ -51,14 +52,6 @@ parseMarkdown(path: String, config: Config = {}) => Promise<Array<SnippetInfo>>
 ```
 
 Asynchronously generates a list of all code snippets from a given markdown file. For possible `config` fields, see [here](#configuration).
-
-### parseMarkdownSync
-
-```js
-parseMarkdownSync(path: String, config: Config = {}) => Array<SnippetInfo>
-```
-
-Synchronously generates a list of all code snippets from a given markdown file. For possible `config` fields, see [here](/packages/compiler-explorer-directives/#Configuration).
 
 ### compile
 

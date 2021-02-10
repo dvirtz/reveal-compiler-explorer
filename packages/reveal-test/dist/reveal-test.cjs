@@ -10,50 +10,50 @@ function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'defau
 
 var MarkdownIt__default = /*#__PURE__*/_interopDefaultLegacy(MarkdownIt);
 
-const parseMarkdownImpl = (markdown, path, config = {}) => {
+const parseMarkdownImpl = async (markdown, path, config = {}) => {
   const md = new MarkdownIt__default['default']();
   const result = md.parse(markdown, {});
-  return result
-    .filter(({ type, tag }) => type === 'fence' && tag === 'code')
-    .map(({ content, info, map }) => {
-      const [location, error] = (() => {
-        if (path) {
-          return [`${path}:${map[0] + 1}`, message => new Error(`${location}:\n${message}`)];
+  return []
+    .concat
+    .apply([], await Promise.all(result
+      .filter(({ type, tag }) => type === 'fence' && tag === 'code')
+      .flatMap(async ({ content, info, map }) => {
+        const [location, error] = (() => {
+          if (path) {
+            return [`${path}:${map[0] + 1}`, message => new Error(`${location}:\n${message}`)];
+          }
+          return [undefined, message => new Error(message)];
+        })();
+        config = Object.assign(config, {
+          directives: [
+            ['fails=(.*)', (matches, info) => matches.slice(1).forEach(match => {
+              if (info.hasOwnProperty('expectedOutput')) {
+                throw error('cannot have "fails" and "output" together');
+              }
+              info.failReason = match;
+            })],
+            ['output=(.*)', (matches, info) => matches.slice(1).forEach(match => {
+              if (info.hasOwnProperty('failReason')) {
+                throw error('cannot have "fails" and "output" together');
+              }
+              info.expectedOutput = matches[1].replace(/\\n/g, '\n');
+            })]
+          ]
+        });
+        const parsed = await compilerExplorerDirectives.parseCode(content.replace(/<br\/>/g, ''), info.replace(/(\w+).*/, '$1'), config);
+        if (!parsed) {
+          return []
         }
-        return [undefined, message => new Error(message)];
-      })();
-      config = Object.assign(config, {
-        directives: [
-          ['fails=(.*)', (matches, info) => matches.slice(1).forEach(match => {
-            if (info.hasOwnProperty('expectedOutput')) {
-              throw error('cannot have "fails" and "output" together');
-            }
-            info.failReason = match;
-          })],
-          ['output=(.*)', (matches, info) => matches.slice(1).forEach(match => {
-            if (info.hasOwnProperty('failReason')) {
-              throw error('cannot have "fails" and "output" together');
-            }
-            info.expectedOutput = matches[1].replace(/\\n/g, '\n');
-          })]
-        ]
-      });
-      const parsed = compilerExplorerDirectives.parseCode(content.replace(/<br\/>/g, ''), info.replace(/(\w+).*/, '$1'), config);
-      if (location) {
-        parsed.path = location;
-      }
-      return parsed;
-    });
+        if (parsed && location) {
+          parsed.path = location;
+        }
+        return [parsed];
+      })));
 };
 
 const parseMarkdown = async (path, config = {}) => {
   const markdown = await fs.promises.readFile(path, 'utf-8');
-  return parseMarkdownImpl(markdown, path, config);
-};
-
-const parseMarkdownSync = (path, config = {}) => {
-  const markdown = fs.readFileSync(path, 'utf-8');
-  return parseMarkdownImpl(markdown, path, config);
+  return await parseMarkdownImpl(markdown, path, config);
 };
 
 const compile = async (info, retryOptions = {}) => {
@@ -100,4 +100,3 @@ Object.defineProperty(exports, 'CompileError', {
 });
 exports.compile = compile;
 exports.parseMarkdown = parseMarkdown;
-exports.parseMarkdownSync = parseMarkdownSync;

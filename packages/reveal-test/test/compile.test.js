@@ -17,7 +17,7 @@ int main() {
       options: '-O2 -march=haswell -Wall -Wextra -pedantic -Wno-unused-variable -Wno-unused-parameter',
       libs: [],
       execute: true,
-      baseUrl: 'https://godbolt.org/',
+      baseUrl: 'https://godbolt.org',
       path: `demo.md:19`,
       expectedOutput: 'Hello'
     };
@@ -37,7 +37,7 @@ int main() {
       options: '-O2 -march=haswell -Wall -Wextra -pedantic -Wno-unused-variable -Wno-unused-parameter',
       libs: [],
       execute: true,
-      baseUrl: 'https://godbolt.org/',
+      baseUrl: 'https://godbolt.org',
       path: `demo:19`,
       expectedOutput: 'Hello You'
     };
@@ -64,7 +64,7 @@ int main() {
       options: '-O2 -march=haswell -Wall -Wextra -pedantic -Wno-unused-variable -Wno-unused-parameter',
       libs: [],
       execute: true,
-      baseUrl: 'https://godbolt.org/',
+      baseUrl: 'https://godbolt.org',
       path: `demo.md:19`,
       expectedOutput: 'Hello\nWorld'
     };
