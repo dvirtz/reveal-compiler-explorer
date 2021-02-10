@@ -159,3 +159,33 @@ int main() {
   std::cout << "Hello\nCE\n!";
 }
 ```
+
+---
+
+## test unsupported language
+
+
+```json
+///fails=expected unqualified-id before '{' token
+{
+  "firstName": "John",
+  "lastName": "Smith",
+  "isAlive": true,
+  "age": 27,
+  "address": {
+    "streetAddress": "21 2nd Street",
+    "city": "New York"
+  },
+  "phoneNumbers": [
+    {
+      "type": "home",
+      "number": "212 555-1234"
+    },
+    {
+      "type": "office",
+      "number": "646 555-4567"
+    }
+  ],
+  "spouse": null
+}
+```
