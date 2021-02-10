@@ -18,6 +18,7 @@ export default {
   external: [
     'bent',
     'promise-retry',
-    'ansi-colors'
+    'ansi-colors',
+    'debug'
   ]
 };

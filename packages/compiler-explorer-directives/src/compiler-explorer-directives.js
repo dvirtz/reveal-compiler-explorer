@@ -3,7 +3,10 @@
 import bent from 'bent';
 import promiseRetry from 'promise-retry';
 import ansi_colors from 'ansi-colors';
+import debug from 'debug';
 const { unstyle } = ansi_colors;
+
+const log = debug('reveal-compiler-explorer:compiler-explorer-directives');
 
 // https://github.com/highlightjs/highlight.js/blob/master/SUPPORTED_LANGUAGES.md
 const langAliases = {
@@ -28,18 +31,20 @@ const langConfig = (() => {
   let langConfig;
   return async function () {
     if (!langConfig) {
-  const predefined = new Map([
-    ['c++', {
-      options: '-O2 -march=haswell -Wall -Wextra -pedantic -Wno-unused-variable -Wno-unused-parameter',
-      mainRegex: /\bmain\(/
-    }],
-    ['d', {
-      mainRegex: /\bmain\(/
-    }]
-  ]);
+      const predefined = new Map([
+        ['c++', {
+          options: '-O2 -march=haswell -Wall -Wextra -pedantic -Wno-unused-variable -Wno-unused-parameter',
+          mainRegex: /\bmain\(/
+        }],
+        ['d', {
+          mainRegex: /\bmain\(/
+        }]
+      ]);
+      log(`reading languages from ${GODBOLT_URL}`);
       const languages = await get('/languages?fields=id,defaultCompiler');
       langConfig = new Map(languages
-    .map(({ id, defaultCompiler }) => [id, Object.assign({ 'compiler': defaultCompiler }, predefined.get(id))]));
+        .map(({ id, defaultCompiler }) => [id, Object.assign({ 'compiler': defaultCompiler }, predefined.get(id))]));
+      log('default language configuration is %o', langConfig);
     }
     return langConfig;
   };
@@ -74,6 +79,7 @@ const builtinDirectives = [
 ];
 
 const parseCode = async (code, language, config) => {
+  log('parsing %o, language %s, config %o', code, language, config);
   language = langAliases[language] || language;
   const lg = await langConfig();
   if (!lg.has(language)) {
@@ -122,6 +128,7 @@ const parseCode = async (code, language, config) => {
   delete info.hide;
   delete info.forceExternal;
 
+  log('parse result %o', info);
   return info;
 };
 
@@ -190,6 +197,7 @@ class CompileError extends Error {
 }
 
 const compile = async (info, retryOptions = {}) => {
+  log('compiling %o', info);
   const data = {
     source: info.source,
     options: {
@@ -210,13 +218,17 @@ const compile = async (info, retryOptions = {}) => {
       return await post(`/compiler/${info.compiler}/compile`, data);
     }
     catch (err) {
+      log('compile error %o', err);
       if (Math.trunc(err.statusCode / 100) === 5) {
+        log('retrying');
         retry(err);
       }
 
       throw err;
     }
   });
+
+  log('response is %o', response);
 
   const text = (stream) => unstyle(stream.stderr.concat(stream.stdout).map(x => x.text).join('\n'));
 
