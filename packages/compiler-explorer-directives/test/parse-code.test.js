@@ -22,7 +22,7 @@ String.prototype.stripMargin = function () {
 };
 
 describe('parseCode', function () {
-  it('parses code directives', function () {
+  it('parses code directives', async function () {
     const code = `///hide
 ///compiler=g83
 ///options=-Wall
@@ -36,7 +36,7 @@ describe('parseCode', function () {
 int main() {
   std::cout << "Hello Test\\n"
 }`;
-    const info = parseCode(code, 'cpp');
+    const info = await parseCode(code, 'cpp');
     assert.deepStrictEqual(info, {
       source: `#include <iostream>
 
@@ -59,11 +59,11 @@ int main() {
       }
       ],
       execute: true,
-      baseUrl: 'https://godbolt.org/'
+      baseUrl: 'https://godbolt.org'
     });
   });
 
-  it("respects config", function () {
+  it("respects config", async function () {
     const code = `///hide
 ///options+=-Werror
 ///execute
@@ -73,7 +73,7 @@ int main() {
 int main() {
   std::cout << "Hello Test\\n";
 }`;
-    const info = parseCode(code, 'cpp', {
+    const info = await parseCode(code, 'cpp', {
       compiler: 'clang800', options: '-O0', executeMain: false, useLocal: true, localPort: 1234, libs: [{
         name: 'fmt',
         version: '410'
@@ -96,7 +96,7 @@ int main() {
         name: 'fmt',
         version: '410'
       }],
-      baseUrl: 'http://localhost:1234/'
+      baseUrl: 'http://localhost:1234'
     });
   });
 });
