@@ -17,6 +17,9 @@ export default {
         ? Array.from(block.querySelectorAll('tr').values()).map(v => v.textContent).join('\n')
         : block.textContent;
       const info = parseCode(code, lang, config);
+      if (!info) {
+        return;
+      }
       const url = displayUrl(info);
 
       if (isMobile) {

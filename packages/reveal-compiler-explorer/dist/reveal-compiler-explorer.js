@@ -17232,6 +17232,9 @@ var RevealCompilerExplorer = (function () {
 	        ? Array.from(block.querySelectorAll('tr').values()).map(v => v.textContent).join('\n')
 	        : block.textContent;
 	      const info = compilerExplorerDirectives.parseCode(code, lang, config);
+	      if (!info) {
+	        return;
+	      }
 	      const url = compilerExplorerDirectives.displayUrl(info);
 
 	      if (isMobile) {
