@@ -17,7 +17,7 @@ int main() {
       compiler: 'g83',
       options: '-Wall -Werror',
       execute: true,
-      baseUrl: 'https://godbolt.org/'
+      baseUrl: 'https://godbolt.org'
     };
     const result = await compile(info);
     assert.strictEqual(result, 'Hello Test\nGoodbye');
@@ -33,7 +33,7 @@ int main() {
       language: 'cpp',
       compiler: 'g83',
       options: '-Wall -Werror',
-      baseUrl: 'https://godbolt.org/',
+      baseUrl: 'https://godbolt.org',
     };
     await assert.rejects(compile(info), {
       name: 'CompileError',
@@ -54,7 +54,7 @@ int main() {
       compiler: 'g83',
       options: '-Wall -Werror',
       execute: true,
-      baseUrl: 'https://godbolt.org/'
+      baseUrl: 'https://godbolt.org'
     };
     await assert.rejects(compile(info), (err) => {
       assert(err instanceof CompileError);
@@ -77,13 +77,13 @@ int main() {
       compiler: 'g83',
       options: '-Wall -Werror',
       execute: true,
-      baseUrl: 'https://godbolt.org/'
+      baseUrl: 'https://godbolt.org'
     };
     const result = await compile(info);
     assert.strictEqual(result, 'World\nHello');
   });
 
-  it('sets expected failure', async function() {
+  it('sets expected failure', async function () {
     const info = {
       source: `#include <iostream>
 
@@ -93,7 +93,7 @@ int main() {
       language: 'cpp',
       compiler: 'g83',
       options: '-Wall -Werror',
-      baseUrl: 'https://godbolt.org/'
+      baseUrl: 'https://godbolt.org'
     };
     await assert.rejects(compile(info), (err) => {
       assert(err instanceof CompileError);
@@ -103,13 +103,13 @@ int main() {
     });
   });
 
-  it('fails with msvc', async function(){
+  it('fails with msvc', async function () {
     const info = {
       source: `int foo() {}`,
       language: 'cpp',
       compiler: 'vcpp_v19_24_x64',
       options: '/O2',
-      baseUrl: 'https://godbolt.org/'
+      baseUrl: 'https://godbolt.org'
     };
     await assert.rejects(compile(info), (err) => {
       assert(err instanceof CompileError);

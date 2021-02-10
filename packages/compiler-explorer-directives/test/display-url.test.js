@@ -25,7 +25,7 @@ int main() {
       }
       ],
       execute: true,
-      baseUrl: 'https://godbolt.org/'
+      baseUrl: 'https://godbolt.org'
     };
     const urlRe = /^https:\/\/godbolt.org\/#(.*)/;
     const url = displayUrl(info);

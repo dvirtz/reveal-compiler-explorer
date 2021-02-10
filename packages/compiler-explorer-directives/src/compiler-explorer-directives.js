@@ -20,17 +20,30 @@ const langAliases = {
   'rs': 'rust'
 };
 
-const langConfig = {
-  'c++': {
-    compiler: 'g102',
-    options: '-O2 -march=haswell -Wall -Wextra -pedantic -Wno-unused-variable -Wno-unused-parameter',
-    mainRegex: /\bmain\(/
-  },
-  'd': {
-    compiler: 'ldc1_23',
-    mainRegex: /\bmain\(/
-  }
-}
+const GODBOLT_URL = 'https://godbolt.org';
+const get = bent(`${GODBOLT_URL}/api`, 'GET', 'json');
+const post = bent(`${GODBOLT_URL}/api`, 'POST', 'json');
+
+const langConfig = (() => {
+  let langConfig;
+  return async function () {
+    if (!langConfig) {
+  const predefined = new Map([
+    ['c++', {
+      options: '-O2 -march=haswell -Wall -Wextra -pedantic -Wno-unused-variable -Wno-unused-parameter',
+      mainRegex: /\bmain\(/
+    }],
+    ['d', {
+      mainRegex: /\bmain\(/
+    }]
+  ]);
+      const languages = await get('/languages?fields=id,defaultCompiler');
+      langConfig = new Map(languages
+    .map(({ id, defaultCompiler }) => [id, Object.assign({ 'compiler': defaultCompiler }, predefined.get(id))]));
+    }
+    return langConfig;
+  };
+})();
 
 const defaultConfig = {
   runMain: true,
@@ -60,9 +73,15 @@ const builtinDirectives = [
   ['(un)?hide', (matches, info) => matches.slice(1).forEach(match => info.hide = !match)],
 ];
 
-const parseCode = (code, language, config) => {
+const parseCode = async (code, language, config) => {
   language = langAliases[language] || language;
-  config = Object.assign({}, defaultConfig, langConfig[language], config);
+  const lg = await langConfig();
+  if (!lg.has(language)) {
+    log('language %s is not supported', language);
+    return null;
+  }
+
+  config = Object.assign({}, defaultConfig, lg.get(language), config);
   const directives = builtinDirectives.concat(config.directives)
     .map(([regex, action]) => [directive(regex), action]);
   const lines = unescape(code).split('\n');
@@ -84,9 +103,9 @@ const parseCode = (code, language, config) => {
       directives.forEach(([regex, action]) => action(matches(line, regex), info))
     } else {
       if (config.runMain
-          && config.mainRegex
-          && line.match(config.mainRegex)
-          && !info.hasOwnProperty('execute')) {
+        && config.mainRegex
+        && line.match(config.mainRegex)
+        && !info.hasOwnProperty('execute')) {
         info.execute = true;
       }
       info.source.push(line);
@@ -96,8 +115,8 @@ const parseCode = (code, language, config) => {
   }
 
   info.baseUrl = (config.useLocal && !info.forceExternal)
-    ? `http://localhost:${config.localPort}/`
-    : 'https://godbolt.org/';
+    ? `http://localhost:${config.localPort}`
+    : GODBOLT_URL;
   info.source = info.source.join('\n');
   info.displaySource = info.displaySource.join('\n');
   delete info.hide;
@@ -159,7 +178,7 @@ const displayUrl = (info) => {
 
   let ceFragment = encodeURIComponent(JSON.stringify(obj));
 
-  return `${info.baseUrl}#${ceFragment}`;
+  return `${info.baseUrl}/#${ceFragment}`;
 };
 
 class CompileError extends Error {
@@ -186,10 +205,9 @@ const compile = async (info, retryOptions = {}) => {
       })
     }
   };
-  const post = bent(info.baseUrl, 'POST', 'json');
   const response = await promiseRetry(retryOptions, async (retry) => {
     try {
-      return post(`api/compiler/${info.compiler}/compile`, data);
+      return await post(`/compiler/${info.compiler}/compile`, data);
     }
     catch (err) {
       if (Math.trunc(err.statusCode / 100) === 5) {

@@ -8,6 +8,7 @@ export default {
     {
       file: 'dist/compiler-explorer-directives.cjs',
       format: 'cjs',
+      sourcemap: true
     }
   ],
   plugins: [
