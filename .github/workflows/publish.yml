@@ -54,7 +54,7 @@ jobs:
         run: yarn --frozen-lockfile
 
       - name: Bootstrap
-        run: yarn lerna bootstrap
+        run: yarn lerna bootstrap && yarn lerna link
 
       - name: Test
         run: yarn test
