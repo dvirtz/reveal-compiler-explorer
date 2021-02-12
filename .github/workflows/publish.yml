@@ -1,11 +1,9 @@
 name: publish
 
 on:
-  # When Pull Request is merged
-  pull_request:
+  push:
     branches:
       - master
-    types: [closed]
 
 jobs:
   publish:
