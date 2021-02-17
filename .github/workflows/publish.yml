@@ -59,7 +59,8 @@ jobs:
 
       - name: Publish
         run: |
-          yarn lerna publish from-package --conventional-commits --create-release github --yes
+          yarn lerna version -y --conventional-commit --create-release github
+          yarn lerna publish -y from-package
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
