@@ -1,7 +1,8 @@
 import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
-import nodePolyfills from 'rollup-plugin-node-polyfills';
 import del from 'rollup-plugin-delete';
+import nodePolyfills from 'rollup-plugin-node-polyfills';
+import globals from 'rollup-plugin-node-globals';
 
 export default {
   input: 'src/reveal-compiler-explorer.js',
@@ -9,6 +10,7 @@ export default {
     {
       file: 'dist/reveal-compiler-explorer.cjs',
       format: 'cjs',
+      sourcemap: true,
       exports: 'default'
     },
     {
@@ -21,15 +23,18 @@ export default {
     {
       file: 'dist/reveal-compiler-explorer.mjs',
       format: 'es',
+      sourcemap: true,
       exports: 'default'
     }
   ],
   plugins: [
-    resolve({ preferBuiltins: true }),
     commonjs(),
-    nodePolyfills({
-      include: 'process'
+    nodePolyfills(),
+    resolve({
+      preferBuiltins: true,
+      browser: true
     }),
+    globals(),
     del({ targets: 'dist/*' })
   ]
 };

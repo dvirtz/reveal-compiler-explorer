@@ -34,7 +34,7 @@ const langAliases = {
 };
 
 const GODBOLT_URL = 'https://godbolt.org';
-const get = bent__default['default'](`${GODBOLT_URL}/api`, 'GET', 'json');
+const get = bent__default['default'](`${GODBOLT_URL}/api`, 'GET', 'json', { 'Accept': 'application/json' });
 const post = bent__default['default'](`${GODBOLT_URL}/api`, 'POST', 'json');
 
 const langConfig = (() => {

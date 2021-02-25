@@ -7,6 +7,7 @@ export default {
     {
       file: 'dist/reveal-test.cjs',
       format: 'cjs',
+      sourcemap: true
     }
   ],
   plugins: [

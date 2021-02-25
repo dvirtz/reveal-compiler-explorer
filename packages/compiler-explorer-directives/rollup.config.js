@@ -1,4 +1,3 @@
-import json from '@rollup/plugin-json';
 import del from 'rollup-plugin-delete';
 
 
@@ -12,7 +11,6 @@ export default {
     }
   ],
   plugins: [
-    json(),
     del({ targets: 'dist/*' })
   ],
   external: [
