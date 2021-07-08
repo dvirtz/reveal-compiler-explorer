@@ -1710,6 +1710,10 @@ var RevealCompilerExplorer = (function () {
 	          options: '-O2 -march=haswell -Wall -Wextra -pedantic -Wno-unused-variable -Wno-unused-parameter',
 	          mainRegex: /\bmain\(/
 	        }],
+	        ['c', {
+	          options: '-O2 -march=haswell -Wall -Wextra -pedantic -Wno-unused-variable -Wno-unused-parameter',
+	          mainRegex: /\bmain\(/
+	        }],
 	        ['d', {
 	          mainRegex: /\bmain\(/
 	        }]
