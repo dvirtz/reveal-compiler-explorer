@@ -142,7 +142,7 @@ int main() {
 ];
 
 const codeInfos = await (async () => {
-  const config = { runMain: true };
+  const config = { compiler: 'g102', runMain: true };
   return await parseMarkdown(path, config);
 })();
 
