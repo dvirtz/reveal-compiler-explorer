@@ -1,6 +1,6 @@
 {
   "name": "reveal-compiler-explorer-demo",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "license": "MIT",
   "type": "module",
   "private": true,
@@ -9,8 +9,8 @@
     "generate": "reveal-md demo.md --static"
   },
   "dependencies": {
-    "reveal-compiler-explorer": "^1.4.1",
-    "reveal-test": "^2.0.1"
+    "reveal-compiler-explorer": "^1.5.0",
+    "reveal-test": "^2.0.2"
   },
   "devDependencies": {
     "reveal-md": "^4.1.4"

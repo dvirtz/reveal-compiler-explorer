@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.2](https://github.com/dvirtz/reveal-compiler-explorer/compare/reveal-test@2.0.1...reveal-test@2.0.2) (2021-08-08)
+
+
+### Bug Fixes
+
+* calling async function without await ([fb9285f](https://github.com/dvirtz/reveal-compiler-explorer/commit/fb9285fae6fd1817b8d1da3b61da6497f3165ece))
+
+
+
+
+
 ## [2.0.1](https://github.com/dvirtz/reveal-compiler-explorer/compare/reveal-test@2.0.0...reveal-test@2.0.1) (2021-02-25)
 
 **Note:** Version bump only for package reveal-test
