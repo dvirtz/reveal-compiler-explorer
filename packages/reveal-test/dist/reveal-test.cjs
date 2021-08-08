@@ -63,10 +63,9 @@ const compile = async (info, retryOptions = {}) => {
   const failureMismatch = (output) => {
     return new compilerExplorerDirectives.CompileError(-1, error(`should have failed with '${info.failReason}'${output.length > 0 ? `\nactual output is:\n${output}` : ''}`));
   };
-  const resultPromise = compilerExplorerDirectives.compile(info, retryOptions);
   if (info.failReason) {
     try {
-      const result = await resultPromise;
+      const result = await compilerExplorerDirectives.compile(info, retryOptions);
       throw failureMismatch(result);
     } catch (err) {
       if (!err.message.includes(info.failReason)) {
@@ -77,7 +76,7 @@ const compile = async (info, retryOptions = {}) => {
   } else {
     const result = await (async () => {
       try {
-        return await resultPromise;
+        return await compilerExplorerDirectives.compile(info, retryOptions);
       } catch (err) {
         const code = err.hasOwnProperty('code') ? err.code : -2;
         throw new compilerExplorerDirectives.CompileError(err.code, error(err.message));
