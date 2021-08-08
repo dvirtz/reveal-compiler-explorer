@@ -57,10 +57,9 @@ const compile = async (info, retryOptions = {}) => {
   const failureMismatch = (output) => {
     return new CompileError(-1, error(`should have failed with '${info.failReason}'${output.length > 0 ? `\nactual output is:\n${output}` : ''}`));
   };
-  const resultPromise = origCompile(info, retryOptions)
   if (info.failReason) {
     try {
-      const result = await resultPromise;
+      const result = await origCompile(info, retryOptions);
       throw failureMismatch(result);
     } catch (err) {
       if (!err.message.includes(info.failReason)) {
@@ -71,7 +70,7 @@ const compile = async (info, retryOptions = {}) => {
   } else {
     const result = await (async () => {
       try {
-        return await resultPromise;
+        return await origCompile(info, retryOptions);
       } catch (err) {
         const code = err.hasOwnProperty('code') ? err.code : -2;
         throw new CompileError(err.code, error(err.message));
