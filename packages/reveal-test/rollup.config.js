@@ -17,6 +17,8 @@ export default {
   external: [
     'compiler-explorer-directives',
     'markdown-it',
-    'fs'
+    'fs',
+    'cheerio',
+    'dedent',
   ]
 };

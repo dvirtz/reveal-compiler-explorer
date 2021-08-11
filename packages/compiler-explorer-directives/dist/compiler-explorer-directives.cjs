@@ -94,14 +94,14 @@ const builtinDirectives = [
 
 const parseCode = async (code, language, config) => {
   log('parsing %o, language %s, config %o', code, language, config);
-  language = langAliases[language] || language;
-  const lg = await langConfig();
-  if (!lg.has(language)) {
+  const lc = await langConfig();
+  language = getLanguage(language, lc, config?.language);
+  if (!lc.has(language)) {
     log('language %s is not supported', language);
     return null;
   }
 
-  config = Object.assign({}, defaultConfig, lg.get(language), config);
+  config = Object.assign({}, defaultConfig, lc.get(language), config);
   const directives = builtinDirectives.concat(config.directives)
     .map(([regex, action]) => [directive(regex), action]);
   const lines = unescape(code).split('\n');
@@ -261,6 +261,26 @@ const compile = async (info, retryOptions = {}) => {
 
   throw new CompileError(response.code, text(response));
 };
+
+function getLanguage(classList, languageConfig, fallback) {
+  if (!(classList instanceof Array)) {
+    classList = classList.split(' ');
+  }
+  const validLangs = classList
+    .map(cls => {
+      const lang = cls.replace(/\blang(?:uage)?-([\w-]+)\b/i, '$1');
+      return langAliases[lang] || lang;
+    })
+    .filter(lang => languageConfig.has(lang));
+  switch (validLangs.length) {
+    case 0:
+      return fallback;
+    case 1:
+      return validLangs[0];
+    default:
+      throw Error(`too many possible languages (${classList})`);
+  }
+}
 
 exports.CompileError = CompileError;
 exports.compile = compile;

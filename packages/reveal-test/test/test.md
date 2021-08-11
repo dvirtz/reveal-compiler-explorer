@@ -79,7 +79,8 @@ assert(C == [1, 0,
       <pre style="font-size: 0.3em; display: table-cell;"><code data-trim data-noescape class="d">
 ///compiler=ldc1_20
 ///options=-m32
-///libs=cblas:trunk
+///libs=cblas:trunk,mir_core:trunk
+///noexecute
 ///hide
 import cblas;
 <br/>

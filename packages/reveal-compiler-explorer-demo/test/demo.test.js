@@ -1,4 +1,4 @@
-import { parseMarkdown, compile } from 'reveal-test';
+import { parseMarkdownFile, compile } from 'reveal-test';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import assert from 'assert';
@@ -8,7 +8,7 @@ const codeInfo = await (async () => {
   const __dirname = dirname(__filename);
   const path = join(__dirname, '..', 'demo.md');
   const config = { runMain: false };
-  return await parseMarkdown(path, config);
+  return await parseMarkdownFile(path, config);
 })();
 
 describe("demo presentation", function () {

@@ -5,25 +5,60 @@ Object.defineProperty(exports, '__esModule', { value: true });
 var compilerExplorerDirectives = require('compiler-explorer-directives');
 var MarkdownIt = require('markdown-it');
 var fs = require('fs');
+var cheerio = require('cheerio');
+var dedent = require('dedent');
 
 function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
 
 var MarkdownIt__default = /*#__PURE__*/_interopDefaultLegacy(MarkdownIt);
+var cheerio__default = /*#__PURE__*/_interopDefaultLegacy(cheerio);
+var dedent__default = /*#__PURE__*/_interopDefaultLegacy(dedent);
 
-const parseMarkdownImpl = async (markdown, path, config = {}) => {
-  const md = new MarkdownIt__default['default']();
+class ParseError extends Error {
+  constructor(message) {
+    super(message);
+    this.name = 'ParseError';
+  }
+}
+
+const elementLineNumber = (container, index) => {
+  // https://stackoverflow.com/a/14482123/621176
+  const nthIndex = (str, pat, n) => {
+    var L = str.length, i = -1;
+    while (n-- && i++ < L) {
+      i = str.indexOf(pat, i);
+      if (i < 0) break;
+    }
+    return i;
+  };
+
+  var upToElement = container.substr(0, nthIndex(container, "<code", index + 1));
+  return (upToElement.match(/\n\r?/g) || []).length;
+};
+
+const parseMarkdown = async (markdown, config = {}) => {
+  const md = new MarkdownIt__default['default']({ html: true, breaks: true });
   const result = md.parse(markdown, {});
+  const codeBlocks = result
+    .filter(({ type, tag }) => type === 'fence' && tag === 'code')
+    .map(({ content, info, map }) => { return { content: content, language: info.replace(/(\w+).*/, '$1'), line: map[0] + 1 }; })
+    .concat(result
+      .filter(({ type }) => type === 'html_block').flatMap(({ content, info, map }) => {
+        const $ = cheerio__default['default'].load(content);
+        return $('pre code').map(function (index) {
+          return {
+            content: dedent__default['default']($(this).text().replace(/(\n)/g, '$1 ')),
+            language: $(this).attr("class"),
+            line: map[0] + 1 + elementLineNumber(content, index)
+          };
+        }).toArray();
+      }))
+    .sort((a, b) => a.line - b.line);
   return []
     .concat
-    .apply([], await Promise.all(result
-      .filter(({ type, tag }) => type === 'fence' && tag === 'code')
-      .flatMap(async ({ content, info, map }) => {
-        const [location, error] = (() => {
-          if (path) {
-            return [`${path}:${map[0] + 1}`, message => new Error(`${location}:\n${message}`)];
-          }
-          return [undefined, message => new Error(message)];
-        })();
+    .apply([], await Promise.all(codeBlocks
+      .flatMap(async ({ content, language, line }) => {
+        const error = message => new ParseError(`${line}:\n${message}`);
         config = Object.assign(config, {
           directives: [
             ['fails=(.*)', (matches, info) => matches.slice(1).forEach(match => {
@@ -40,20 +75,31 @@ const parseMarkdownImpl = async (markdown, path, config = {}) => {
             })]
           ]
         });
-        const parsed = await compilerExplorerDirectives.parseCode(content.replace(/<br\/>/g, ''), info.replace(/(\w+).*/, '$1'), config);
+        const parsed = await compilerExplorerDirectives.parseCode(content.replace(/<br\/>/g, ''), language, config);
         if (!parsed) {
           return []
         }
-        if (parsed && location) {
-          parsed.path = location;
-        }
+        parsed.line = line;
         return [parsed];
       })));
 };
 
-const parseMarkdown = async (path, config = {}) => {
-  const markdown = await fs.promises.readFile(path, 'utf-8');
-  return await parseMarkdownImpl(markdown, path, config);
+const parseMarkdownFile = async (path, config = {}) => {
+  try {
+    const markdown = await fs.promises.readFile(path, 'utf-8');
+    const parsed = await parseMarkdown(markdown, config);
+    return parsed.map(codeInfo => {
+      codeInfo.path = `${path}:${codeInfo.line}`;
+      delete codeInfo.line;
+      return codeInfo;
+    });
+  } catch (err) {
+    if (err instanceof ParseError) {
+      throw new ParseError(`${path}:${err.message}`)
+    } else {
+      throw err;
+    }
+  }
 };
 
 const compile = async (info, retryOptions = {}) => {
@@ -78,7 +124,7 @@ const compile = async (info, retryOptions = {}) => {
       try {
         return await compilerExplorerDirectives.compile(info, retryOptions);
       } catch (err) {
-        const code = err.hasOwnProperty('code') ? err.code : -2;
+        err.hasOwnProperty('code') ? err.code : -2;
         throw new compilerExplorerDirectives.CompileError(err.code, error(err.message));
       }
     })();
@@ -99,4 +145,5 @@ Object.defineProperty(exports, 'CompileError', {
 });
 exports.compile = compile;
 exports.parseMarkdown = parseMarkdown;
+exports.parseMarkdownFile = parseMarkdownFile;
 //# sourceMappingURL=reveal-test.cjs.map

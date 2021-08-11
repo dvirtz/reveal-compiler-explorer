@@ -3,21 +3,54 @@
 import { parseCode, compile as origCompile, CompileError } from 'compiler-explorer-directives';
 import MarkdownIt from 'markdown-it';
 import { promises } from 'fs';
+import cheerio from 'cheerio';
+import dedent from 'dedent';
 
-const parseMarkdownImpl = async (markdown, path, config = {}) => {
-  const md = new MarkdownIt();
+class ParseError extends Error {
+  constructor(message) {
+    super(message);
+    this.name = 'ParseError';
+  }
+}
+
+const elementLineNumber = (container, index) => {
+  // https://stackoverflow.com/a/14482123/621176
+  const nthIndex = (str, pat, n) => {
+    var L = str.length, i = -1;
+    while (n-- && i++ < L) {
+      i = str.indexOf(pat, i);
+      if (i < 0) break;
+    }
+    return i;
+  };
+
+  var upToElement = container.substr(0, nthIndex(container, "<code", index + 1));
+  return (upToElement.match(/\n\r?/g) || []).length;
+}
+
+const parseMarkdown = async (markdown, config = {}) => {
+  const md = new MarkdownIt({ html: true, breaks: true });
   const result = md.parse(markdown, {});
+  const codeBlocks = result
+    .filter(({ type, tag }) => type === 'fence' && tag === 'code')
+    .map(({ content, info, map }) => { return { content: content, language: info.replace(/(\w+).*/, '$1'), line: map[0] + 1 }; })
+    .concat(result
+      .filter(({ type }) => type === 'html_block').flatMap(({ content, info, map }) => {
+        const $ = cheerio.load(content);
+        return $('pre code').map(function (index) {
+          return {
+            content: dedent($(this).text().replace(/(\n)/g, '$1 ')),
+            language: $(this).attr("class"),
+            line: map[0] + 1 + elementLineNumber(content, index)
+          };
+        }).toArray();
+      }))
+    .sort((a, b) => a.line - b.line);
   return []
     .concat
-    .apply([], await Promise.all(result
-      .filter(({ type, tag }) => type === 'fence' && tag === 'code')
-      .flatMap(async ({ content, info, map }) => {
-        const [location, error] = (() => {
-          if (path) {
-            return [`${path}:${map[0] + 1}`, message => new Error(`${location}:\n${message}`)];
-          }
-          return [undefined, message => new Error(message)];
-        })();
+    .apply([], await Promise.all(codeBlocks
+      .flatMap(async ({ content, language, line }) => {
+        const error = message => new ParseError(`${line}:\n${message}`);
         config = Object.assign(config, {
           directives: [
             ['fails=(.*)', (matches, info) => matches.slice(1).forEach(match => {
@@ -34,20 +67,31 @@ const parseMarkdownImpl = async (markdown, path, config = {}) => {
             })]
           ]
         });
-        const parsed = await parseCode(content.replace(/<br\/>/g, ''), info.replace(/(\w+).*/, '$1'), config);
+        const parsed = await parseCode(content.replace(/<br\/>/g, ''), language, config);
         if (!parsed) {
           return []
         }
-        if (parsed && location) {
-          parsed.path = location;
-        }
+        parsed.line = line;
         return [parsed];
       })));
 };
 
-const parseMarkdown = async (path, config = {}) => {
-  const markdown = await promises.readFile(path, 'utf-8');
-  return await parseMarkdownImpl(markdown, path, config);
+const parseMarkdownFile = async (path, config = {}) => {
+  try {
+    const markdown = await promises.readFile(path, 'utf-8');
+    const parsed = await parseMarkdown(markdown, config);
+    return parsed.map(codeInfo => {
+      codeInfo.path = `${path}:${codeInfo.line}`;
+      delete codeInfo.line;
+      return codeInfo;
+    });
+  } catch (err) {
+    if (err instanceof ParseError) {
+      throw new ParseError(`${path}:${err.message}`)
+    } else {
+      throw err;
+    }
+  }
 }
 
 const compile = async (info, retryOptions = {}) => {
@@ -85,4 +129,4 @@ const compile = async (info, retryOptions = {}) => {
   }
 };
 
-export { parseMarkdown, compile, CompileError };
+export { parseMarkdown, parseMarkdownFile, compile, CompileError };

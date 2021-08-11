@@ -138,7 +138,7 @@ var RevealCompilerExplorer = (function () {
 	  else return resp
 	};
 
-	var browser = core(mkrequest);
+	var browser$2 = core(mkrequest);
 
 	function assign(obj, props) {
 	    for (const key in props) {
@@ -345,7 +345,7 @@ var RevealCompilerExplorer = (function () {
 	  return mainError;
 	};
 
-	var retry = createCommonjsModule(function (module, exports) {
+	var retry$1 = createCommonjsModule(function (module, exports) {
 	exports.operation = function(options) {
 	  var timeouts = exports.timeouts(options);
 	  return new retry_operation(timeouts, {
@@ -446,7 +446,7 @@ var RevealCompilerExplorer = (function () {
 	};
 	});
 
-	var retry$1 = retry;
+	var retry = retry$1;
 
 	var hasOwn = Object.prototype.hasOwnProperty;
 
@@ -465,7 +465,7 @@ var RevealCompilerExplorer = (function () {
 	        fn = temp;
 	    }
 
-	    operation = retry$1.operation(options);
+	    operation = retry.operation(options);
 
 	    return new Promise(function (resolve, reject) {
 	        operation.attempt(function (number) {
@@ -777,14 +777,14 @@ var RevealCompilerExplorer = (function () {
 	  question: '?',
 	  questionFull: '？',
 	  questionSmall: '﹖',
-	  pointer:  '❯',
-	  pointerSmall:  '›',
+	  pointer: '❯',
+	  pointerSmall: '›',
 	  radioOff: '◯',
 	  radioOn: '◉',
 	  warning: '⚠'
 	});
 
-	module.exports =  other;
+	module.exports = other;
 	Reflect.defineProperty(module.exports, 'common', { enumerable: false, value: common });
 	Reflect.defineProperty(module.exports, 'windows', { enumerable: false, value: windows });
 	Reflect.defineProperty(module.exports, 'other', { enumerable: false, value: other });
@@ -1390,7 +1390,7 @@ var RevealCompilerExplorer = (function () {
 
 	var common = setup;
 
-	var browser$2 = createCommonjsModule(function (module, exports) {
+	var browser = createCommonjsModule(function (module, exports) {
 	/* eslint-env browser */
 
 	/**
@@ -1673,10 +1673,10 @@ var RevealCompilerExplorer = (function () {
 
 	function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
 
-	var bent__default = /*#__PURE__*/_interopDefaultLegacy(browser);
+	var bent__default = /*#__PURE__*/_interopDefaultLegacy(browser$2);
 	var promiseRetry__default = /*#__PURE__*/_interopDefaultLegacy(promiseRetry_1);
 	var ansi_colors__default = /*#__PURE__*/_interopDefaultLegacy(ansiColors);
-	var debug__default = /*#__PURE__*/_interopDefaultLegacy(browser$2);
+	var debug__default = /*#__PURE__*/_interopDefaultLegacy(browser);
 
 	const { unstyle } = ansi_colors__default['default'];
 
@@ -1758,14 +1758,14 @@ var RevealCompilerExplorer = (function () {
 
 	const parseCode = async (code, language, config) => {
 	  log('parsing %o, language %s, config %o', code, language, config);
-	  language = langAliases[language] || language;
-	  const lg = await langConfig();
-	  if (!lg.has(language)) {
+	  const lc = await langConfig();
+	  language = getLanguage(language, lc, config?.language);
+	  if (!lc.has(language)) {
 	    log('language %s is not supported', language);
 	    return null;
 	  }
 
-	  config = Object.assign({}, defaultConfig, lg.get(language), config);
+	  config = Object.assign({}, defaultConfig, lc.get(language), config);
 	  const directives = builtinDirectives.concat(config.directives)
 	    .map(([regex, action]) => [directive(regex), action]);
 	  const lines = unescape(code).split('\n');
@@ -1925,6 +1925,26 @@ var RevealCompilerExplorer = (function () {
 
 	  throw new CompileError(response.code, text(response));
 	};
+
+	function getLanguage(classList, languageConfig, fallback) {
+	  if (!(classList instanceof Array)) {
+	    classList = classList.split(' ');
+	  }
+	  const validLangs = classList
+	    .map(cls => {
+	      const lang = cls.replace(/\blang(?:uage)?-([\w-]+)\b/i, '$1');
+	      return langAliases[lang] || lang;
+	    })
+	    .filter(lang => languageConfig.has(lang));
+	  switch (validLangs.length) {
+	    case 0:
+	      return fallback;
+	    case 1:
+	      return validLangs[0];
+	    default:
+	      throw Error(`too many possible languages (${classList})`);
+	  }
+	}
 
 	exports.CompileError = CompileError;
 	exports.compile = compile;
@@ -4569,7 +4589,7 @@ var RevealCompilerExplorer = (function () {
 	    undefined$1(function() {
 	        return Hammer;
 	    });
-	} else if ( module.exports) {
+	} else if (module.exports) {
 	    module.exports = Hammer;
 	} else {
 	    window[exportName] = Hammer;
@@ -4586,21 +4606,20 @@ var RevealCompilerExplorer = (function () {
 
 	const isChrome = /chrome/i.test( UA ) && !/edge/i.test( UA );
 
-	const isAndroid = /android/gi.test( UA );
+	/android/gi.test( UA );
 
 	// Flags if we should use zoom instead of transform to scale
 	// up slides. Zoom produces crisper results but has a lot of
 	// xbrowser quirks so we only use it in whitelisted browsers.
-	const supportsZoom = 'zoom' in testElement.style && !isMobile &&
+	'zoom' in testElement.style && !isMobile &&
 					( isChrome || /Version\/[\d\.]+.*Safari/.test( UA ) );
 
 	async function parseBlock(block, config) {
-	  const lang = block.classList.length > 0 ? block.classList[0].replace('language-', '') : config.language;
 	  // highlighting line numbers removes line break so we need to restore them
-	  const code = block.hasAttribute( 'data-line-numbers' ) && block.classList.contains('hljs')
+	  const code = block.hasAttribute('data-line-numbers') && block.classList.contains('hljs')
 	    ? Array.from(block.querySelectorAll('tr').values()).map(v => v.textContent).join('\n')
 	    : block.textContent;
-	  const info = await compilerExplorerDirectives.parseCode(code, lang, config);
+	  const info = await compilerExplorerDirectives.parseCode(code, block.classList, config);
 	  if (!info) {
 	    return;
 	  }
