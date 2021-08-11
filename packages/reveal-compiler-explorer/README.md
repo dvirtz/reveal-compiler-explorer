@@ -38,12 +38,14 @@ For testing presentation code, see [reveal-test](/packages/reveal-test) package.
     Reveal.initialize({
       // ...
       plugins: [
-        // ...
-        RevealCompilerExplorer,
-        // ...
+          RevealMarkdown,
+          RevealCompilerExplorer,
+          RevealHighlight,
       ]
     });
     ```
+
+    Note that the plugin should come before the highlight plugin.
 
 ### Manual
 

@@ -1,14 +1,13 @@
-import { parseCode, displayUrl, compile } from 'compiler-explorer-directives';
+import { parseCode, displayUrl, compile, getLanguage } from 'compiler-explorer-directives';
 import Hammer from 'hammerjs';
 import { isMobile } from 'reveal.js/js/utils/device';
 
 async function parseBlock(block, config) {
-  const lang = block.classList.length > 0 ? block.classList[0].replace('language-', '') : config.language;
   // highlighting line numbers removes line break so we need to restore them
-  const code = block.hasAttribute( 'data-line-numbers' ) && block.classList.contains('hljs')
+  const code = block.hasAttribute('data-line-numbers') && block.classList.contains('hljs')
     ? Array.from(block.querySelectorAll('tr').values()).map(v => v.textContent).join('\n')
     : block.textContent;
-  const info = await parseCode(code, lang, config);
+  const info = await parseCode(code, block.classList, config);
   if (!info) {
     return;
   }
