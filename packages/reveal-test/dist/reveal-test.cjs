@@ -58,6 +58,7 @@ const parseMarkdown = async (markdown, config = {}) => {
     .concat
     .apply([], await Promise.all(codeBlocks
       .flatMap(async ({ content, language, line }) => {
+        content.replace(/<\/?mark>/, '');
         const error = message => new ParseError(`${line}:\n${message}`);
         config = Object.assign(config, {
           directives: [

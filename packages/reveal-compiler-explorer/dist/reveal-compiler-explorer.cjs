@@ -1764,7 +1764,7 @@ const parseCode = async (code, language, config) => {
     return null;
   }
 
-  config = Object.assign({}, defaultConfig, lc.get(language), config);
+  config = Object.assign({}, defaultConfig, lc.get(language), config, config?.[language]);
   const directives = builtinDirectives.concat(config.directives)
     .map(([regex, action]) => [directive(regex), action]);
   const lines = unescape(code).split('\n');
@@ -1925,24 +1925,13 @@ const compile = async (info, retryOptions = {}) => {
   throw new CompileError(response.code, text(response));
 };
 
-function getLanguage(classList, languageConfig, fallback) {
-  if (!(classList instanceof Array)) {
-    classList = classList.split(' ');
-  }
-  const validLangs = classList
-    .map(cls => {
-      const lang = cls.replace(/\blang(?:uage)?-([\w-]+)\b/i, '$1');
-      return langAliases[lang] || lang;
-    })
-    .filter(lang => languageConfig.has(lang));
-  switch (validLangs.length) {
-    case 0:
-      return fallback;
-    case 1:
-      return validLangs[0];
-    default:
-      throw Error(`too many possible languages (${classList})`);
-  }
+function getLanguage(language, languageConfig, fallback) {
+  return language.split(' ')
+    .map(lang => lang.replace(/\blang(?:uage)?-([\w-]+)\b/i, '$1'))
+    .map(lang => langAliases[lang] || lang)
+    .filter(lang => languageConfig.has(lang))
+    .concat(fallback)
+    [0];
 }
 
 exports.CompileError = CompileError;
@@ -4613,15 +4602,54 @@ const isChrome = /chrome/i.test( UA ) && !/edge/i.test( UA );
 'zoom' in testElement.style && !isMobile &&
 				( isChrome || /Version\/[\d\.]+.*Safari/.test( UA ) );
 
+const elementMark = '__REVEAL_CE__';
+
+const HTML_ESCAPE_MAP = {
+  '&': '&amp;',
+  '<': '&lt;',
+  '>': '&gt;',
+  '"': '&quot;',
+  "'": '&#39;'
+};
+
+function escapeForHTML(input) {
+  return input.replace(/([&<>'"])/g, char => HTML_ESCAPE_MAP[char]);
+}
+
 async function parseBlock(block, config) {
   // highlighting line numbers removes line break so we need to restore them
-  const code = block.hasAttribute('data-line-numbers') && block.classList.contains('hljs')
-    ? Array.from(block.querySelectorAll('tr').values()).map(v => v.textContent).join('\n')
-    : block.textContent;
-  const info = await compilerExplorerDirectives.parseCode(code, block.classList, config);
+  if (block.classList.contains('hljs')) {
+    throw Error('plugin should be run before highlighting');
+  }
+  const code = (() => {
+    if (block.hasChildNodes()) {
+      return Array.from(block.childNodes).reduce((code, node) => {
+        switch (node.nodeType) {
+          case Node.ELEMENT_NODE:
+            return code + `${elementMark}${node.tagName}${elementMark}${node.innerText}${elementMark}/${node.tagName}${elementMark}`;
+          case Node.TEXT_NODE:
+            return code + node.textContent;
+          default:
+            throw Error(`don't know what to do with inner ${node.tagName}`);
+        }
+      }, '');
+    }
+    return block.textContent;
+  })();
+  const info = await compilerExplorerDirectives.parseCode(code, [block.classList, block.parentNode?.classList].join(' '), config);
   if (!info) {
     return;
   }
+
+  if (info.source.includes(elementMark)) {
+    const elementMarkRe = new RegExp(`${elementMark}(.*?)${elementMark}(.*?)${elementMark}\\/\\1${elementMark}`, 'g');
+    block.innerHTML = escapeForHTML(info.displaySource).replace(elementMarkRe, '<$1>$2</$1>');
+    info.displaySource = info.displaySource.replace(elementMarkRe, '$2');
+    info.source = info.source.replace(elementMarkRe, '$2');
+  } else {
+    block.textContent = info.displaySource;
+  }
+
   const url = compilerExplorerDirectives.displayUrl(info);
 
   if (isMobile) {
@@ -4638,23 +4666,15 @@ async function parseBlock(block, config) {
       }
     };
   }
-
-  block.textContent = info.displaySource;
 }
 
 var revealCompilerExplorer = {
   id: 'compiler-explorer',
   init: (reveal) => {
-    const highlighPlugin = reveal.getPlugin('highlight');
-    const highlightConfig = reveal.getConfig().highlight || {};
-    const highlightOnLoad = typeof highlightConfig.highlightOnLoad === 'boolean' ? highlightConfig.highlightOnLoad : true;
     const config = reveal.getConfig().compilerExplorer;
 
     return Promise.all([].slice.call(reveal.getRevealElement().querySelectorAll('pre code')).map(async (block) => {
       await parseBlock(block, config);
-      if (highlightOnLoad) {
-        highlighPlugin.highlightBlock(block);
-      }
     }));
   },
   compile: compilerExplorerDirectives.compile
