@@ -91,7 +91,7 @@ const parseCode = async (code, language, config) => {
     return null;
   }
 
-  config = Object.assign({}, defaultConfig, lc.get(language), config);
+  config = Object.assign({}, defaultConfig, lc.get(language), config, config?.[language]);
   const directives = builtinDirectives.concat(config.directives)
     .map(([regex, action]) => [directive(regex), action]);
   const lines = unescape(code).split('\n');
@@ -252,24 +252,13 @@ const compile = async (info, retryOptions = {}) => {
   throw new CompileError(response.code, text(response));
 };
 
-function getLanguage(classList, languageConfig, fallback) {
-  if (!(classList instanceof Array)) {
-    classList = classList.split(' ');
-  }
-  const validLangs = classList
-    .map(cls => {
-      const lang = cls.replace(/\blang(?:uage)?-([\w-]+)\b/i, '$1');
-      return langAliases[lang] || lang;
-    })
-    .filter(lang => languageConfig.has(lang));
-  switch (validLangs.length) {
-    case 0:
-      return fallback;
-    case 1:
-      return validLangs[0];
-    default:
-      throw Error(`too many possible languages (${classList})`);
-  }
+function getLanguage(language, languageConfig, fallback) {
+  return language.split(' ')
+    .map(lang => lang.replace(/\blang(?:uage)?-([\w-]+)\b/i, '$1'))
+    .map(lang => langAliases[lang] || lang)
+    .filter(lang => languageConfig.has(lang))
+    .concat(fallback)
+    [0];
 }
 
 export { parseCode, displayUrl, compile, CompileError };
