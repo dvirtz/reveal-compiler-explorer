@@ -28,7 +28,7 @@
   },
   "license": "MIT",
   "scripts": {
-    "build": "rollup -c"
+    "build": "rollup -c --failAfterWarnings"
   },
   "dependencies": {
     "compiler-explorer-directives": "^1.5.0",
