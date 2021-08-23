@@ -3,3 +3,4 @@ node_modules/
 .act/
 yarn-error.log
 .DS_Store
+.devcontainer/
