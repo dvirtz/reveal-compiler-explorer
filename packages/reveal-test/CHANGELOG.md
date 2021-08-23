@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.1.0](https://github.com/dvirtz/reveal-compiler-explorer/compare/reveal-test@2.0.2...reveal-test@2.1.0) (2021-08-23)
+
+
+### Bug Fixes
+
+* support <mark> in code ([3f70de3](https://github.com/dvirtz/reveal-compiler-explorer/commit/3f70de32d152ea5c3445ea9cc7d03203c5945cb1))
+
+
+### Features
+
+* parse html in markdown ([2ca543e](https://github.com/dvirtz/reveal-compiler-explorer/commit/2ca543e6552dddcc57beeceb9930f556bc4e2cc5))
+
+
+
+
+
 ## [2.0.2](https://github.com/dvirtz/reveal-compiler-explorer/compare/reveal-test@2.0.1...reveal-test@2.0.2) (2021-08-08)
 
 
