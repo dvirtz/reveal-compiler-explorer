@@ -85,13 +85,13 @@ const builtinDirectives = [
 const parseCode = async (code, language, config) => {
   log('parsing %o, language %s, config %o', code, language, config);
   const lc = await langConfig();
-  language = getLanguage(language, lc, config?.language);
+  language = getLanguage(language, lc, config && config.language);
   if (!lc.has(language)) {
     log('language %s is not supported', language);
     return null;
   }
 
-  config = Object.assign({}, defaultConfig, lc.get(language), config, config?.[language]);
+  config = Object.assign({}, defaultConfig, lc.get(language), config, config && config[language]);
   const directives = builtinDirectives.concat(config.directives)
     .map(([regex, action]) => [directive(regex), action]);
   const lines = unescape(code).split('\n');
