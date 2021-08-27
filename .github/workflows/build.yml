@@ -2,7 +2,7 @@ name: build
 
 on:
   pull_request:
-    branches: 
+    branches:
       - master
 
 jobs:
@@ -22,12 +22,11 @@ jobs:
 
       - uses: actions/setup-node@v1
         with:
-          node-version: '${{ matrix.node_version }}'
-          registry-url: 'https://registry.npmjs.org'
+          node-version: "${{ matrix.node_version }}"
+          registry-url: "https://registry.npmjs.org"
 
       # pulls all tags (needed for lerna to correctly version)
       - run: git fetch --depth=1 origin +refs/tags/*:refs/tags/* # see https://stackoverflow.com/a/60184319/9285308
-      # - uses: actions/setup-node@v1
 
       # https://github.com/actions/cache/blob/master/examples.md#node---yarn
       - name: Get yarn cache
@@ -49,6 +48,11 @@ jobs:
 
       - name: Test
         run: yarn test
+
+      - name: "File generation check"
+        uses: setare/git-changes-action@v0.1.4
+        with:
+          github_token: ${{ github.token }}
 
       - name: Generate static site
         run: yarn lerna run generate
