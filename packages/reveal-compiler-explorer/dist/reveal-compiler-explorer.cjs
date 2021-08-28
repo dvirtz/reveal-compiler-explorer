@@ -137,7 +137,7 @@ const mkrequest = (statusCodes, method, encoding, headers, baseurl) => async (_u
   else return resp
 };
 
-var browser$2 = core(mkrequest);
+var browser = core(mkrequest);
 
 function assign(obj, props) {
     for (const key in props) {
@@ -344,7 +344,7 @@ RetryOperation.prototype.mainError = function() {
   return mainError;
 };
 
-var retry$1 = createCommonjsModule(function (module, exports) {
+var retry = createCommonjsModule(function (module, exports) {
 exports.operation = function(options) {
   var timeouts = exports.timeouts(options);
   return new retry_operation(timeouts, {
@@ -445,7 +445,7 @@ exports.wrap = function(obj, options, methods) {
 };
 });
 
-var retry = retry$1;
+var retry$1 = retry;
 
 var hasOwn = Object.prototype.hasOwnProperty;
 
@@ -464,7 +464,7 @@ function promiseRetry(fn, options) {
         fn = temp;
     }
 
-    operation = retry.operation(options);
+    operation = retry$1.operation(options);
 
     return new Promise(function (resolve, reject) {
         operation.attempt(function (number) {
@@ -776,14 +776,14 @@ const other = Object.assign({}, common, {
   question: '?',
   questionFull: '？',
   questionSmall: '﹖',
-  pointer: '❯',
-  pointerSmall: '›',
+  pointer:  '❯',
+  pointerSmall:  '›',
   radioOff: '◯',
   radioOn: '◉',
   warning: '⚠'
 });
 
-module.exports = other;
+module.exports =  other;
 Reflect.defineProperty(module.exports, 'common', { enumerable: false, value: common });
 Reflect.defineProperty(module.exports, 'windows', { enumerable: false, value: windows });
 Reflect.defineProperty(module.exports, 'other', { enumerable: false, value: other });
@@ -1389,7 +1389,7 @@ function setup(env) {
 
 var common = setup;
 
-var browser = createCommonjsModule(function (module, exports) {
+var browser$2 = createCommonjsModule(function (module, exports) {
 /* eslint-env browser */
 
 /**
@@ -1672,10 +1672,10 @@ Object.defineProperty(exports, '__esModule', { value: true });
 
 function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
 
-var bent__default = /*#__PURE__*/_interopDefaultLegacy(browser$2);
+var bent__default = /*#__PURE__*/_interopDefaultLegacy(browser);
 var promiseRetry__default = /*#__PURE__*/_interopDefaultLegacy(promiseRetry_1);
 var ansi_colors__default = /*#__PURE__*/_interopDefaultLegacy(ansiColors);
-var debug__default = /*#__PURE__*/_interopDefaultLegacy(browser);
+var debug__default = /*#__PURE__*/_interopDefaultLegacy(browser$2);
 
 const { unstyle } = ansi_colors__default['default'];
 
@@ -4577,7 +4577,7 @@ if (typeof undefined$1 === 'function' && undefined$1.amd) {
     undefined$1(function() {
         return Hammer;
     });
-} else if (module.exports) {
+} else if ( module.exports) {
     module.exports = Hammer;
 } else {
     window[exportName] = Hammer;
@@ -4594,12 +4594,12 @@ const isMobile = /(iphone|ipod|ipad|android)/gi.test( UA ) ||
 
 const isChrome = /chrome/i.test( UA ) && !/edge/i.test( UA );
 
-/android/gi.test( UA );
+const isAndroid = /android/gi.test( UA );
 
 // Flags if we should use zoom instead of transform to scale
 // up slides. Zoom produces crisper results but has a lot of
 // xbrowser quirks so we only use it in whitelisted browsers.
-'zoom' in testElement.style && !isMobile &&
+const supportsZoom = 'zoom' in testElement.style && !isMobile &&
 				( isChrome || /Version\/[\d\.]+.*Safari/.test( UA ) );
 
 const elementMark = '__REVEAL_CE__';
