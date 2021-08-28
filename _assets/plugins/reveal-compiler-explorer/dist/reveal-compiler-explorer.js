@@ -1758,14 +1758,14 @@ var RevealCompilerExplorer = (function () {
 
 	const parseCode = async (code, language, config) => {
 	  log('parsing %o, language %s, config %o', code, language, config);
-	  language = langAliases[language] || language;
-	  const lg = await langConfig();
-	  if (!lg.has(language)) {
+	  const lc = await langConfig();
+	  language = getLanguage(language, lc, config && config.language);
+	  if (!lc.has(language)) {
 	    log('language %s is not supported', language);
 	    return null;
 	  }
 
-	  config = Object.assign({}, defaultConfig, lg.get(language), config);
+	  config = Object.assign({}, defaultConfig, lc.get(language), config, config && config[language]);
 	  const directives = builtinDirectives.concat(config.directives)
 	    .map(([regex, action]) => [directive(regex), action]);
 	  const lines = unescape(code).split('\n');
@@ -1925,6 +1925,15 @@ var RevealCompilerExplorer = (function () {
 
 	  throw new CompileError(response.code, text(response));
 	};
+
+	function getLanguage(language, languageConfig, fallback) {
+	  return language.split(' ')
+	    .map(lang => lang.replace(/\blang(?:uage)?-([\w-]+)\b/i, '$1'))
+	    .map(lang => langAliases[lang] || lang)
+	    .filter(lang => languageConfig.has(lang))
+	    .concat(fallback)
+	    [0];
+	}
 
 	exports.CompileError = CompileError;
 	exports.compile = compile;
@@ -4594,16 +4603,54 @@ var RevealCompilerExplorer = (function () {
 	const supportsZoom = 'zoom' in testElement.style && !isMobile &&
 					( isChrome || /Version\/[\d\.]+.*Safari/.test( UA ) );
 
+	const elementMark = '__REVEAL_CE__';
+
+	const HTML_ESCAPE_MAP = {
+	  '&': '&amp;',
+	  '<': '&lt;',
+	  '>': '&gt;',
+	  '"': '&quot;',
+	  "'": '&#39;'
+	};
+
+	function escapeForHTML(input) {
+	  return input.replace(/([&<>'"])/g, char => HTML_ESCAPE_MAP[char]);
+	}
+
 	async function parseBlock(block, config) {
-	  const lang = block.classList.length > 0 ? block.classList[0].replace('language-', '') : config.language;
 	  // highlighting line numbers removes line break so we need to restore them
-	  const code = block.hasAttribute( 'data-line-numbers' ) && block.classList.contains('hljs')
-	    ? Array.from(block.querySelectorAll('tr').values()).map(v => v.textContent).join('\n')
-	    : block.textContent;
-	  const info = await compilerExplorerDirectives.parseCode(code, lang, config);
+	  if (block.classList.contains('hljs')) {
+	    throw Error('plugin should be run before highlighting');
+	  }
+	  const code = (() => {
+	    if (block.hasChildNodes()) {
+	      return Array.from(block.childNodes).reduce((code, node) => {
+	        switch (node.nodeType) {
+	          case Node.ELEMENT_NODE:
+	            return code + `${elementMark}${node.tagName}${elementMark}${node.innerText}${elementMark}/${node.tagName}${elementMark}`;
+	          case Node.TEXT_NODE:
+	            return code + node.textContent;
+	          default:
+	            throw Error(`don't know what to do with inner ${node.tagName}`);
+	        }
+	      }, '');
+	    }
+	    return block.textContent;
+	  })();
+	  const info = await compilerExplorerDirectives.parseCode(code, [block.classList, block.parentNode?.classList].join(' '), config);
 	  if (!info) {
 	    return;
 	  }
+
+	  if (info.source.includes(elementMark)) {
+	    const elementMarkRe = new RegExp(`${elementMark}(.*?)${elementMark}(.*?)${elementMark}\\/\\1${elementMark}`, 'g');
+	    block.innerHTML = escapeForHTML(info.displaySource).replace(elementMarkRe, '<$1>$2</$1>');
+	    info.displaySource = info.displaySource.replace(elementMarkRe, '$2');
+	    info.source = info.source.replace(elementMarkRe, '$2');
+	  } else {
+	    block.textContent = info.displaySource;
+	  }
+
 	  const url = compilerExplorerDirectives.displayUrl(info);
 
 	  if (isMobile) {
@@ -4620,23 +4667,15 @@ var RevealCompilerExplorer = (function () {
 	      }
 	    };
 	  }
-
-	  block.textContent = info.displaySource;
 	}
 
 	var revealCompilerExplorer = {
 	  id: 'compiler-explorer',
 	  init: (reveal) => {
-	    const highlighPlugin = reveal.getPlugin('highlight');
-	    const highlightConfig = reveal.getConfig().highlight || {};
-	    const highlightOnLoad = typeof highlightConfig.highlightOnLoad === 'boolean' ? highlightConfig.highlightOnLoad : true;
 	    const config = reveal.getConfig().compilerExplorer;
 
 	    return Promise.all([].slice.call(reveal.getRevealElement().querySelectorAll('pre code')).map(async (block) => {
 	      await parseBlock(block, config);
-	      if (highlightOnLoad) {
-	        highlighPlugin.highlightBlock(block);
-	      }
 	    }));
 	  },
 	  compile: compilerExplorerDirectives.compile
