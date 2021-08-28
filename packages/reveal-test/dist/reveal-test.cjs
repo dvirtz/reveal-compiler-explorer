@@ -6,7 +6,7 @@ var compilerExplorerDirectives = require('compiler-explorer-directives');
 var MarkdownIt = require('markdown-it');
 var fs = require('fs');
 var cheerio = require('cheerio');
-var dedent = require('dedent');
+var dedent = require('dedent-js');
 
 function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
 
