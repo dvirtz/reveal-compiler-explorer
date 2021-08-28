@@ -19,6 +19,6 @@ export default {
     'markdown-it',
     'fs',
     'cheerio',
-    'dedent',
+    'dedent-js',
   ]
 };

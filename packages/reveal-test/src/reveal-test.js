@@ -4,7 +4,7 @@ import { parseCode, compile as origCompile, CompileError } from 'compiler-explor
 import MarkdownIt from 'markdown-it';
 import { promises } from 'fs';
 import cheerio from 'cheerio';
-import dedent from 'dedent';
+import dedent from 'dedent-js';
 
 class ParseError extends Error {
   constructor(message) {
