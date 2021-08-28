@@ -1,6 +1,6 @@
 {
   "name": "reveal-test",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "Utilities for testing with compiler explorer",
   "author": "dvirtz <dvirtz@gmail.com>",
   "homepage": "https://github.com/dvirtz/reveal-compiler-explorer/tree/master/packages/reveal-test",
