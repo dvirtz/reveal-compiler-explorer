@@ -125,7 +125,7 @@ const compile = async (info, retryOptions = {}) => {
       try {
         return await compilerExplorerDirectives.compile(info, retryOptions);
       } catch (err) {
-        err.hasOwnProperty('code') ? err.code : -2;
+        const code = err.hasOwnProperty('code') ? err.code : -2;
         throw new compilerExplorerDirectives.CompileError(err.code, error(err.message));
       }
     })();
