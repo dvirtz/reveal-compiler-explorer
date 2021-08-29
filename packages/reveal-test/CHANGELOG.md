@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.1.2](https://github.com/dvirtz/reveal-compiler-explorer/compare/reveal-test@2.1.1...reveal-test@2.1.2) (2021-08-29)
+
+
+### Bug Fixes
+
+* correct dedent dependency ([4faf529](https://github.com/dvirtz/reveal-compiler-explorer/commit/4faf52939ad0f3bb0cfbdccf42e7dd2021fc575a))
+
+
+
+
+
 ## [2.1.1](https://github.com/dvirtz/reveal-compiler-explorer/compare/reveal-test@2.1.0...reveal-test@2.1.1) (2021-08-28)
 
 **Note:** Version bump only for package reveal-test
