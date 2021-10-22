@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.2.0](https://github.com/dvirtz/reveal-compiler-explorer/compare/reveal-compiler-explorer-demo@2.1.2...reveal-compiler-explorer-demo@2.2.0) (2021-10-22)
+
+
+### Bug Fixes
+
+* add test command to demo ([c5ed215](https://github.com/dvirtz/reveal-compiler-explorer/commit/c5ed21589bbe664980314fd4ccdea3e1d414638b)), closes [#42](https://github.com/dvirtz/reveal-compiler-explorer/issues/42)
+
+
+### Features
+
+* display only the relevant keyboard shortcut ([2400dd6](https://github.com/dvirtz/reveal-compiler-explorer/commit/2400dd67cbde7304ee54fd5bbf3b2ac954e7c1b7))
+
+
+
+
+
 ## [2.1.2](https://github.com/dvirtz/reveal-compiler-explorer/compare/reveal-compiler-explorer-demo@2.1.1...reveal-compiler-explorer-demo@2.1.2) (2021-08-29)
 
 **Note:** Version bump only for package reveal-compiler-explorer-demo
