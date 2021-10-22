@@ -5,10 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 
     <title>reveal-md</title>
-    <link rel="shortcut icon" href="./favicon.ico"/>
+    <link rel="shortcut icon" href="./favicon.ico" />
     <link rel="stylesheet" href="./dist/reveal.css" />
     <link rel="stylesheet" href="./dist/theme/black.css" id="theme" />
     <link rel="stylesheet" href="./css/highlight/zenburn.css" />
+
     <link rel="stylesheet" href="./_assets/demo.css" />
 
   </head>
@@ -36,7 +37,7 @@ open, edit & compile code snippets
 </div>
 
 </script></section><section data-markdown><script type="text/template">
-Ctrl-click* on code to go to compiler explorer
+<p id="click-name">click on code to go to compiler explorer</p>
 
 ```cpp []
 ///external
@@ -48,8 +49,6 @@ int main() {
   std::cout << "Hello CE!";
 }
 ```
-
-\* ⌘-click on MacOS, double tap on mobile <!-- .element: style="font-size: 0.7em" -->
 
 </script></section><section data-markdown><script type="text/template">
 Use `///` directives for configuring a specific code snippet. 
@@ -195,6 +194,7 @@ assert(C == [1, 0,
 
     <script src="./_assets/plugins/reveal-compiler-explorer/dist/reveal-compiler-explorer.js"></script>
     <script src="./_assets/scripts/load-plugins.js"></script>
+    <script src="./_assets/scripts/click-name.js"></script>
 
     <script>
       Reveal.initialize(options);
