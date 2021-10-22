@@ -26,6 +26,7 @@ describe("demo presentation", function () {
 });
 ```
 
+For reference, take a look at the [demo](/packages/reveal-compiler-explorer-demo) package in this repo.
 
 ---
 
