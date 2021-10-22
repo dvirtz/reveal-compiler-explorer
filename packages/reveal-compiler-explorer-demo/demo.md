@@ -21,7 +21,7 @@ open, edit & compile code snippets
 
 ---
 
-Ctrl-click* on code to go to compiler explorer
+<p id="click-name">click on code to go to compiler explorer</p>
 
 ```cpp []
 ///external
@@ -33,8 +33,6 @@ int main() {
   std::cout << "Hello CE!";
 }
 ```
-
-\* ⌘-click on MacOS, double tap on mobile <!-- .element: style="font-size: 0.7em" -->
 
 ---
 
