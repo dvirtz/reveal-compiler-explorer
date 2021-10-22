@@ -13,8 +13,6 @@ For testing presentation code, see [reveal-test](/packages/reveal-test) package.
 
 ## Installation
 
-### Using a package manager
-
 1. Download and install the package in your project:
 
     ```
@@ -26,6 +24,8 @@ For testing presentation code, see [reveal-test](/packages/reveal-test) package.
     ```
     yarn add reveal-compiler-explorer
     ```
+
+    or just download [dist/reveal-compiler-explorer.js](/packages/reveal-compiler-explorer/dist/reveal-compiler-explorer.js) into the plugin folder of your reveal.js presentation, e.g.. `plugins/reveal-compiler-explorer`.
 
 2. Add the plugins to the dependencies in your presentation
 
@@ -47,27 +47,16 @@ For testing presentation code, see [reveal-test](/packages/reveal-test) package.
 
     Note that the plugin should come before the highlight plugin.
 
-### Manual
+    If you're using [reveal-md](https://github.com/webpro/reveal-md) you can add a script to load the plugin:
 
-1. Download [dist/reveal-compiler-explorer.js](/packages/reveal-compiler-explorer/dist/reveal-compiler-explorer.js) into the plugin folder of your reveal.js presentation, i.e. `plugin/reveal-compiler-explorer`.
-
-2. Add the plugins to the dependencies in your presentation
-
-    ```html
-    <script src="plugin/reveal-compiler-explorer/reveal-compiler-explorer.js"></script>
+    ```js
+    options.plugins.splice(options.plugins.indexOf(RevealHighlight), 0, RevealCompilerExplorer);
     ```
 
-    ```javascript
-    // ...
-    Reveal.initialize({
-      // ...
-      plugins: [
-        // ...
-        RevealCompilerExplorer,
-        // ...
-      ]
-    });
-    ```
+    and then add a reference to this script along with `node_modules/reveal-compiler-explorer/dist/reveal-compiler-explorer.js` to the `scripts` object inside `reveal-md.json` config file. 
+
+For reference, take a look at the [demo](/packages/reveal-compiler-explorer-demo) package in this repo.
+
 
 ---
 
