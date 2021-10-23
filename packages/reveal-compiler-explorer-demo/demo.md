@@ -13,9 +13,9 @@ open, edit & compile code snippets
 
   </div>
   <div class="column">
-  
+
   [![npm version](https://badge.fury.io/js/reveal-compiler-explorer.svg)](https://badge.fury.io/js/reveal-compiler-explorer) 
-  
+
   </div>
 </div>
 
@@ -128,8 +128,8 @@ assert(C == [1, 0,
 
   </div>
   <div class="column">
-  
+
   [![npm version](https://badge.fury.io/js/reveal-compiler-explorer.svg)](https://badge.fury.io/js/reveal-compiler-explorer) 
-  
+
   </div>
 </div>
