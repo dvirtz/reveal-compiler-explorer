@@ -1,6 +1,5 @@
 node_modules/
 .vscode/
 .act/
-yarn-error.log
 .DS_Store
 .devcontainer/

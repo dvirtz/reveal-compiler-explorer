@@ -5,13 +5,13 @@ It uses [reveal-md](https://github.com/webpro/reveal-md) to generate a [Reveal.j
 For viewing the demo presentation click [here](https://dvirtz.github.io/reveal-compiler-explorer) or run locally
 
 ```
-yarn run present
+npm run present
 ```
 
 if you're inside `reveal-compiler-explorer-demo` or
 
 ```
-yarn lerna run present
+npx lerna run present
 ```
 
 if you're inside the project root.
@@ -19,7 +19,7 @@ if you're inside the project root.
 Test the presentation's code samples with:
 
 ```js
-yarn test
+npm test
 ```
 
 from inside `reveal-compiler-explorer-demo`.

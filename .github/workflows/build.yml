@@ -28,26 +28,27 @@ jobs:
       # pulls all tags (needed for lerna to correctly version)
       - run: git fetch --depth=1 origin +refs/tags/*:refs/tags/* # see https://stackoverflow.com/a/60184319/9285308
 
-      # https://github.com/actions/cache/blob/master/examples.md#node---yarn
-      - name: Get yarn cache
-        run: echo "::set-output name=dir::$(yarn cache dir)"
-        id: yarn_cache
+      - name: Get npm cache directory
+        id: npm-cache-dir
+        run: |
+          echo "::set-output name=dir::$(npm config get cache)"
 
-      - uses: actions/cache@v1
+      - name: Cache npm
+        uses: actions/cache@v3
         with:
-          path: ${{ steps.yarn_cache.outputs.dir }}
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          path: ${{ steps.npm-cache-dir.outputs.dir }}
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
-            ${{ runner.os }}-yarn-
+            ${{ runner.os }}-node-
 
       - name: Install dependencies
-        run: yarn --frozen-lockfile
+        run: npm ci
 
       - name: Bootstrap
-        run: yarn lerna bootstrap && yarn lerna link
+        run: npx lerna bootstrap --hoist
 
       - name: Test
-        run: yarn test
+        run: npm test
 
       - name: "File generation check"
         uses: setare/git-changes-action@v0.1.4
@@ -55,4 +56,4 @@ jobs:
           github_token: ${{ github.token }}
 
       - name: Generate static site
-        run: yarn lerna run generate
+        run: npx lerna run generate

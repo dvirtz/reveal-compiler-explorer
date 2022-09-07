@@ -19,7 +19,6 @@
         "Wextra"
     ],
     "ignorePaths": [
-        "yarn.lock",
         ".vscode",
         "**/node_modules/**"
     ],

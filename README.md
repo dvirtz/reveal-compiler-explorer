@@ -7,7 +7,7 @@ monorepo for plugins and utilities to enhance [Reveal.js](https://revealjs.com/)
 
 # Development
 
-This monorepo is managed by [yarn](https://yarnpkg.com/) and [lerna](https://lerna.js.org/).
+This monorepo is managed by [npm](https://npmjs.com/) and [lerna](https://lerna.js.org/).
 
 Clone the project from Github :
 
@@ -19,13 +19,13 @@ cd reveal-compiler-explorer
 Install dependencies :
 
 ```sh
-yarn
+npm i
 ```
 
 Run tests:
 
 ```sh
-yarn test
+npm test
 ```
 
 Now you're ready to start contributing!

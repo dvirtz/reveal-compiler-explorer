@@ -721,6 +721,10 @@ var process = {
 
 var symbols = createCommonjsModule(function (module) {
 
+const isHyper = typeof process !== 'undefined' && process.env.TERM_PROGRAM === 'Hyper';
+const isWindows = typeof process !== 'undefined' && process.platform === 'win32';
+const isLinux = typeof process !== 'undefined' && process.platform === 'linux';
+
 const common = {
   ballotDisabled: '☒',
   ballotOff: '☐',
@@ -743,6 +747,7 @@ const common = {
   pilcrow2: '❡',
   pilcrow: '¶',
   plusMinus: '±',
+  question: '?',
   section: '§',
   starsOff: '☆',
   starsOn: '★',
@@ -755,7 +760,6 @@ const windows = Object.assign({}, common, {
   ellipsisLarge: '...',
   ellipsis: '...',
   info: 'i',
-  question: '?',
   questionSmall: '?',
   pointer: '>',
   pointerSmall: '»',
@@ -771,17 +775,16 @@ const other = Object.assign({}, common, {
   ellipsisLarge: '⋯',
   ellipsis: '…',
   info: 'ℹ',
-  question: '?',
   questionFull: '？',
   questionSmall: '﹖',
-  pointer:  '❯',
-  pointerSmall:  '›',
+  pointer: isLinux ? '▸' : '❯',
+  pointerSmall: isLinux ? '‣' : '›',
   radioOff: '◯',
   radioOn: '◉',
   warning: '⚠'
 });
 
-module.exports =  other;
+module.exports = (isWindows && !isHyper) ? windows : other;
 Reflect.defineProperty(module.exports, 'common', { enumerable: false, value: common });
 Reflect.defineProperty(module.exports, 'windows', { enumerable: false, value: windows });
 Reflect.defineProperty(module.exports, 'other', { enumerable: false, value: other });
@@ -793,12 +796,20 @@ const isObject = val => val !== null && typeof val === 'object' && !Array.isArra
 // this is a modified version of https://github.com/chalk/ansi-regex (MIT License)
 const ANSI_REGEX = /[\u001b\u009b][[\]#;?()]*(?:(?:(?:[^\W_]*;?[^\W_]*)\u0007)|(?:(?:[0-9]{1,4}(;[0-9]{0,4})*)?[~0-9=<>cf-nqrtyA-PRZ]))/g;
 
-const create = () => {
-  const colors = { enabled: true, visible: true, styles: {}, keys: {} };
-
-  if ('FORCE_COLOR' in process.env) {
-    colors.enabled = process.env.FORCE_COLOR !== '0';
+const hasColor = () => {
+  if (typeof process !== 'undefined') {
+    return process.env.FORCE_COLOR !== '0';
   }
+  return false;
+};
+
+const create = () => {
+  const colors = {
+    enabled: hasColor(),
+    visible: true,
+    styles: {},
+    keys: {}
+  };
 
   const ansi = style => {
     let open = style.open = `\u001b[${style.codes[0]}m`;
@@ -1161,7 +1172,7 @@ function setup(env) {
 
 	/**
 	* Selects a color for a debug namespace
-	* @param {String} namespace The namespace string for the for the debug instance to be colored
+	* @param {String} namespace The namespace string for the debug instance to be colored
 	* @return {Number|String} An ANSI color code for the given namespace
 	* @api private
 	*/
@@ -1187,6 +1198,8 @@ function setup(env) {
 	function createDebug(namespace) {
 		let prevTime;
 		let enableOverride = null;
+		let namespacesCache;
+		let enabledCache;
 
 		function debug(...args) {
 			// Disabled?
@@ -1247,7 +1260,17 @@ function setup(env) {
 		Object.defineProperty(debug, 'enabled', {
 			enumerable: true,
 			configurable: false,
-			get: () => enableOverride === null ? createDebug.enabled(namespace) : enableOverride,
+			get: () => {
+				if (enableOverride !== null) {
+					return enableOverride;
+				}
+				if (namespacesCache !== createDebug.namespaces) {
+					namespacesCache = createDebug.namespaces;
+					enabledCache = createDebug.enabled(namespace);
+				}
+
+				return enabledCache;
+			},
 			set: v => {
 				enableOverride = v;
 			}
@@ -1276,6 +1299,7 @@ function setup(env) {
 	*/
 	function enable(namespaces) {
 		createDebug.save(namespaces);
+		createDebug.namespaces = namespaces;
 
 		createDebug.names = [];
 		createDebug.skips = [];
@@ -1293,7 +1317,7 @@ function setup(env) {
 			namespaces = split[i].replace(/\*/g, '.*?');
 
 			if (namespaces[0] === '-') {
-				createDebug.skips.push(new RegExp('^' + namespaces.substr(1) + '$'));
+				createDebug.skips.push(new RegExp('^' + namespaces.slice(1) + '$'));
 			} else {
 				createDebug.names.push(new RegExp('^' + namespaces + '$'));
 			}
