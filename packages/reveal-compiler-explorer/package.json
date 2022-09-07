@@ -28,7 +28,8 @@
   },
   "license": "MIT",
   "scripts": {
-    "build": "rollup -c --failAfterWarnings"
+    "build": "rollup -c --failAfterWarnings",
+    "clean": "rimraf ./dist"
   },
   "dependencies": {
     "compiler-explorer-directives": "^1.6.0",

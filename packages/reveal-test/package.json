@@ -30,7 +30,8 @@
   },
   "scripts": {
     "build": "rollup -c --failAfterWarnings",
-    "test": "echo \"Error: run tests from root\" && exit 1"
+    "test": "echo \"Error: run tests from root\" && exit 1",
+    "clean": "rimraf ./dist"
   },
   "bugs": {
     "url": "https://github.com/dvirtz/reveal-compiler-explorer/issues"
