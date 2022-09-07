@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "reveal-compiler-explorer": "^1.6.2",
-    "reveal-md": "^5.2.0",
+    "reveal-md": "^5.3.4",
     "reveal-test": "^2.1.3"
   }
 }
