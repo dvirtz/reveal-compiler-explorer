@@ -55,7 +55,7 @@ See example on next slide.
     <td>
       <pre style="font-size: 0.3em; display: table-cell;">
 ```d
-///compiler=ldc1_20
+///compiler=ldc1_21
 ///options=-m32
 ///libs=cblas:trunk,mir_core:trunk
 ///noexecute
@@ -85,7 +85,7 @@ assert(C == [1, 0,
     </td>
     <td>
       <pre style="font-size: 0.3em; display: table-cell;"><code data-trim data-noescape class="d">
-        ///compiler=ldc1_20
+        ///compiler=ldc1_21
         ///options=-m32
         ///libs=cblas:trunk,mir_core:trunk
         ///noexecute
