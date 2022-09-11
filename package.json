@@ -8,7 +8,6 @@
   "repository": "https://github.com/dvirtz/reveal-compiler-explorer",
   "author": "dvirtz <dvirtz@gmail.com>",
   "license": "MIT",
-  "type": "module",
   "scripts": {
     "build": "lerna run build --stream",
     "test": "mocha",
@@ -30,22 +29,17 @@
   "devDependencies": {
     "@commitlint/cli": "^11.0.0",
     "@commitlint/config-conventional": "^11.0.0",
-    "@rollup/plugin-commonjs": "^15.1.0",
-    "@rollup/plugin-json": "^4.1.0",
-    "@rollup/plugin-node-resolve": "^9.0.0",
     "husky": "^5.0.9",
     "lerna": "^5.3.0",
     "mocha": "^8.1.3",
     "pinst": "^2.1.4",
     "rewire": "^5.0.0",
     "rimraf": "^3.0.2",
-    "rollup": "^2.28.2",
-    "rollup-plugin-delete": "^2.0.0",
-    "rollup-plugin-node-globals": "^1.4.0",
-    "rollup-plugin-node-polyfills": "^0.2.1",
     "semver": "^7.3.5",
     "sinon": "^9.2.4",
-    "test-console": "^1.1.0"
+    "test-console": "^1.1.0",
+    "webpack": "^5.74.0",
+    "webpack-cli": "^4.10.0"
   },
   "private": true
 }

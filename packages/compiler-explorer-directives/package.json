@@ -24,7 +24,8 @@
     "url": "git+https://github.com/dvirtz/reveal-compiler-explorer.git"
   },
   "scripts": {
-    "build": "rollup -c --failAfterWarnings",
+    "build": "webpack",
+    "watch": "webpack --watch",
     "test": "echo \"Error: run tests from root\" && exit 1",
     "clean": "rimraf ./dist"
   },
