@@ -1,7 +1,6 @@
 'use strict'
 
 import { parseCode } from 'compiler-explorer-directives';
-import assert from 'assert';
 
 // https://stackoverflow.com/a/17822752/621176
 function commonPrefix(words) {
@@ -37,7 +36,7 @@ int main() {
   std::cout << "Hello Test\\n"
 }`;
     const info = await parseCode(code, 'cpp');
-    assert.deepStrictEqual(info, {
+    expect(info).toStrictEqual({
       source: `#include <iostream>
 
 int main() {
@@ -79,7 +78,7 @@ int main() {
         version: '410'
       }]
     });
-    assert.deepStrictEqual(info, {
+    expect(info).toStrictEqual({
       source: `#include <iostream>
 
 int main() {

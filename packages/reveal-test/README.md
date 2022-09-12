@@ -11,19 +11,16 @@ Check out also [reveal-compiler-explorer](/packages/reveal-compiler-explorer) pa
 
 ```js
 import { parseMarkdown, compile, CompileError } from 'reveal-test';
-import assert from 'assert';
 
 const codeInfos = await parseMarkdown('presentation.md');
 
 describe("demo presentation", function () {
-  this.timeout('10s');
-
   codeInfo.forEach((info, index) => {
     it(`should have snippet ${index} compiled`, async function () {
       await compile(info);
     });
   });
-});
+}, 10000);
 ```
 
 For reference, take a look at the [demo](/packages/reveal-compiler-explorer-demo) package in this repo.

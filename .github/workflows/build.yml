@@ -39,7 +39,7 @@ jobs:
         run: npx lerna bootstrap --hoist
 
       - name: Test
-        run: npm test
+        run: npm --node-options='--experimental-vm-modules' run test
 
       - name: "File generation check"
         uses: setare/git-changes-action@v0.1.4

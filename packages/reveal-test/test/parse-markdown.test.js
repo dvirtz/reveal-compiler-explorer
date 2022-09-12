@@ -1,5 +1,4 @@
 'use strict'
-import assert, { fail } from 'assert';
 import dedent from 'dedent-js';
 import { parseMarkdown } from 'reveal-test';
 
@@ -15,7 +14,7 @@ describe('parseMarkdown', function () {
     end Square;
     \'\'\`
     `;
-    await assert.rejects(parseMarkdown(markdown), /cannot have "fails" and "output" together/);
+    await expect(parseMarkdown(markdown)).rejects.toThrow(/cannot have "fails" and "output" together/);
   });
 
   it('parses inline html code', async function () {
@@ -33,8 +32,8 @@ describe('parseMarkdown', function () {
     </pre>
     `;
     const codeInfos = await parseMarkdown(markdown, {compiler: 'g102'});
-    assert.strictEqual(codeInfos.length, 1);
-    assert.deepStrictEqual(codeInfos[0], {
+    expect(codeInfos).toHaveLength(1);
+    expect(codeInfos[0]).toStrictEqual({
       source: dedent`
       #include <iostream>
       
@@ -79,8 +78,8 @@ describe('parseMarkdown', function () {
     </pre>
     `;
     const codeInfos = await parseMarkdown(markdown, {'c++': { compiler: 'g102'}, 'ada': { compiler: 'gnat111'} });
-    assert.strictEqual(codeInfos.length, 2);
-    assert.deepStrictEqual(codeInfos[0], {
+    expect(codeInfos).toHaveLength(2);
+    expect(codeInfos[0]).toStrictEqual({
       source: dedent`
       function Square(num : Integer) return Integer is
       begin
@@ -102,7 +101,7 @@ describe('parseMarkdown', function () {
       baseUrl: 'https://godbolt.org',
       line: 1
     });
-    assert.deepStrictEqual(codeInfos[1], {
+    expect(codeInfos[1]).toStrictEqual({
       source: dedent`
       #include <iostream>
       
