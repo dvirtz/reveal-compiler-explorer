@@ -28,7 +28,9 @@
   },
   "license": "MIT",
   "scripts": {
-    "build": "rollup -c --failAfterWarnings"
+    "build": "webpack",
+    "watch": "webpack --watch",
+    "clean": "rimraf ./dist"
   },
   "dependencies": {
     "compiler-explorer-directives": "^1.6.0",

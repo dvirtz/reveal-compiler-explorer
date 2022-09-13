@@ -1,9 +1,9 @@
 import { compile } from 'reveal-test';
-import assert from 'assert';
+import { jest } from '@jest/globals';
+
+jest.setTimeout(10000);
 
 describe('compile', function() {
-  this.timeout(10000);
-
   it('succeeds on matching output', async function() {
     const info = {
       source: `#include <iostream>
@@ -41,14 +41,12 @@ int main() {
       path: `demo:19`,
       expectedOutput: 'Hello You'
     };
-    await assert.rejects(compile(info), {
-      name: 'CompileError',
-      message: `demo:19:
+    await expect(compile(info)).rejects.toThrow(`demo:19:
 output mismatch:
 actual: Hello
 World
 expected: Hello You`
-    });
+    );
   });
 
   it('succeeds on matching multiline output', async function() {

@@ -1,7 +1,6 @@
 'use strict'
 
 import { displayUrl } from 'compiler-explorer-directives';
-import assert from 'assert';
 
 describe('displayUrl', function () {
   it('generates display url from info', function () {
@@ -29,9 +28,9 @@ int main() {
     };
     const urlRe = /^https:\/\/godbolt.org\/#(.*)/;
     const url = displayUrl(info);
-    assert.match(url, urlRe);
+    expect(url).toMatch(urlRe);
     url.match(urlRe).slice(1).forEach(fragment => {
-      assert.deepStrictEqual(JSON.parse(decodeURIComponent(fragment)), {
+      expect(JSON.parse(decodeURIComponent(fragment))).toStrictEqual({
         version: 4,
         content: [{
           type: 'row', content: [

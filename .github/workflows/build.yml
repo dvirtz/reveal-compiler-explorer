@@ -11,7 +11,7 @@ jobs:
 
     strategy:
       matrix:
-        node_version: [12.x, 14.x, 16.x]
+        node_version: [14.x, 16.x, 18.x]
 
     steps:
       - uses: actions/checkout@v2
@@ -24,35 +24,22 @@ jobs:
         with:
           node-version: "${{ matrix.node_version }}"
           registry-url: "https://registry.npmjs.org"
+          cache: 'npm'
+
+      - name: Upgrade npm
+        run: npm i -g npm
 
       # pulls all tags (needed for lerna to correctly version)
       - run: git fetch --depth=1 origin +refs/tags/*:refs/tags/* # see https://stackoverflow.com/a/60184319/9285308
 
-      # https://github.com/actions/cache/blob/master/examples.md#node---yarn
-      - name: Get yarn cache
-        run: echo "::set-output name=dir::$(yarn cache dir)"
-        id: yarn_cache
-
-      - uses: actions/cache@v1
-        with:
-          path: ${{ steps.yarn_cache.outputs.dir }}
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-yarn-
-
       - name: Install dependencies
-        run: yarn --frozen-lockfile
+        run: npm ci
 
       - name: Bootstrap
-        run: yarn lerna bootstrap && yarn lerna link
+        run: npx lerna bootstrap --hoist
 
       - name: Test
-        run: yarn test
-
-      - name: "File generation check"
-        uses: setare/git-changes-action@v0.1.4
-        with:
-          github_token: ${{ github.token }}
+        run: npm --node-options='--experimental-vm-modules' run test
 
       - name: Generate static site
-        run: yarn lerna run generate
+        run: npx lerna run generate

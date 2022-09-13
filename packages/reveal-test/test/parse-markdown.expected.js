@@ -68,7 +68,7 @@ export const expected = [{
   assert(C == [1, 0,
                2, 3]);`,
   language: 'd',
-  compiler: 'ldc1_20',
+  compiler: 'ldc1_21',
   options: '-m32',
   libs: [{
     name: 'cblas',

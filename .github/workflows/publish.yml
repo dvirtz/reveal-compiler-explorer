@@ -24,21 +24,13 @@ jobs:
         with:
           node-version: "${{ matrix.node_version }}"
           registry-url: "https://registry.npmjs.org"
+          cache: 'npm'
 
       # pulls all tags (needed for lerna to correctly version)
       - run: git fetch --depth=1 origin +refs/tags/*:refs/tags/* # see https://stackoverflow.com/a/60184319/9285308
 
-      # https://github.com/actions/cache/blob/master/examples.md#node---yarn
-      - name: Get yarn cache
-        run: echo "::set-output name=dir::$(yarn cache dir)"
-        id: yarn_cache
-
-      - uses: actions/cache@v1
-        with:
-          path: ${{ steps.yarn_cache.outputs.dir }}
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-yarn-
+      - name: Upgrade npm
+        run: npm i -g npm
 
       - name: Git Identity
         run: |
@@ -49,24 +41,24 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Install dependencies
-        run: yarn --frozen-lockfile
+        run: npm ci
 
       - name: Bootstrap
-        run: yarn lerna bootstrap && yarn lerna link
+        run: npx lerna bootstrap --hoist
 
       - name: Test
-        run: yarn test
+        run: npm --node-options='--experimental-vm-modules' run test
 
       - name: Publish
         run: |
-          yarn lerna version -y --conventional-commits --create-release github
-          yarn lerna publish -y from-package
+          npx lerna version -y --conventional-commits --create-release github
+          npx lerna publish -y from-package
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
 
       - name: Generate static site
-        run: yarn lerna run generate
+        run: npx lerna run generate
 
       - name: GitHub Pages action
         uses: peaceiris/actions-gh-pages@v3.6.1

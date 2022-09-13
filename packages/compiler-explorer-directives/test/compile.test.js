@@ -1,11 +1,11 @@
 'use strict'
 
 import { compile, CompileError } from 'compiler-explorer-directives';
-import assert from 'assert';
+import { jest } from '@jest/globals';
+
+jest.setTimeout(60000);
 
 describe('compile', function () {
-  this.timeout('60s');
-
   it('compiles valid code', async function () {
     const info = {
       source: `#include <iostream>
@@ -20,7 +20,7 @@ int main() {
       baseUrl: 'https://godbolt.org'
     };
     const result = await compile(info);
-    assert.strictEqual(result, 'Hello Test\nGoodbye');
+    expect(result).toBe('Hello Test\nGoodbye');
   });
 
   it('fails on invalid non-executing code', async function () {
@@ -35,10 +35,7 @@ int main() {
       options: '-Wall -Werror',
       baseUrl: 'https://godbolt.org',
     };
-    await assert.rejects(compile(info), {
-      name: 'CompileError',
-      message: /expected ';' before '}'/
-    });
+    await expect(compile(info)).rejects.toThrow(/expected ';' before '}'/);
   });
 
   it('fails on linker error', async function () {
@@ -56,12 +53,16 @@ int main() {
       execute: true,
       baseUrl: 'https://godbolt.org'
     };
-    await assert.rejects(compile(info), (err) => {
-      assert(err instanceof CompileError);
-      assert.notStrictEqual(err.code, 0);
-      assert.match(err.message, /undefined reference to `foo\(\)'/);
-      return true;
-    });
+    let thrownError;
+    try {
+      await compile(info);
+    } 
+    catch(error) {
+      thrownError = error;
+    }
+    expect(thrownError).toBeInstanceOf(CompileError);
+    expect(thrownError.code).not.toBe(0);
+    expect(thrownError.message).toMatch(/undefined reference to `foo\(\)'/);
   });
 
   it('returns stderr + stdout', async function () {
@@ -80,7 +81,7 @@ int main() {
       baseUrl: 'https://godbolt.org'
     };
     const result = await compile(info);
-    assert.strictEqual(result, 'World\nHello');
+    expect(result).toBe('World\nHello');
   });
 
   it('sets expected failure', async function () {
@@ -95,12 +96,16 @@ int main() {
       options: '-Wall -Werror',
       baseUrl: 'https://godbolt.org'
     };
-    await assert.rejects(compile(info), (err) => {
-      assert(err instanceof CompileError);
-      assert.notStrictEqual(err.code, 0);
-      assert.match(err.message, /expected ';' before '}'/);
-      return true;
-    });
+    let thrownError;
+    try {
+      await compile(info);
+    } 
+    catch(error) {
+      thrownError = error;
+    }
+    expect(thrownError).toBeInstanceOf(CompileError);
+    expect(thrownError.code).not.toBe(0);
+    expect(thrownError.message).toMatch(/expected ';' before '}'/);
   });
 
   it('fails with msvc', async function () {
@@ -111,11 +116,15 @@ int main() {
       options: '/O2',
       baseUrl: 'https://godbolt.org'
     };
-    await assert.rejects(compile(info), (err) => {
-      assert(err instanceof CompileError);
-      assert.notStrictEqual(err.code, 0);
-      assert.match(err.message, /'foo': must return a value/);
-      return true;
-    });
+    let thrownError;
+    try {
+      await compile(info);
+    } 
+    catch(error) {
+      thrownError = error;
+    }
+    expect(thrownError).toBeInstanceOf(CompileError);
+    expect(thrownError.code).not.toBe(0);
+    expect(thrownError.message).toMatch(/'foo': must return a value/);
   });
 });

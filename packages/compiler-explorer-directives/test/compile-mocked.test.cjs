@@ -1,13 +1,14 @@
-const sinon = require('sinon');
 const { stderr } = require('test-console');
-const assert = require('assert');
-const rewire = require('rewire');
-const rewired = rewire('compiler-explorer-directives');
 const debug = require('debug');
+import { jest } from '@jest/globals';
+import bent from 'bent';
+import { compile } from 'compiler-explorer-directives';
+
+jest.mock('bent');
 
 describe('compile mocked', function () {
   it('retries on 500', async function () {
-    const post = sinon.fake((() => {
+    const post = jest.fn((() => {
       var firstTime = true;
       return function (baseURL, ...options) {
         if (firstTime) {
@@ -25,8 +26,7 @@ describe('compile mocked', function () {
         }
       };
     })());
-    rewired.__set__('post', post);
-    const compile = rewired.__get__('compile');
+    bent.mockResolvedValue(post);
     const info = {
       source: `#include <iostream>
 
@@ -45,8 +45,8 @@ std::cout << "Hello Test\\nGoodbye";
     const result = await compile(info);
     debug.enable(orig);
     inspect.restore();
-    assert(result === 'success');
-    assert(post.calledTwice);
-    assert.match(inspect.output.join(''), /compile error \{ statusCode: 500 \}.*retrying/s);
+    expect(result).toBe('success');
+    expect(post).toBeCalledTimes(2);
+    expect(inspect.output.join('')).toMatch(/compile error \{ statusCode: 500 \}.*retrying/s);
   });
 });
