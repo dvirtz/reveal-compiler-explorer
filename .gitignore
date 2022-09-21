@@ -3,3 +3,4 @@ node_modules/
 .act/
 .DS_Store
 .devcontainer/
+.secrets
