@@ -43,7 +43,7 @@ jobs:
 
       - name: Commit & Push changes
         uses: actions-js/push@master
-        if: ${{ matrix.node_version == '14.x' }}
+        if: ${{ matrix.node_version == '14' }}
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           branch: ${{ github.head_ref }}
