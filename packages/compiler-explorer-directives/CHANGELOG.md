@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 1.6.1 (2022-09-25)
+
+**Note:** Version bump only for package compiler-explorer-directives
+
+
+
+
+
 # [1.6.0](https://github.com/dvirtz/reveal-compiler-explorer/compare/compiler-explorer-directives@1.5.0...compiler-explorer-directives@1.6.0) (2021-08-23)
 
 

@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.2.2](https://github.com/dvirtz/reveal-compiler-explorer/compare/reveal-compiler-explorer-demo@2.2.1...reveal-compiler-explorer-demo@2.2.2) (2022-09-25)
+
+**Note:** Version bump only for package reveal-compiler-explorer-demo
+
+
+
+
+
 ## [2.2.1](https://github.com/dvirtz/reveal-compiler-explorer/compare/reveal-compiler-explorer-demo@2.2.0...reveal-compiler-explorer-demo@2.2.1) (2021-10-23)
 
 
