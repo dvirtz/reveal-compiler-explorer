@@ -6,7 +6,7 @@
   "private": true,
   "scripts": {
     "present": "reveal-md demo.md -w",
-    "generate": "reveal-md demo.md --static",
+    "build": "reveal-md demo.md --static dist",
     "test": "jest"
   },
   "dependencies": {
