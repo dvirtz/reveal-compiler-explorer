@@ -49,19 +49,11 @@ jobs:
       - name: Test
         run: npm --node-options='--experimental-vm-modules' run test
 
-      - name: Publish
-        run: |
-          npx lerna version -y --conventional-commits --create-release github
-          npx lerna publish -y from-package
-        env:
-          GH_TOKEN: ${{ secrets.PUSH_TOKEN }}
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
-
       - name: Generate static site
         run: npx lerna run generate
 
-      - name: GitHub Pages action
-        uses: peaceiris/actions-gh-pages@v3.6.1
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./packages/reveal-compiler-explorer-demo/_static
+      - name: Release
+        env:
+          GH_TOKEN: ${{ secrets.PUSH_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npx semantic-release
