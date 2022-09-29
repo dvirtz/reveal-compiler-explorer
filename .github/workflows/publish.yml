@@ -49,11 +49,8 @@ jobs:
       - name: Test
         run: npm --node-options='--experimental-vm-modules' run test
 
-      - name: Generate static site
-        run: npx lerna run generate
-
       - name: Release
         env:
           GH_TOKEN: ${{ secrets.PUSH_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
         run: npx semantic-release
