@@ -114,7 +114,7 @@ int main() {
       language: 'cpp',
       compiler: 'vcpp_v19_24_x64',
       options: '/O2',
-      baseUrl: 'https://godbolt.org'
+      baseUrl: 'https://www.godbolt.ms'
     };
     let thrownError;
     try {

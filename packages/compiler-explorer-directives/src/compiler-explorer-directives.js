@@ -24,8 +24,6 @@ const langAliases = {
 };
 
 const GODBOLT_URL = 'https://godbolt.org';
-const get = bent(`${GODBOLT_URL}/api`, 'GET', 'json', { 'Accept': 'application/json' });
-const post = bent(`${GODBOLT_URL}/api`, 'POST', 'json');
 
 const langConfig = (() => {
   let langConfig;
@@ -45,6 +43,7 @@ const langConfig = (() => {
         }]
       ]);
       log(`reading languages from ${GODBOLT_URL}`);
+      const get = bent(`${GODBOLT_URL}/api`, 'GET', 'json', { 'Accept': 'application/json' });
       const languages = await get('/languages?fields=id,defaultCompiler');
       langConfig = new Map(languages
         .map(({ id, defaultCompiler }) => [id, Object.assign({ 'compiler': defaultCompiler }, predefined.get(id))]));
@@ -219,6 +218,7 @@ const compile = async (info, retryOptions = {}) => {
   };
   const response = await promiseRetry(retryOptions, async (retry) => {
     try {
+      const post = bent(`${info.baseUrl}/api`, 'POST', 'json');
       return await post(`/compiler/${info.compiler}/compile`, data);
     }
     catch (err) {
