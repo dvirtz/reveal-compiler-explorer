@@ -44,5 +44,21 @@
     "webpack": "^5.74.0",
     "webpack-cli": "^4.10.0"
   },
-  "private": true
+  "private": true,
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ],
+    "rules": {
+      "body-max-line-length": [
+        2,
+        "always",
+        200
+      ],
+      "footer-max-line-length": [
+        0,
+        "always"
+      ]
+    }
+  }
 }
