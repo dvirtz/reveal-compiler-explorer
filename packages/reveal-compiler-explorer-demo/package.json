@@ -1,6 +1,6 @@
 {
   "name": "reveal-compiler-explorer-demo",
-  "version": "2.2.1",
+  "version": "2.0.0",
   "license": "MIT",
   "type": "module",
   "private": true,
@@ -10,8 +10,8 @@
     "test": "jest"
   },
   "dependencies": {
-    "reveal-compiler-explorer": "^1.6.2",
+    "reveal-compiler-explorer": "^2.0.0",
     "reveal-md": "^5.3.4",
-    "reveal-test": "^2.1.3"
+    "reveal-test": "^2.0.0"
   }
 }
