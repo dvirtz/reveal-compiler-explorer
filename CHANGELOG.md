@@ -1,3 +1,10 @@
+### 2.0.1 (2022-10-03)
+
+
+### Bug Fixes
+
+* **reveal-compiler-explorer-demo:** remove underscore from assets dir 51672d1
+
 ## 2.0.0 (2022-10-03)
 
 

@@ -3,7 +3,7 @@
   "workspaces": [
     "packages/*"
   ],
-  "version": "2.0.0",
+  "version": "2.0.1",
   "main": "index.js",
   "repository": "https://github.com/dvirtz/reveal-compiler-explorer",
   "author": "dvirtz <dvirtz@gmail.com>",
