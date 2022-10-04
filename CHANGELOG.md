@@ -1,3 +1,14 @@
+## 3.0.0 (2022-10-04)
+
+
+### ⚠ BREAKING CHANGES
+
+* force version bump
+
+### Build and continuous integration
+
+* version bump 0961e3c
+
 ### 2.0.1 (2022-10-03)
 
 
