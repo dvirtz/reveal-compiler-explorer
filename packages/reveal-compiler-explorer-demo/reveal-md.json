@@ -2,7 +2,7 @@
     "verticalSeparator": "^---\n",
     "separator": "^----\n",
     "scripts": [
-        "plugins/reveal-compiler-explorer/dist/reveal-compiler-explorer.js",
+        "../../node_modules/reveal-compiler-explorer/dist/reveal-compiler-explorer.js",
         "scripts/load-plugins.js",
         "scripts/click-name.js"
     ],
