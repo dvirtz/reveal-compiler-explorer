@@ -102,6 +102,7 @@ const compile = async (info, retryOptions = {}) => {
   const failureMismatch = (output) => {
     return new CompileError(-1, error(`should have failed with '${info.failReason}'${output.length > 0 ? `\nactual output is:\n${output}` : ''}`));
   };
+  await replaceUrlIncludes(info);
   if (info.failReason) {
     try {
       const result = await origCompile(info, retryOptions);
@@ -128,6 +129,38 @@ const compile = async (info, retryOptions = {}) => {
 
     return result;
   }
+};
+
+// https://stackoverflow.com/a/48032528/621176
+async function replaceAsync(str, regex, asyncFn) {
+  const promises = [];
+  str.replace(regex, (match, ...args) => {
+    const promise = asyncFn(match, ...args);
+    promises.push(promise);
+  });
+  const data = await Promise.all(promises);
+  return str.replace(regex, () => data.shift());
+}
+
+async function replaceUrlIncludes(info) {
+  const includeFind = /^\s*#\s*include\s*["<](https?:\/\/[^">]+)[">]/mg;
+  const downloadedIncludes = (function () {
+    if (typeof replaceUrlIncludes.downloadedIncludes == 'undefined') {
+      replaceUrlIncludes.downloadedIncludes = new Map();
+    }
+    return replaceUrlIncludes.downloadedIncludes;
+  })();
+  info.source = await replaceAsync(info.source, includeFind, async (match, p1) => {
+    if (!downloadedIncludes.has(p1)) {
+      const response = await fetch(p1);
+      if (!response.ok) {
+        throw CompileError(-5, `${info.path}: failed downloading ${p1}: ${response.statusText}`);
+      }
+      downloadedIncludes.set(p1, await response.text());
+    }
+
+    return downloadedIncludes.get(p1);
+  });
 };
 
 export { parseMarkdown, parseMarkdownFile, compile, CompileError };

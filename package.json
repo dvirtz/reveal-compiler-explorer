@@ -10,7 +10,7 @@
   "license": "MIT",
   "scripts": {
     "build": "lerna run build --stream",
-    "test": "lerna run test --stream",
+    "test": "npx --node-options='--experimental-vm-modules' lerna run test --stream",
     "pretest": "npm run build",
     "versionup": "lerna version --no-git-tag-version",
     "versionup:patch": "lerna version patch -y --no-git-tag-version",
