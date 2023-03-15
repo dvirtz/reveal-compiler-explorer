@@ -39,6 +39,7 @@ int main() {
               componentName: 'codeEditor',
               componentState: {
                 id: 1,
+                lang: 'cpp',
                 source: `#include <iostream>
 
 int main() {

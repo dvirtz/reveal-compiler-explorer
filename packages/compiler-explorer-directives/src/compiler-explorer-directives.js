@@ -142,6 +142,7 @@ const displayUrl = (info) => {
       componentName: 'codeEditor',
       componentState: {
         id: 1,
+        lang: info.language,
         source: info.source,
         options: { compileOnChange: true, colouriseAsm: true },
         fontScale: 2.5
