@@ -1,6 +1,6 @@
 'use strict'
-import dedent from 'dedent-js';
-import { parseMarkdown } from 'reveal-test';
+const dedent = require('dedent-js');
+const { parseMarkdown } = require('reveal-test');
 
 describe('parseMarkdown', function () {
   it('errors on output and failure defined together', async function () {

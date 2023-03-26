@@ -1,14 +1,9 @@
-import dedent from 'dedent-js';
-import { dirname, join } from 'path';
-import { fileURLToPath } from 'url';
+const dedent = require('dedent-js');
+const { join } = require('path');
 
-export const path = (() => {
-  const __filename = fileURLToPath(import.meta.url);
-  const __dirname = dirname(__filename);
-  return join(__dirname, 'test.md');
-})();
+const path = join(__dirname, 'test.md');
 
-export const expected = [{
+const expected = [{
   source: dedent`
   #include <iostream>
   
@@ -75,7 +70,7 @@ export const expected = [{
     ver: 'trunk'
   }, {
     name: 'mir_core',
-    ver: 'trunk'    
+    ver: 'trunk'
   }],
   execute: false,
   baseUrl: 'https://godbolt.org',
@@ -156,3 +151,8 @@ export const expected = [{
   expectedOutput: 'Hello\nCE\n!'
 }
 ];
+
+module.exports = {
+  path,
+  expected
+}

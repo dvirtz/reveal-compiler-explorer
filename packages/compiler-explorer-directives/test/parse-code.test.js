@@ -1,6 +1,6 @@
 'use strict'
 
-import { parseCode } from 'compiler-explorer-directives';
+const { parseCode } = require('compiler-explorer-directives');
 
 // https://stackoverflow.com/a/17822752/621176
 function commonPrefix(words) {

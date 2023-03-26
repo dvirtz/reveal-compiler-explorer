@@ -1,9 +1,10 @@
 'use strict'
 
-import { compile, CompileError } from 'compiler-explorer-directives';
-import { jest } from '@jest/globals';
+const { compile, CompileError } = require('compiler-explorer-directives');
 
-jest.setTimeout(60000);
+if (!process.env.DEBUG_MODE) {
+  jest.setTimeout(60000);
+}
 
 describe('compile', function () {
   it('compiles valid code', async function () {

@@ -1,6 +1,6 @@
 'use strict'
 
-import { displayUrl } from 'compiler-explorer-directives';
+const { displayUrl } = require('compiler-explorer-directives');
 
 describe('displayUrl', function () {
   it('generates display url from info', function () {

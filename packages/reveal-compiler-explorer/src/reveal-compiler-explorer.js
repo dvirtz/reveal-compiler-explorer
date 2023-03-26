@@ -1,6 +1,6 @@
-import { parseCode, displayUrl, compile, getLanguage } from 'compiler-explorer-directives';
-import Hammer from 'hammerjs';
-import { isMobile } from 'reveal.js/js/utils/device';
+const { parseCode, displayUrl, compile, getLanguage } = require('compiler-explorer-directives');
+const Hammer = require('hammerjs');
+const { isMobile } = require('reveal.js/js/utils/device');
 
 const elementMark = '__REVEAL_CE__';
 

@@ -10,7 +10,7 @@ Check out also [reveal-compiler-explorer](/packages/reveal-compiler-explorer) pa
 ## Example
 
 ```js
-import { parseMarkdown, compile, CompileError } from 'reveal-test';
+const { parseMarkdown, compile, CompileError } = require('reveal-test');
 
 const codeInfos = await parseMarkdown('presentation.md');
 

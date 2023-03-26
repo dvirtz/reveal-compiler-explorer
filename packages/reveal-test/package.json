@@ -11,8 +11,7 @@
     "godbolt"
   ],
   "main": "./dist/reveal-test.cjs",
-  "type": "module",
-  "exports": {
+    "exports": {
     "import": "./src/reveal-test.js",
     "require": "./dist/reveal-test.cjs"
   },
@@ -31,13 +30,13 @@
   "scripts": {
     "build": "webpack",
     "watch": "webpack --watch",
-    "test": "jest",
     "clean": "rimraf ./dist"
   },
   "bugs": {
     "url": "https://github.com/dvirtz/reveal-compiler-explorer/issues"
   },
   "dependencies": {
+    "bent": "^7.3.12",
     "cheerio": "^1.0.0-rc.10",
     "compiler-explorer-directives": "^3.0.0",
     "dedent-js": "^1.0.1",

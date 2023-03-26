@@ -30,7 +30,7 @@ jobs:
         run: npx lerna bootstrap --hoist
 
       - name: Test
-        run: npm --node-options='--experimental-vm-modules' run test
+        run: npm run test
 
       - name: Release
         env:
