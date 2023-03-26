@@ -1,17 +1,15 @@
-import { parseMarkdownFile, compile } from 'reveal-test';
-import { join, dirname } from 'path';
-import { fileURLToPath } from 'url';
-import { jest } from '@jest/globals';
+const { parseMarkdownFile, compile } = require('reveal-test');
+const { join } = require('path');
 
 const codeInfo = await (async () => {
-  const __filename = fileURLToPath(import.meta.url);
-  const __dirname = dirname(__filename);
   const path = join(__dirname, '..', 'demo.md');
   const config = { runMain: false };
   return await parseMarkdownFile(path, config);
 })();
 
-jest.setTimeout(10000);
+if (!process.env.DEBUG_MODE) {
+  jest.setTimeout(10000);
+}
 
 describe("demo presentation", function () {
   codeInfo.forEach((info, index) => {

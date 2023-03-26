@@ -10,7 +10,7 @@ Base'd on Matt Godbolt's code which can be found at [here](https://github.com/ma
 ## Example
 
 ```js
-import {parseCode, displayURL} from 'compiler-explorer-directives';
+const {parseCode, displayURL} = require('compiler-explorer-directives');
 const info = parseCode(`
 ///compiler=g83
 ///options+=-O0

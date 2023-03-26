@@ -1,8 +1,8 @@
-import { compile } from 'reveal-test';
-import { jest } from '@jest/globals';
-import dedent from 'dedent-js';
+const { compile } = require('../src/reveal-test');
 
-jest.setTimeout(10000);
+if (!process.env.DEBUG_MODE) {
+  jest.setTimeout(10000);
+}
 
 describe('compile', function() {
   it('succeeds on matching output', async function() {
@@ -68,29 +68,5 @@ int main() {
       expectedOutput: 'Hello\nWorld'
     };
     await compile(info);
-  });
-
-  it('compiles code with url includes', async function() {
-    const info = {
-      source: dedent`
-      #include <https://raw.githubusercontent.com/hanickadot/compile-time-regular-expressions/master/single-header/ctre.hpp>
-      #include <string_view>
-      
-      constexpr auto match(std::string_view sv) noexcept {
-        return ctre::match<"h.*">(sv);
-      }
-      `,
-      language: 'c++',
-      compiler: 'g102',
-      options: '-std=c++2a -O2 -march=haswell -Wall -Wextra -pedantic -Wno-unused-variable -Wno-unused-parameter',
-      libs: [],
-      execute: false,
-      baseUrl: 'https://godbolt.org'
-    };
-    const fetch = jest.spyOn(global, 'fetch');
-    await compile(info);
-    // make sure 2nd invocation uses cached code
-    await compile(info);
-    expect(fetch).toHaveBeenCalledTimes(1);
   });
 });

@@ -8,10 +8,8 @@ module.exports = {
   entry: {
     'reveal-test': './src/reveal-test.js',
   },
+  target: 'node',
   resolve: {
-    fallback: {
-        'fs': false
-    },
     extensions: ['.js'],
   },
   output: {

@@ -1,10 +1,11 @@
 'use strict';
 
-import { parseCode, compile as origCompile, CompileError } from 'compiler-explorer-directives';
-import MarkdownIt from 'markdown-it';
-import { promises } from 'fs';
-import cheerio from 'cheerio';
-import dedent from 'dedent-js';
+const { parseCode, compile: origCompile, CompileError } = require('compiler-explorer-directives');
+const MarkdownIt = require('markdown-it');
+const { promises } = require('fs');
+const cheerio = require('cheerio');
+const dedent = require('dedent-js');
+const fetch = require('cross-fetch');
 
 class ParseError extends Error {
   constructor(message) {
@@ -152,15 +153,15 @@ async function replaceUrlIncludes(info) {
   })();
   info.source = await replaceAsync(info.source, includeFind, async (match, p1) => {
     if (!downloadedIncludes.has(p1)) {
-      const response = await fetch(p1);
-      if (!response.ok) {
-        throw CompileError(-5, `${info.path}: failed downloading ${p1}: ${response.statusText}`);
+      try {
+        downloadedIncludes.set(p1, await (await fetch(p1)).text());
+      } catch (err) {
+        throw CompileError(-5, `${info.path}: failed downloading ${p1}: ${err.message}`);
       }
-      downloadedIncludes.set(p1, await response.text());
     }
 
     return downloadedIncludes.get(p1);
   });
 };
 
-export { parseMarkdown, parseMarkdownFile, compile, CompileError };
+module.exports = { parseMarkdown, parseMarkdownFile, compile, CompileError };

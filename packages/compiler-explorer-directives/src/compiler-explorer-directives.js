@@ -1,10 +1,11 @@
 'use strict';
 
-import bent from 'bent';
-import promiseRetry from 'promise-retry';
-import ansi_colors from 'ansi-colors';
-import debug from 'debug';
+const promiseRetry = require('promise-retry');
+const ansi_colors = require('ansi-colors');
+const debug = require('debug');
+const fetch = require('cross-fetch');
 const { unstyle } = ansi_colors;
+const CompileError = require('./compile-error')
 
 const log = debug('reveal-compiler-explorer:compiler-explorer-directives');
 
@@ -25,6 +26,34 @@ const langAliases = {
 
 const GODBOLT_URL = 'https://godbolt.org';
 
+const checked = (response) => {
+  if (response.ok) {
+    return response;
+  }
+
+  throw CompileError(response.status, response.statusText);
+};
+
+async function languages() {
+  try {
+    log(`reading languages from ${GODBOLT_URL}`);
+    const response = await fetch(`${GODBOLT_URL}/api/languages?fields=id,defaultCompiler`, {
+      headers: {
+        'Accept': 'application/json'
+      }
+    });
+    return await checked(response).json();
+  } catch (error) {
+    log(`error while reading languages: ${error.message}`);
+    return [
+      {
+        "id": "c++",
+        "defaultCompiler": "g122"
+      }
+    ];
+  }
+}
+
 const langConfig = (() => {
   let langConfig;
   return async function () {
@@ -42,10 +71,7 @@ const langConfig = (() => {
           mainRegex: /\bmain\(/
         }]
       ]);
-      log(`reading languages from ${GODBOLT_URL}`);
-      const get = bent(`${GODBOLT_URL}/api`, 'GET', 'json', { 'Accept': 'application/json' });
-      const languages = await get('/languages?fields=id,defaultCompiler');
-      langConfig = new Map(languages
+      langConfig = new Map((await languages())
         .map(({ id, defaultCompiler }) => [id, Object.assign({ 'compiler': defaultCompiler }, predefined.get(id))]));
       log('default language configuration is %o', langConfig);
     }
@@ -192,14 +218,6 @@ const displayUrl = (info) => {
   return `${info.baseUrl}/#${ceFragment}`;
 };
 
-class CompileError extends Error {
-  constructor(code, message) {
-    super(message);
-    this.name = 'CompileError';
-    this.code = code;
-  }
-}
-
 const compile = async (info, retryOptions = {}) => {
   log('compiling %o', info);
   const data = {
@@ -218,19 +236,19 @@ const compile = async (info, retryOptions = {}) => {
     }
   };
   const response = await promiseRetry(retryOptions, async (retry) => {
-    try {
-      const post = bent(`${info.baseUrl}/api`, 'POST', 'json');
-      return await post(`/compiler/${info.compiler}/compile`, data);
-    }
-    catch (err) {
-      log('compile error %o', err);
-      if (Math.trunc(err.statusCode / 100) === 5) {
-        log('retrying');
-        retry(err);
+    const response = await fetch(`${info.baseUrl}/api/compiler/${info.compiler}/compile`, {
+      method: 'post',
+      body: JSON.stringify(data),
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
       }
-
-      throw err;
+    });
+    if (Math.trunc(response.status / 100) === 5) {
+      log(`response status is ${response.status} (${response.statusText}), retrying`);
+      retry(response);
     }
+    return await checked(response).json();
   });
 
   log('response is %o', response);
@@ -259,7 +277,10 @@ function getLanguage(language, languageConfig, fallback) {
     .map(lang => langAliases[lang] || lang)
     .filter(lang => languageConfig.has(lang))
     .concat(fallback)
-    [0];
+  [0];
 }
 
-export { parseCode, displayUrl, compile, CompileError };
+module.exports.parseCode = parseCode;
+module.exports.displayUrl = displayUrl;
+module.exports.compile = compile;
+module.exports.CompileError = CompileError;
