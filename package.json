@@ -3,12 +3,12 @@
   "workspaces": [
     "packages/*"
   ],
-  "version": "3.0.0",
+  "version": "3.1.0",
   "main": "index.js",
   "repository": "https://github.com/dvirtz/reveal-compiler-explorer",
   "author": "dvirtz <dvirtz@gmail.com>",
   "license": "MIT",
-    "scripts": {
+  "scripts": {
     "build": "lerna run build --stream",
     "test": "jest",
     "pretest": "npm run build",

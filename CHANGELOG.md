@@ -1,3 +1,21 @@
+## 3.1.0 (2023-03-26)
+
+
+### Features
+
+* **reveal-test:** support testing code with url includes 6857e96
+
+
+### Bug Fixes
+
+* **compiler-explorer-directives:** add language to editor state 8f3c82f
+
+
+### General maintenance
+
+* **compiler-explorer-directives, reveal-compiler-explorer-demo, reveal-compiler-explorer, reveal-test:** use commonjs modules for better jest support 4b3cdcb
+* **reveal-compiler-explorer-demo:** remove symbolic link for windows to work f305594
+
 ## 3.0.0 (2022-10-04)
 
 

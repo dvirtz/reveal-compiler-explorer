@@ -1,15 +1,15 @@
 {
   "name": "reveal-compiler-explorer-demo",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "license": "MIT",
-    "private": true,
+  "private": true,
   "scripts": {
     "present": "reveal-md demo.md -w",
     "build": "reveal-md demo.md --static dist"
   },
   "dependencies": {
-    "reveal-compiler-explorer": "^3.0.0",
+    "reveal-compiler-explorer": "^3.1.0",
     "reveal-md": "^5.3.4",
-    "reveal-test": "^3.0.0"
+    "reveal-test": "^3.1.0"
   }
 }
