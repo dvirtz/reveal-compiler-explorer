@@ -1,11 +1,12 @@
-const { parseMarkdownFile, compile } = require('reveal-test');
-const { join } = require('path');
+import { parseMarkdownFile, compile } from 'reveal-test';
+import path from 'path';
+import dirname from './dirname.js';
+import { jest } from '@jest/globals';
 
-const codeInfo = await (async () => {
-  const path = join(__dirname, '..', 'demo.md');
-  const config = { runMain: false };
-  return await parseMarkdownFile(path, config);
-})();
+const codeInfo = await parseMarkdownFile(
+  path.join(dirname, "..", "demo.md"), 
+  { runMain: false }
+);
 
 if (!process.env.DEBUG_MODE) {
   jest.setTimeout(10000);
