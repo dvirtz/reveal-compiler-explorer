@@ -26,9 +26,6 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Bootstrap
-        run: npx lerna bootstrap --hoist
-
       - name: Test
         run: npm run test
 
