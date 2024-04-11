@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "reveal-compiler-explorer": "^3.1.0",
-    "reveal-md": "^5.3.4",
+    "reveal-md": "^6.1.0",
     "reveal-test": "^3.1.0"
   }
 }

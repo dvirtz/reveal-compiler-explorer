@@ -11,34 +11,25 @@ jobs:
 
     strategy:
       matrix:
-        node_version: [14, 16, 18]
+        node_version: [18, 20]
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           # pulls all commits (needed for lerna to correctly version)
           # see https://stackoverflow.com/a/60184319/9285308 & https://github.com/actions/checkout
           fetch-depth: "0"
 
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
           node-version: "${{ matrix.node_version }}"
-          cache: 'npm'
+          cache: npm
 
       - name: Upgrade npm
         run: npm i -g npm
 
-      # pulls all tags (needed for lerna to correctly version)
-      - run: git fetch --depth=1 origin +refs/tags/*:refs/tags/* # see https://stackoverflow.com/a/60184319/9285308
-
       - name: Install dependencies
         run: npm ci
 
-      - name: Bootstrap
-        run: npx lerna bootstrap --hoist
-
       - name: Test
         run: npm run test
-
-      - name: Generate static site
-        run: npx lerna run generate

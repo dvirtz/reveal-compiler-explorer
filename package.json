@@ -1,30 +1,24 @@
 {
   "name": "reveal-compiler-explorer-monorepo",
   "workspaces": [
-    "packages/*"
+    "packages/compiler-explorer-directives",
+    "packages/reveal-compiler-explorer",
+    "packages/reveal-compiler-explorer-demo",
+    "packages/reveal-test"
   ],
   "version": "3.1.0",
   "main": "index.js",
   "repository": "https://github.com/dvirtz/reveal-compiler-explorer",
-  "author": "dvirtz <dvirtz@gmail.com>",
+  "author": {
+    "name": "Dvir Yitzchaki",
+    "email": "dvirtz@gmail.com"
+  },
   "license": "MIT",
   "scripts": {
-    "build": "lerna run build --stream",
     "test": "jest",
+    "build": "npm run build --workspaces --if-exists",
     "pretest": "npm run build",
-    "versionup": "lerna version --no-git-tag-version",
-    "versionup:patch": "lerna version patch -y --no-git-tag-version",
-    "versionup:minor": "lerna version minor -y --no-git-tag-version",
-    "versionup:major": "lerna version major -y --no-git-tag-version",
-    "postversionup": "npm run commit-version",
-    "postversionup:patch": "npm run commit-version",
-    "postversionup:minor": "npm run commit-version",
-    "postversionup:major": "npm run commit-version",
-    "commit-version": "git add . && git commit -m \"v`node -p 'require(\"./lerna.json\").version'`\"",
-    "release": "lerna publish from-package",
-    "postinstall": "husky install",
-    "prepublishOnly": "pinst --disable",
-    "postpublish": "pinst --enable"
+    "postinstall": "husky install"
   },
   "devDependencies": {
     "@commitlint/cli": "^11.0.0",
@@ -34,11 +28,9 @@
     "@semantic-release/git": "^10.0.1",
     "husky": "^5.0.9",
     "jest": "^29.0.3",
-    "lerna": "^5.3.0",
     "pinst": "^2.1.4",
     "rimraf": "^3.0.2",
     "semantic-release": "^19.0.5",
-    "semantic-release-lerna": "^0.7.0",
     "semver": "^7.3.5",
     "test-console": "^1.1.0",
     "webpack": "^5.74.0",

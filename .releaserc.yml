@@ -44,28 +44,12 @@ plugins:
       },
     ]
   - [
-      "semantic-release-lerna",
-      {
-        generateNotes: true,
-        preset: conventionalCommits,
-        presetConfig: { types: *types },
-      },
+      "@semantic-release/release-notes-generator",
+      { preset: conventionalCommits, presetConfig: { types: *types } },
     ]
   - "@semantic-release/changelog"
-  - [
-      "@semantic-release/git",
-      {
-        assets:
-          [
-            CHANGELOG.md,
-            lerna.json,
-            package.json,
-            package-lock.json,
-            packages/*/package.json,
-            packages/*/package-lock.json,
-          ],
-      },
-    ]
+  - "@semantic-release/npm"
+  - "@semantic-release/git"
   - [
       "@qiwi/semantic-release-gh-pages-plugin",
       {
