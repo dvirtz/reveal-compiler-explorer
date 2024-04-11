@@ -1,6 +1,6 @@
 'use strict'
-const { compile, parseMarkdownFile } = require('reveal-test');
-const { expected, path } = require('./parse-markdown.expected.js');
+import { compile, parseMarkdownFile } from 'reveal-test';
+import { expected, path } from './parse-markdown.expected.js';
 
 const codeInfos = await (async () => {
   const config = { compiler: 'g102', runMain: true };
