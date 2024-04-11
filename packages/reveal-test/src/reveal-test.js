@@ -46,6 +46,7 @@ const parseMarkdown = async (markdown, config = {}) => {
           };
         }).toArray();
       }))
+    .filter(({ content }) => content.trim() !== '') // remove empty code blocks
     .sort((a, b) => a.line - b.line);
   return []
     .concat
