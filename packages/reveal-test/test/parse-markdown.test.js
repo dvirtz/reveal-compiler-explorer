@@ -12,7 +12,7 @@ describe('parseMarkdown', function () {
     begin
         return num**2;
     end Square;
-    \'\'\`
+    \`\`\`
     `;
     await expect(parseMarkdown(markdown)).rejects.toThrow(/cannot have "fails" and "output" together/);
   });
@@ -122,5 +122,16 @@ describe('parseMarkdown', function () {
       baseUrl: 'https://godbolt.org',
       line: 9
     });
+  });
+
+  it('ignores empty code blocks', async function () {
+    expect.assertions(1);
+    const markdown = dedent`
+    \`\`\`cpp
+    \`\`\`
+
+    <pre><code class="language-typescript"></code></pre>
+    `;
+    await expect(parseMarkdown(markdown)).resolves.toHaveLength(0);
   });
 });
