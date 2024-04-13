@@ -1,3 +1,15 @@
+## [3.2.1](https://github.com/dvirtz/reveal-compiler-explorer/compare/v3.2.0...v3.2.1) (2024-04-13)
+
+
+### Documentation
+
+* fix links ([4deb220](https://github.com/dvirtz/reveal-compiler-explorer/commit/4deb220eaf4788922d7860b38aa41b827a1d38c2))
+
+
+### Build and continuous integration
+
+* update deps ([c264cda](https://github.com/dvirtz/reveal-compiler-explorer/commit/c264cda91f3525cd6f8f77f01427a0951f24b408))
+
 ## [3.2.0](https://github.com/dvirtz/reveal-compiler-explorer/compare/v3.1.0...v3.2.0) (2024-04-13)
 
 
