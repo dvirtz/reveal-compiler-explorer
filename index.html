@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
@@ -12,11 +12,13 @@
     <link rel="stylesheet" href="./css/highlight/base16/zenburn.css" />
 
     <link rel="stylesheet" href="./assets/demo.css" />
-
   </head>
   <body>
     <div class="reveal">
-      <div class="slides"><section ><section data-markdown><script type="text/template"><!-- .slide: data-background-color="#bee4fd" -->
+      <div class="slides">
+        <section data-markdown data-separator="^----\n" data-separator-vertical="^---\n">
+          <textarea data-template>
+            <!-- .slide: data-background-color="#bee4fd" -->
 
 ### reveal-compiler-explorer
 
@@ -27,7 +29,7 @@ open, edit & compile code snippets
 <div class="row">
   <div class="column">
 
-  [![gitHub](images/GitHub_Logo.png)](https://github.com/dvirtz/reveal-compiler-explorer/tree/master/packages/reveal-compiler-explorer)
+  [![gitHub](images/GitHub_Logo.png)](https://github.com/dvirtz/reveal-compiler-explorer/tree/main/packages/reveal-compiler-explorer)
 
   </div>
   <div class="column">
@@ -37,7 +39,8 @@ open, edit & compile code snippets
   </div>
 </div>
 
-</script></section><section data-markdown><script type="text/template">
+---
+
 <p id="click-name">click on code to go to compiler explorer</p>
 
 ```cpp []
@@ -51,7 +54,8 @@ int main() {
 }
 ```
 
-</script></section><section data-markdown><script type="text/template">
+---
+
 Use `///` directives for configuring a specific code snippet. 
 The directives will not be shown on the presentation.
 
@@ -60,7 +64,8 @@ The hidden code will be sent to CE along with the visible code.
 
 See example on next slide.
 
-</script></section><section data-markdown><script type="text/template">
+---
+
 <table>
   <tr>
     <td>markdown</td>
@@ -130,7 +135,8 @@ assert(C == [1, 0,
   </tr>
 </table>
 
-</script></section><section data-markdown><script type="text/template">
+---
+
 <!-- .slide: data-background-color="#bee4fd" -->
 
 ## install now
@@ -138,7 +144,7 @@ assert(C == [1, 0,
 <div class="row">
   <div class="column">
 
-  [![gitHub](images/GitHub_Logo.png)](https://github.com/dvirtz/reveal-compiler-explorer/tree/master/packages/reveal-compiler-explorer)
+  [![gitHub](images/GitHub_Logo.png)](https://github.com/dvirtz/reveal-compiler-explorer/tree/main/packages/reveal-compiler-explorer)
 
   </div>
   <div class="column">
@@ -147,10 +153,15 @@ assert(C == [1, 0,
 
   </div>
 </div>
-</script></section></section></div>
+
+          </textarea>
+        </section>
+      </div>
     </div>
 
     <script src="./dist/reveal.js"></script>
+
+    <script src="./mermaid/dist/mermaid.min.js"></script>
 
     <script src="./plugin/markdown/markdown.js"></script>
     <script src="./plugin/highlight/highlight.js"></script>
@@ -178,6 +189,10 @@ assert(C == [1, 0,
         history: true,
         center: true,
         transition: 'default', // none/fade/slide/convex/concave/zoom
+        slideNumber: true,
+        highlight: {
+          highlightOnLoad: false
+        },
         plugins: [
           RevealMarkdown,
           RevealHighlight,
@@ -190,7 +205,7 @@ assert(C == [1, 0,
       // options from URL query string
       var queryOptions = Reveal().getQueryHash() || {};
 
-      var options = extend(defaultOptions, {"compilerExplorer":{"compiler":"g83","runMain":false}}, queryOptions);
+      var options = extend(defaultOptions, {"compilerExplorer":{"compiler":"g83","runMain":false},"_":["demo.md"],"static":"dist"}, queryOptions);
     </script>
 
     <script src="./assets/../../node_modules/reveal-compiler-explorer/dist/reveal-compiler-explorer.js"></script>
@@ -199,6 +214,20 @@ assert(C == [1, 0,
 
     <script>
       Reveal.initialize(options);
+      Reveal.addEventListener('ready', function (event) {
+        const blocks = Reveal.getRevealElement().querySelectorAll('pre code:not(.mermaid)');
+        const hlp = Reveal.getPlugin('highlight');
+        blocks.forEach(hlp.highlightBlock);
+      });
+    </script>
+
+    <script>
+      const mermaidOptions = extend({ startOnLoad: false }, {});
+      mermaid.startOnLoad = false;
+      mermaid.initialize(mermaidOptions);
+      const cb = function (event) { mermaid.init(mermaidOptions, '.stack.present>.present pre code.mermaid'); };
+      Reveal.addEventListener('ready', cb);
+      Reveal.addEventListener('slidetransitionend', cb);
     </script>
   </body>
 </html>
