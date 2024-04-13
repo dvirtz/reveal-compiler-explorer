@@ -3,7 +3,7 @@
   "version": "3.1.0",
   "description": "Utilities for testing with compiler explorer",
   "author": "dvirtz <dvirtz@gmail.com>",
-  "homepage": "https://github.com/dvirtz/reveal-compiler-explorer/tree/master/packages/reveal-test",
+  "homepage": "https://github.com/dvirtz/reveal-compiler-explorer/tree/main/packages/reveal-test",
   "license": "MIT",
   "keywords": [
     "reveal.js",

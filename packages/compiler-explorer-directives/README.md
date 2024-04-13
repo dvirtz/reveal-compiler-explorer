@@ -32,7 +32,7 @@ parseCode(code, language, config)
 
 Parses code according to [directives](#directives) and generates an info object which can then be passed to [`displayUrl`](#displayUrl) and [`compile`](#compile).
 
-`language` should be one of CE's [support languages](https://github.com/compiler-explorer/compiler-explorer/blob/master/lib/languages.js).
+`language` should be one of CE's [support languages](https://github.com/compiler-explorer/compiler-explorer/blob/main/lib/languages.ts).
 
 `config` is optional, and should be an object with fields listed under [Configuration](#configuration).
 

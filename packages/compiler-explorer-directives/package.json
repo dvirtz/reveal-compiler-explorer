@@ -3,7 +3,7 @@
   "version": "3.1.0",
   "description": "Utilities for interacting with Compiler Explorer",
   "author": "dvirtz <dvirtz@gmail.com>",
-  "homepage": "https://github.com/dvirtz/reveal-compiler-explorer/tree/master/packages/compiler-explorer-directives",
+  "homepage": "https://github.com/dvirtz/reveal-compiler-explorer/tree/main/packages/compiler-explorer-directives",
   "license": "MIT",
   "exports": {
     "node": "./dist/compiler-explorer-directives.node.cjs",

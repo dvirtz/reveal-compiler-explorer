@@ -2,7 +2,7 @@
   "name": "reveal-compiler-explorer",
   "version": "3.1.0",
   "description": "A Compiler Explorer plugin for reveal.js",
-  "homepage": "https://github.com/dvirtz/reveal-compiler-explorer/tree/master/packages/reveal-compiler-explorer",
+  "homepage": "https://github.com/dvirtz/reveal-compiler-explorer/tree/main/packages/reveal-compiler-explorer",
   "bugs": {
     "url": "https://github.com/dvirtz/reveal-compiler-explorer/issues"
   },

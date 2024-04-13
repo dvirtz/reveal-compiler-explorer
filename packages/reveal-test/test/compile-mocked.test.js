@@ -13,7 +13,7 @@ describe('compile mocked', function () {
   it('compiles code with url includes', async function() {
     const info = {
       source: dedent`
-      #include <https://raw.githubusercontent.com/hanickadot/compile-time-regular-expressions/master/single-header/ctre.hpp>
+      #include <https://raw.githubusercontent.com/hanickadot/compile-time-regular-expressions/main/single-header/ctre.hpp>
       #include <string_view>
       
       constexpr auto match(std::string_view sv) noexcept {
