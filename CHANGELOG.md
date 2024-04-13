@@ -1,3 +1,21 @@
+## [3.2.0](https://github.com/dvirtz/reveal-compiler-explorer/compare/v3.1.0...v3.2.0) (2024-04-13)
+
+
+### Features
+
+* ignore empty code blocks ([711ca89](https://github.com/dvirtz/reveal-compiler-explorer/commit/711ca89c2146e3dccfc0814ee31af3fbf564cb6e))
+
+
+### Tests
+
+* restore esm test files ([d8dfca5](https://github.com/dvirtz/reveal-compiler-explorer/commit/d8dfca59aceefd63fb3a708447f7ee2a2a4b2205))
+
+
+### Build and continuous integration
+
+* remove lerna & update deps ([b7f45b3](https://github.com/dvirtz/reveal-compiler-explorer/commit/b7f45b386ec10f76a7d961b37f5991149d6117ba))
+* update publish pipeline to node 20 ([039c225](https://github.com/dvirtz/reveal-compiler-explorer/commit/039c225219aca05b114a11269d667d475069269b))
+
 ## 3.1.0 (2023-03-26)
 
 

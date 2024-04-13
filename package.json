@@ -6,7 +6,7 @@
     "packages/reveal-compiler-explorer-demo",
     "packages/reveal-test"
   ],
-  "version": "3.1.0",
+  "version": "3.2.0",
   "main": "index.js",
   "repository": "https://github.com/dvirtz/reveal-compiler-explorer",
   "author": {
