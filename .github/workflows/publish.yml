@@ -14,17 +14,19 @@ jobs:
         with:
           fetch-depth: "0"
           persist-credentials: false
+          
+      - run: corepack enable
 
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: "npm"
+          cache: yarn
 
       - name: Install dependencies
-        run: npm ci
+        run: yarn
 
       - name: Test
-        run: npm run test
+        run: yarn test
 
       - name: Release
         env:

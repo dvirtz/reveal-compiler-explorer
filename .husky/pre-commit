@@ -3,4 +3,4 @@
 
 PATH=$PATH:/usr/local/bin:/usr/local/sbin
 
-npm run build
+yarn build

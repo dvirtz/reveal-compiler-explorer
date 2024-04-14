@@ -1,10 +1,7 @@
 {
   "name": "reveal-compiler-explorer-monorepo",
   "workspaces": [
-    "packages/compiler-explorer-directives",
-    "packages/reveal-compiler-explorer",
-    "packages/reveal-compiler-explorer-demo",
-    "packages/reveal-test"
+    "packages/*"
   ],
   "version": "3.2.1",
   "main": "index.js",
@@ -15,10 +12,9 @@
   },
   "license": "MIT",
   "scripts": {
-    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
-    "build": "npm run build --workspaces --if-exists",
-    "pretest": "npm run build",
-    "postinstall": "husky install"
+    "test": "yarn build && node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "build": "yarn workspaces foreach -Apt run build",
+    "prepare": "husky"
   },
   "devDependencies": {
     "@commitlint/cli": "^19.2.1",
@@ -31,7 +27,7 @@
     "pinst": "^3.0.0",
     "rimraf": "^5.0.5",
     "semantic-release": "^23.0.8",
-    "semantic-release-monorepo": "^8.0.2",
+    "semantic-release-yarn": "^3.0.2",
     "semver": "^7.6.0",
     "test-console": "^2.0.0",
     "webpack": "^5.91.0",
@@ -53,5 +49,6 @@
         "always"
       ]
     }
-  }
+  },
+  "packageManager": "yarn@4.1.1"
 }
