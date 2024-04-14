@@ -1,3 +1,24 @@
+## [3.2.1](https://github.com/dvirtz/reveal-compiler-explorer/compare/v3.2.0...v3.2.1) (2024-04-14)
+
+
+### Documentation
+
+* fix links ([4deb220](https://github.com/dvirtz/reveal-compiler-explorer/commit/4deb220eaf4788922d7860b38aa41b827a1d38c2))
+
+
+### Build and continuous integration
+
+* add monorepo support to semantic release ([680b627](https://github.com/dvirtz/reveal-compiler-explorer/commit/680b6277a485ea4b626ef4c817a73664531e8a3f))
+* fix npm token ([4a9d78f](https://github.com/dvirtz/reveal-compiler-explorer/commit/4a9d78f434c7e6f62a3d0072e0b100c70d92aa5b))
+* switch to yarn ([b3c774e](https://github.com/dvirtz/reveal-compiler-explorer/commit/b3c774e3428896bdb97352ca3144aa0bad45ae81))
+* update deps ([c264cda](https://github.com/dvirtz/reveal-compiler-explorer/commit/c264cda91f3525cd6f8f77f01427a0951f24b408))
+
+
+### General maintenance
+
+* force release ([72d76ee](https://github.com/dvirtz/reveal-compiler-explorer/commit/72d76ee750cca11a7406ab55c3e7bfc3fcc67c91))
+* **release:** 3.2.1 [skip ci] ([0351a71](https://github.com/dvirtz/reveal-compiler-explorer/commit/0351a7108443ff44425b95853d248caf5c974c26))
+
 ## [3.2.1](https://github.com/dvirtz/reveal-compiler-explorer/compare/v3.2.0...v3.2.1) (2024-04-13)
 
 
