@@ -25,6 +25,8 @@ _types: &types
 _rules: &rules
   - type: chore
     release: patch
+  - type: build
+    release: patch
   - type: docs
     release: patch
   - type: revert
@@ -34,7 +36,6 @@ _rules: &rules
 
 branches:
   - main
-extends: semantic-release-monorepo
 plugins:
   - [
       "@semantic-release/commit-analyzer",
@@ -49,7 +50,7 @@ plugins:
       { preset: conventionalCommits, presetConfig: { types: *types } },
     ]
   - "@semantic-release/changelog"
-  - "@semantic-release/npm"
+  - "semantic-release-yarn"
   - "@semantic-release/git"
   - [
       "@qiwi/semantic-release-gh-pages-plugin",
