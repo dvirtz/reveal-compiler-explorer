@@ -23,6 +23,8 @@ _types: &types
     section: "Refactoring"
 
 _rules: &rules
+  - type: ci
+    release: patch
   - type: chore
     release: patch
   - type: build
