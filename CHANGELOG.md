@@ -1,3 +1,11 @@
+## [3.3.0](https://github.com/dvirtz/reveal-compiler-explorer/compare/v3.2.1...v3.3.0) (2024-04-20)
+
+
+### Features
+
+* add skip directive ([187e7ac](https://github.com/dvirtz/reveal-compiler-explorer/commit/187e7acbb6aa751c9ce58bf4750ccba0c99e6927))
+* allows preprocessing markdown file ([51e9b2f](https://github.com/dvirtz/reveal-compiler-explorer/commit/51e9b2fca405a756b87d662a1b9e4a3cc623049d))
+
 ## [3.2.1](https://github.com/dvirtz/reveal-compiler-explorer/compare/v3.2.0...v3.2.1) (2024-04-14)
 
 
