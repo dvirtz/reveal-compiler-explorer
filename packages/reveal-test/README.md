@@ -10,9 +10,9 @@ Check out also [reveal-compiler-explorer](/packages/reveal-compiler-explorer) pa
 ## Example
 
 ```js
-const { parseMarkdown, compile, CompileError } = require('reveal-test');
+const { parseMarkdownFile, compile, CompileError } = require('reveal-test');
 
-const codeInfos = await parseMarkdown('presentation.md');
+const codeInfos = await parseMarkdownFile('presentation.md');
 
 describe("demo presentation", function () {
   codeInfo.forEach((info, index) => {
@@ -43,13 +43,22 @@ yarn add -D reveal-test
 
 # API
 
-### parseMarkdown
+### parseMarkdownFile
 
 ```js
-parseMarkdown(path: String, config: Config = {}) => Promise<Array<SnippetInfo>>
+parseMarkdownFile(path: String, config: Config = {}, preprocessor: (String) => String) => Promise<Array<SnippetInfo>>
 ```
 
 Asynchronously generates a list of all code snippets from a given markdown file. For possible `config` fields, see [here](#configuration).
+Optionally pre-processes the markdown file with the given `preprocessor` function.
+
+### parseMarkdown
+
+```js
+parseMarkdown(markdown: String, config: Config = {}) => Array<SnippetInfo>
+```
+
+Generates a list of all code snippets from a given markdown string. For possible `config` fields, see [here](#configuration).
 
 ### compile
 

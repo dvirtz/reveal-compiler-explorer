@@ -79,9 +79,12 @@ const parseMarkdown = async (markdown, config = {}) => {
       })));
 };
 
-const parseMarkdownFile = async (path, config = {}) => {
+const parseMarkdownFile = async (path, config = {}, preprocessor = undefined) => {
   try {
-    const markdown = await promises.readFile(path, 'utf-8');
+    let markdown = await promises.readFile(path, 'utf-8');
+    if (preprocessor) {
+      markdown = await preprocessor(markdown);
+    }
     const parsed = await parseMarkdown(markdown, config);
     return parsed.map(codeInfo => {
       codeInfo.path = `${path}:${codeInfo.line}`;

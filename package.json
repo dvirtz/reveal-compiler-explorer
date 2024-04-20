@@ -29,6 +29,7 @@
     "semantic-release": "^23.0.8",
     "semantic-release-yarn": "^3.0.2",
     "semver": "^7.6.0",
+    "tempy": "^3.1.0",
     "test-console": "^2.0.0",
     "webpack": "^5.91.0",
     "webpack-cli": "^5.1.4"
