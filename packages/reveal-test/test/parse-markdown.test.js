@@ -134,4 +134,18 @@ describe('parseMarkdown', function () {
     `;
     await expect(parseMarkdown(markdown)).resolves.toHaveLength(0);
   });
+
+  it(`ignores skipped code blocks`, async function () {
+    const markdown = dedent`
+    \`\`\`cpp
+    ///skip
+    #include <iostream>
+    
+    int main() {
+      std::cout << "Hello CE!";
+    }
+    \`\`\`
+    `;
+    await expect(parseMarkdown(markdown)).resolves.toHaveLength(0);
+  });
 });

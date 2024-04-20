@@ -66,12 +66,15 @@ const parseMarkdown = async (markdown, config = {}) => {
               if (info.hasOwnProperty('failReason')) {
                 throw error('cannot have "fails" and "output" together');
               }
-              info.expectedOutput = matches[1].replace(/\\n/g, '\n');
-            })]
+              info.expectedOutput = match.replace(/\\n/g, '\n');
+            })],
+            ['skip', (matches, info) => matches.forEach(match => {
+              info.skip = true;
+            })],
           ]
         });
         const parsed = await parseCode(content.replace(/<br\/>/g, ''), language, config);
-        if (!parsed) {
+        if (!parsed || parsed.skip) {
           return []
         }
         parsed.line = line;

@@ -76,6 +76,9 @@ Returns output from compiling and running the code (if enabled) on success, othe
 
 In addition to the directives mentioned [here](/packages/compiler-explorer-directives/#Directives), the following directives are supported:
 
+### `///skip`
+Avoid testing this code snippet.
+
 ### `///fails=<reason>`
 
 When given, [`compile`](#compile) will fail if compiling and running the code (if enabled) succeeds, or if the error message doesn't include the given reason.
