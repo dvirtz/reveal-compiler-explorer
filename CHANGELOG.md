@@ -1,3 +1,16 @@
+## [3.3.1-beta.1](https://github.com/dvirtz/reveal-compiler-explorer/compare/v3.3.0...v3.3.1-beta.1) (2024-12-03)
+
+
+### Tests
+
+* microsoft compilers are on main website now ([51a0324](https://github.com/dvirtz/reveal-compiler-explorer/commit/51a0324b577a9d0c8d2794e713a6b21c4fe45aa4))
+
+
+### Build and continuous integration
+
+* replace expired token ([28fd3c4](https://github.com/dvirtz/reveal-compiler-explorer/commit/28fd3c4eb376d7355038a6f2fcb752c49cee6fc6))
+* try out @dvirtz/semantic-release-gh-pages-plugin ([e8e46bc](https://github.com/dvirtz/reveal-compiler-explorer/commit/e8e46bc91832de4bb10e85a8ba44ab1e2e37c2e0))
+
 ## [3.3.0](https://github.com/dvirtz/reveal-compiler-explorer/compare/v3.2.1...v3.3.0) (2024-04-20)
 
 
