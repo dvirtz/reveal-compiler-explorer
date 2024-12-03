@@ -55,7 +55,12 @@ plugins:
     ]
   - "@semantic-release/changelog"
   - "semantic-release-yarn"
-  - "@semantic-release/git"
+  - [
+      "@semantic-release/git",
+      {
+        assets: ['CHANGELOG.md', '**/package.json', 'yarn.lock'],
+      }
+  ]
   - [
       "@dvirtz/semantic-release-gh-pages-plugin",
       {
