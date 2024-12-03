@@ -1,3 +1,10 @@
+## [3.3.1-beta.2](https://github.com/dvirtz/reveal-compiler-explorer/compare/v3.3.1-beta.1...v3.3.1-beta.2) (2024-12-03)
+
+
+### Build and continuous integration
+
+* trigger ([91006fb](https://github.com/dvirtz/reveal-compiler-explorer/commit/91006fbdc1ccce30cd5ac2c927f325cab53289d8))
+
 ## [3.3.1-beta.1](https://github.com/dvirtz/reveal-compiler-explorer/compare/v3.3.0...v3.3.1-beta.1) (2024-12-03)
 
 

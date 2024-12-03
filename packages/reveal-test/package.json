@@ -1,6 +1,6 @@
 {
   "name": "reveal-test",
-  "version": "3.1.0",
+  "version": "3.3.1-beta.2",
   "description": "Utilities for testing with compiler explorer",
   "author": "dvirtz <dvirtz@gmail.com>",
   "homepage": "https://github.com/dvirtz/reveal-compiler-explorer/tree/main/packages/reveal-test",
@@ -38,11 +38,12 @@
   "dependencies": {
     "bent": "^7.3.12",
     "cheerio": "^1.0.0-rc.10",
-    "compiler-explorer-directives": "^3.1.0",
+    "compiler-explorer-directives": "^3.3.1-beta.2",
     "dedent-js": "^1.0.1",
     "markdown-it": "^13.0.1"
   },
   "engines": {
     "node": ">=10.0.0"
-  }
+  },
+  "stableVersion": "3.1.0"
 }
