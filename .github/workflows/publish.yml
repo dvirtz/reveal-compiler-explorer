@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - beta
 
 jobs:
   publish:
@@ -32,4 +33,4 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.PUSH_TOKEN }}
           YARN_NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
-        run: npx semantic-release
+        run: yarn semantic-release

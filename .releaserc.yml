@@ -38,6 +38,8 @@ _rules: &rules
 
 branches:
   - main
+  - name: beta
+    prerelease: true
 plugins:
   - [
       "@semantic-release/commit-analyzer",
@@ -55,9 +57,10 @@ plugins:
   - "semantic-release-yarn"
   - "@semantic-release/git"
   - [
-      "@qiwi/semantic-release-gh-pages-plugin",
+      "@dvirtz/semantic-release-gh-pages-plugin",
       {
         msg: pages updated updated <%= nextRelease.gitTag %>,
         src: ./packages/reveal-compiler-explorer-demo/dist,
+        pattern: "**/*",
       },
     ]
