@@ -622,9 +622,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@dvirtz/semantic-release-gh-pages-plugin@npm:^5.2.12":
-  version: 5.2.12
-  resolution: "@dvirtz/semantic-release-gh-pages-plugin@npm:5.2.12"
+"@dvirtz/semantic-release-gh-pages-plugin@npm:^5.2.13":
+  version: 5.2.13
+  resolution: "@dvirtz/semantic-release-gh-pages-plugin@npm:5.2.13"
   dependencies:
     "@qiwi/substrate-types": "npm:^2.1.0"
     aggregate-error: "npm:^3.1.0"
@@ -637,7 +637,7 @@ __metadata:
     read-pkg: "npm:^5.2.0"
     then-request: "npm:^6.0.2"
     tslib: "npm:^2.6.2"
-  checksum: 10c0/ebbdcf5e6cab6a51e874570a0eb1ed6326c5f4f43d2248b552e6121b0dd9c4a35747c48d5fc99c3d01f6f51f01e7ac7faa51831d9d0c948d012ecaab2b4f8c51
+  checksum: 10c0/890040df84aef99ebbd3775592be2540c8473bd535fb9a668da6fd1a19f23bff1b5229382c3420f8816176ba247372c1690e522a8d32f654b0c9e5b5e7281a41
   languageName: node
   linkType: hard
 
@@ -9760,7 +9760,7 @@ __metadata:
   dependencies:
     "@commitlint/cli": "npm:^19.2.1"
     "@commitlint/config-conventional": "npm:^19.1.0"
-    "@dvirtz/semantic-release-gh-pages-plugin": "npm:^5.2.12"
+    "@dvirtz/semantic-release-gh-pages-plugin": "npm:^5.2.13"
     "@semantic-release/changelog": "npm:^6.0.3"
     "@semantic-release/git": "npm:^10.0.1"
     husky: "npm:^9.0.11"
