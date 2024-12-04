@@ -1,3 +1,10 @@
+## [3.3.1-beta.3](https://github.com/dvirtz/reveal-compiler-explorer/compare/v3.3.1-beta.2...v3.3.1-beta.3) (2024-12-04)
+
+
+### General maintenance
+
+* trigger another version ([26f1bf0](https://github.com/dvirtz/reveal-compiler-explorer/commit/26f1bf04ddec608ba0bfbf87ce9cdc98edf3bfb5))
+
 ## [3.3.1-beta.2](https://github.com/dvirtz/reveal-compiler-explorer/compare/v3.3.1-beta.1...v3.3.1-beta.2) (2024-12-04)
 
 
