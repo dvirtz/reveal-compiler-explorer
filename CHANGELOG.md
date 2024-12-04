@@ -1,3 +1,18 @@
+## [3.3.1-beta.2](https://github.com/dvirtz/reveal-compiler-explorer/compare/v3.3.1-beta.1...v3.3.1-beta.2) (2024-12-04)
+
+
+### Build and continuous integration
+
+* push all changed assets ([70f943a](https://github.com/dvirtz/reveal-compiler-explorer/commit/70f943a7a18ee10ec0a028aaaa81b9b1e3e06657))
+* trigger ([91006fb](https://github.com/dvirtz/reveal-compiler-explorer/commit/91006fbdc1ccce30cd5ac2c927f325cab53289d8))
+* use a deploy key for git auth ([8bbb64c](https://github.com/dvirtz/reveal-compiler-explorer/commit/8bbb64c9e6899a65b334045ccaf2edaad2f26bf8))
+
+
+### General maintenance
+
+* **release:** 3.3.1-beta.2 [skip ci] ([0e4bdb7](https://github.com/dvirtz/reveal-compiler-explorer/commit/0e4bdb758c0e0e4b3ab6a30e228ce5bdffac0146))
+* upgrade @dvirtz/semantic-release-gh-pages-plugin ([e0ab956](https://github.com/dvirtz/reveal-compiler-explorer/commit/e0ab956f1aa34dd62fe2fa5f39491c82774bae73))
+
 ## [3.3.1-beta.2](https://github.com/dvirtz/reveal-compiler-explorer/compare/v3.3.1-beta.1...v3.3.1-beta.2) (2024-12-03)
 
 
