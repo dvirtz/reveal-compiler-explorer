@@ -32,4 +32,4 @@ jobs:
       - name: Release
         env:
           YARN_NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
-        run: yarn semantic-release
+        run: yarn semantic-release --repositoryUrl $(git remote get-url origin)
