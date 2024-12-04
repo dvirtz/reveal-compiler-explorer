@@ -1,3 +1,10 @@
+## [3.3.1-beta.6](https://github.com/dvirtz/reveal-compiler-explorer/compare/v3.3.1-beta.5...v3.3.1-beta.6) (2024-12-04)
+
+
+### Build and continuous integration
+
+* disable npm for now ([7ff4e85](https://github.com/dvirtz/reveal-compiler-explorer/commit/7ff4e856de4b8405f006855edfb849ed43234103))
+
 ## [3.3.1-beta.5](https://github.com/dvirtz/reveal-compiler-explorer/compare/v3.3.1-beta.4...v3.3.1-beta.5) (2024-12-04)
 
 
