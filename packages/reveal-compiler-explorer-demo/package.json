@@ -8,8 +8,8 @@
     "build": "reveal-md demo.md --static dist"
   },
   "dependencies": {
-    "reveal-compiler-explorer": "^3.1.1-0",
+    "reveal-compiler-explorer": "^3.3.1-beta.4",
     "reveal-md": "^6.1.0",
-    "reveal-test": "^3.1.1-0"
+    "reveal-test": "^3.3.1-beta.4"
   }
 }

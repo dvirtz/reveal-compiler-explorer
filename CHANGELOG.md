@@ -1,3 +1,10 @@
+## [3.3.1-beta.4](https://github.com/dvirtz/reveal-compiler-explorer/compare/v3.3.1-beta.3...v3.3.1-beta.4) (2024-12-04)
+
+
+### Build and continuous integration
+
+* use ssh url to authenticate ([c43e8a4](https://github.com/dvirtz/reveal-compiler-explorer/commit/c43e8a458bd99f057e1b119d2c64f5a9b7fdd327))
+
 ## [3.3.1-beta.3](https://github.com/dvirtz/reveal-compiler-explorer/compare/v3.3.1-beta.2...v3.3.1-beta.3) (2024-12-04)
 
 
