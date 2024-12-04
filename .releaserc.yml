@@ -54,7 +54,7 @@ plugins:
       { preset: conventionalCommits, presetConfig: { types: *types } },
     ]
   - "@semantic-release/changelog"
-  - "semantic-release-yarn"
+  # - "semantic-release-yarn"
   - [
       "@semantic-release/git",
       {
