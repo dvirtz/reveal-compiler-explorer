@@ -3274,7 +3274,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"compiler-explorer-directives@npm:^3.3.1-beta.4, compiler-explorer-directives@workspace:packages/compiler-explorer-directives":
+"compiler-explorer-directives@npm:^3.1.1-0, compiler-explorer-directives@workspace:packages/compiler-explorer-directives":
   version: 0.0.0-use.local
   resolution: "compiler-explorer-directives@workspace:packages/compiler-explorer-directives"
   dependencies:
@@ -9748,9 +9748,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "reveal-compiler-explorer-demo@workspace:packages/reveal-compiler-explorer-demo"
   dependencies:
-    reveal-compiler-explorer: "npm:^3.3.1-beta.4"
+    reveal-compiler-explorer: "npm:^3.1.1-0"
     reveal-md: "npm:^6.1.0"
-    reveal-test: "npm:^3.3.1-beta.4"
+    reveal-test: "npm:^3.1.1-0"
   languageName: unknown
   linkType: soft
 
@@ -9777,11 +9777,11 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"reveal-compiler-explorer@npm:^3.3.1-beta.4, reveal-compiler-explorer@workspace:packages/reveal-compiler-explorer":
+"reveal-compiler-explorer@npm:^3.1.1-0, reveal-compiler-explorer@workspace:packages/reveal-compiler-explorer":
   version: 0.0.0-use.local
   resolution: "reveal-compiler-explorer@workspace:packages/reveal-compiler-explorer"
   dependencies:
-    compiler-explorer-directives: "npm:^3.3.1-beta.4"
+    compiler-explorer-directives: "npm:^3.1.1-0"
     hammerjs: "npm:^2.0.8"
     reveal.js: "npm:^5.1.0"
   languageName: unknown
@@ -9817,13 +9817,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"reveal-test@npm:^3.3.1-beta.4, reveal-test@workspace:packages/reveal-test":
+"reveal-test@npm:^3.1.1-0, reveal-test@workspace:packages/reveal-test":
   version: 0.0.0-use.local
   resolution: "reveal-test@workspace:packages/reveal-test"
   dependencies:
     bent: "npm:^7.3.12"
     cheerio: "npm:^1.0.0-rc.10"
-    compiler-explorer-directives: "npm:^3.3.1-beta.4"
+    compiler-explorer-directives: "npm:^3.1.1-0"
     dedent-js: "npm:^1.0.1"
     markdown-it: "npm:^13.0.1"
   languageName: unknown
